@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class ModelTest {
 
     @Test
-    public void shouldBeReturnTheFirstEntityWhenAddClass(){
+    void shouldBeReturnTheFirstEntityWhenAddClass(){
 
         Model model = new Model();
         Entity firstEntity = new Entity("Entity");
@@ -22,7 +22,7 @@ class ModelTest {
     }
 
     @Test
-    public void shouldBeReturnTheFirstBaseEntity(){
+    void shouldBeReturnTheFirstBaseEntity(){
 
         Model model = new Model();
         Entity firstEntity = new Entity("Entity");
@@ -34,13 +34,31 @@ class ModelTest {
         Entity entityModel = model.getEntity("Entity");
 
         assertThat(entityModel.getBase().size(), is(1));
-        assertThat(entityModel.getBase().get(0), is(firstBase));
+        assertThat(entityModel.getBase().contains(firstBase), is(true));
 
     }
 
+    @Test
+    void shouldBeReturnTheFirstBaseAndSecondBaseEntity(){
+
+        Model model = new Model();
+        Entity firstEntity = new Entity("Entity");
+        Entity firstBase = new Entity("Base");
+        Entity secondBase = new Entity("Base2");
+
+        model.addEntity(firstEntity).addBase(firstBase).addBase(secondBase);
+
+        Entity entityModel = model.getEntity("Entity");
+
+        assertThat(entityModel.getBase().size(), is(2));
+        assertThat(entityModel.getBase().contains(firstBase), is(true));
+        assertThat(entityModel.getBase().contains(secondBase), is(true));
+
+
+    }
 
     @Test
-    public void shouldBeReturnTheFirstPartEntity(){
+    void shouldBeReturnTheFirstPartEntity(){
 
         Model model = new Model();
         Entity firstEntity = new Entity("Entity");
