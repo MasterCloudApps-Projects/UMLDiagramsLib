@@ -50,6 +50,7 @@ class ClassDiagramTest {
 
         assertThat(classDiagram.print(), is(result));
     }
+
     @Test
     public void printElement(){
         ClassDiagram classDiagram = new ClassDiagram();
@@ -59,6 +60,20 @@ class ClassDiagramTest {
 
         String result = "class Entity1\nclass Element\nEntity1 o--> Element\n";
         model.addEntity(firstEntity).addElelement(elementEntity);
+        classDiagram.addClasses(model.getEntityList()).print();
+
+        assertThat(classDiagram.print(), is(result));
+    }
+
+    @Test
+    public void printAssociates(){
+        ClassDiagram classDiagram = new ClassDiagram();
+        Model model = new Model();
+        Entity firstEntity = new Entity("Entity1");
+        Entity associateEntity = new Entity("Associate");
+
+        String result = "class Entity1\nclass Associate\nEntity1 --> Associate\n";
+        model.addEntity(firstEntity).addAssociate(associateEntity);
         classDiagram.addClasses(model.getEntityList()).print();
 
         assertThat(classDiagram.print(), is(result));

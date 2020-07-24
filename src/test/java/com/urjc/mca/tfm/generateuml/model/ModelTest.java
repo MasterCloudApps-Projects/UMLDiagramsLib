@@ -86,6 +86,7 @@ class ModelTest {
         assertThat(entityModel.getPartList().contains(firstPart), is (true));
         assertThat(entityModel.getPartList().contains(secondPart), is (true));
     }
+
     @Test
     void shouldBeReturnTheFirstElementEntity(){
 
@@ -117,5 +118,38 @@ class ModelTest {
         assertThat(entityModel.getPartList().size(), is(2));
         assertThat(entityModel.getPartList().contains(firstElement), is (true));
         assertThat(entityModel.getPartList().contains(secondElement), is (true));
+    }
+
+    @Test
+    void shouldBeReturnTheFirstAssociateEntity(){
+
+        Model model = new Model();
+        Entity firstEntity = new Entity("Entity");
+        Entity firstAssociate = new Entity("Associate");
+        Entity secondAssociate = new Entity("Associate");
+
+        model.addEntity(firstEntity).addPart(firstAssociate).addPart(secondAssociate);
+
+        Entity entityModel = model.getEntity("Entity");
+
+        assertThat(entityModel.getPartList().size(), is(1));
+        assertThat(entityModel.getPartList().contains(firstAssociate), is (true));
+    }
+
+    @Test
+    void shouldBeReturnTheFirstAndSecondAssociateEntity(){
+
+        Model model = new Model();
+        Entity firstEntity = new Entity("Entity");
+        Entity firstAssociate = new Entity("Element");
+        Entity secondAssociate = new Entity("Element2");
+
+        model.addEntity(firstEntity).addPart(firstAssociate).addPart(secondAssociate);
+
+        Entity entityModel = model.getEntity("Entity");
+
+        assertThat(entityModel.getPartList().size(), is(2));
+        assertThat(entityModel.getPartList().contains(firstAssociate), is (true));
+        assertThat(entityModel.getPartList().contains(secondAssociate), is (true));
     }
 }

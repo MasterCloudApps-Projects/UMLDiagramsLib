@@ -9,6 +9,7 @@ public class Entity {
     private Set<Entity> partList = new HashSet<>();
     private Set<Entity> base = new HashSet<>();
     private Set<Entity> elements = new HashSet<>();
+    private Set<Entity> associates = new HashSet<>();
 
     public Entity(String name) {
         this.name = name;
@@ -20,6 +21,10 @@ public class Entity {
 
     public void addElement(Entity entity){
         elements.add(entity);
+    }
+
+    public void addAssociate(Entity entity){
+        associates.add(entity);
     }
 
     public void addBase(Entity entity) {
@@ -36,6 +41,10 @@ public class Entity {
 
     public Set<Entity> getElements(){
         return this.elements;
+    }
+
+    public Set<Entity> getAssociates(){
+        return this.associates;
     }
 
 }

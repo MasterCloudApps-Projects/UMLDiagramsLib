@@ -34,8 +34,14 @@ public class Model {
         this.activeEntity.addPart(getEntity(entity));
         return this;
     }
+
     public Model addElelement(Entity entity){
         this.activeEntity.addElement(getEntity(entity));
+        return this;
+    }
+
+    public Model addAssociate(Entity entity){
+        this.activeEntity.addAssociate(getEntity(entity));
         return this;
     }
 
