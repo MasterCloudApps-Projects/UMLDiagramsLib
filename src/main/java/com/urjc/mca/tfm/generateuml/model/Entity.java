@@ -14,17 +14,6 @@ public class Entity {
         this.name = name;
     }
 
-//    public String toString() {
-//        StringBuilder stringBuilder = new StringBuilder();
-//        stringBuilder.append("Class " + name)
-//                .append(printBase())
-//                .append(printPart());
-//        System.out.println(stringBuilder);
-//        base.forEach(e -> System.out.println(e.name));
-//        partList.forEach(e -> System.out.println(e.name));
-//        return name;
-//    }
-
     public void addPart(Entity entity) {
         partList.add(entity);
     }
@@ -47,18 +36,6 @@ public class Entity {
 
     public Set<Entity> getElements(){
         return this.elements;
-    }
-
-    private String printBase() {
-        StringBuilder stringBuilder = new StringBuilder();
-        base.forEach(b -> stringBuilder.append(b.name + " <|-- " + name));
-        return stringBuilder.toString();
-    }
-
-    private String printPart() {
-        StringBuilder stringBuilder = new StringBuilder();
-        partList.forEach(p -> stringBuilder.append(name + " *--> " + p.name));
-        return stringBuilder.toString();
     }
 
 }
