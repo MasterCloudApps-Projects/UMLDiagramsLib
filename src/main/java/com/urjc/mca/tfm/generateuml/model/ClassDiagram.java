@@ -18,15 +18,16 @@ public class ClassDiagram {
     }
 
     public String print(){
-        StringBuilder cadena = new StringBuilder();
+        StringBuilder className = new StringBuilder();
+        StringBuilder relations = new StringBuilder();
 
         classes.forEach(e -> {
-            cadena.append(printClassName(e));
-            cadena.append(printBase(e));
-            cadena.append(printPart(e));
-            cadena.append(printElement(e));
+            className.append(printClassName(e));
+            relations.append(printBase(e));
+            relations.append(printPart(e));
+            relations.append(printElement(e));
         });
-        return cadena.toString();
+        return className.toString() + relations.toString();
     }
 
     public String printClassName(Entity entity){

@@ -6,8 +6,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class ClassDiagramTest {
 
     @Test
@@ -32,7 +30,7 @@ class ClassDiagramTest {
         Entity firstEntity = new Entity("Entity1");
         Entity baseEntity = new Entity("Base");
 
-        String result = "class Entity1\nBase <|-- Entity1\nclass Base\n";
+        String result = "class Entity1\nclass Base\nBase <|-- Entity1\n";
         model.addEntity(firstEntity).addBase(baseEntity);
         classDiagram.addClasses(model.getEntityList()).print();
 
@@ -46,7 +44,7 @@ class ClassDiagramTest {
         Entity firstEntity = new Entity("Entity1");
         Entity partEntity = new Entity("Part");
 
-        String result = "class Entity1\nEntity1 *--> Part\nclass Part\n";
+        String result = "class Entity1\nclass Part\nEntity1 *--> Part\n";
         model.addEntity(firstEntity).addPart(partEntity);
         classDiagram.addClasses(model.getEntityList()).print();
 
@@ -59,7 +57,7 @@ class ClassDiagramTest {
         Entity firstEntity = new Entity("Entity1");
         Entity elementEntity = new Entity("Element");
 
-        String result = "class Entity1\nEntity1 o--> Element\nclass Element\n";
+        String result = "class Entity1\nclass Element\nEntity1 o--> Element\n";
         model.addEntity(firstEntity).addElelement(elementEntity);
         classDiagram.addClasses(model.getEntityList()).print();
 
