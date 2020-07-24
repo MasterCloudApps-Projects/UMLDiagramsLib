@@ -52,5 +52,18 @@ class ClassDiagramTest {
 
         assertThat(classDiagram.print(), is(result));
     }
+    @Test
+    public void printElement(){
+        ClassDiagram classDiagram = new ClassDiagram();
+        Model model = new Model();
+        Entity firstEntity = new Entity("Entity1");
+        Entity elementEntity = new Entity("Element");
+
+        String result = "class Entity1\nEntity1 o--> Element\nclass Element\n";
+        model.addEntity(firstEntity).addElelement(elementEntity);
+        classDiagram.addClasses(model.getEntityList()).print();
+
+        assertThat(classDiagram.print(), is(result));
+    }
 
 }

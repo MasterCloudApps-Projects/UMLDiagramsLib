@@ -35,7 +35,6 @@ class ModelTest {
 
         assertThat(entityModel.getBase().size(), is(1));
         assertThat(entityModel.getBase().contains(firstBase), is(true));
-
     }
 
     @Test
@@ -53,8 +52,6 @@ class ModelTest {
         assertThat(entityModel.getBase().size(), is(2));
         assertThat(entityModel.getBase().contains(firstBase), is(true));
         assertThat(entityModel.getBase().contains(secondBase), is(true));
-
-
     }
 
     @Test
@@ -71,5 +68,54 @@ class ModelTest {
 
         assertThat(entityModel.getPartList().size(), is(1));
         assertThat(entityModel.getPartList().contains(firstPart), is (true));
+    }
+
+    @Test
+    void shouldBeReturnTheFirstAndSecondPartEntity(){
+
+        Model model = new Model();
+        Entity firstEntity = new Entity("Entity");
+        Entity firstPart = new Entity("Part");
+        Entity secondPart = new Entity("Part2");
+
+        model.addEntity(firstEntity).addPart(firstPart).addPart(secondPart);
+
+        Entity entityModel = model.getEntity("Entity");
+
+        assertThat(entityModel.getPartList().size(), is(2));
+        assertThat(entityModel.getPartList().contains(firstPart), is (true));
+        assertThat(entityModel.getPartList().contains(secondPart), is (true));
+    }
+    @Test
+    void shouldBeReturnTheFirstElementEntity(){
+
+        Model model = new Model();
+        Entity firstEntity = new Entity("Entity");
+        Entity firstElement = new Entity("Element");
+        Entity secondElement = new Entity("Element");
+
+        model.addEntity(firstEntity).addPart(firstElement).addPart(secondElement);
+
+        Entity entityModel = model.getEntity("Entity");
+
+        assertThat(entityModel.getPartList().size(), is(1));
+        assertThat(entityModel.getPartList().contains(firstElement), is (true));
+    }
+
+    @Test
+    void shouldBeReturnTheFirstAndSecondElementEntity(){
+
+        Model model = new Model();
+        Entity firstEntity = new Entity("Entity");
+        Entity firstElement = new Entity("Element");
+        Entity secondElement = new Entity("Element2");
+
+        model.addEntity(firstEntity).addPart(firstElement).addPart(secondElement);
+
+        Entity entityModel = model.getEntity("Entity");
+
+        assertThat(entityModel.getPartList().size(), is(2));
+        assertThat(entityModel.getPartList().contains(firstElement), is (true));
+        assertThat(entityModel.getPartList().contains(secondElement), is (true));
     }
 }

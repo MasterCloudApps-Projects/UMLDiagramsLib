@@ -34,6 +34,10 @@ public class Model {
         this.activeEntity.addPart(getEntity(entity));
         return this;
     }
+    public Model addElelement(Entity entity){
+        this.activeEntity.addElement(getEntity(entity));
+        return this;
+    }
 
     public Entity getEntity(String name){
         return entityList.stream().filter(e -> e.name.equals(name)).findFirst().orElse(null);

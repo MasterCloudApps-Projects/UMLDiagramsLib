@@ -24,6 +24,7 @@ public class ClassDiagram {
             cadena.append(printClassName(e));
             cadena.append(printBase(e));
             cadena.append(printPart(e));
+            cadena.append(printElement(e));
         });
         return cadena.toString();
     }
@@ -43,6 +44,13 @@ public class ClassDiagram {
         StringBuilder cadena = new StringBuilder();
         if(!entity.getBase().isEmpty()){
             entity.getBase().forEach(b -> cadena.append( b.name + " <|-- " + entity.name + "\n"));
+        }
+        return cadena.toString();
+    }
+    public String printElement(Entity entity){
+        StringBuilder cadena = new StringBuilder();
+        if(!entity.getElements().isEmpty()){
+            entity.getElements().forEach(e -> cadena.append( entity.name +" o--> " + e.name + "\n"));
         }
         return cadena.toString();
     }
