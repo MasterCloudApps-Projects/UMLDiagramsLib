@@ -35,13 +35,18 @@ public class Model {
         return this;
     }
 
-    public Model addElelement(Entity entity){
+    public Model addElement(Entity entity){
         this.activeEntity.addElement(getEntity(entity));
         return this;
     }
 
     public Model addAssociate(Entity entity){
         this.activeEntity.addAssociate(getEntity(entity));
+        return this;
+    }
+
+    public Model addUsed(Entity entity){
+        this.activeEntity.addUsed(getEntity(entity));
         return this;
     }
 

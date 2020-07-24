@@ -27,6 +27,7 @@ public class ClassDiagram {
             relations.append(printPart(e));
             relations.append(printElement(e));
             relations.append(printAssociates(e));
+            relations.append(printUsed(e));
         });
         return className.toString() + relations.toString();
     }
@@ -63,6 +64,14 @@ public class ClassDiagram {
         StringBuilder cadena = new StringBuilder();
         if(!entity.getAssociates().isEmpty()){
             entity.getAssociates().forEach(a -> cadena.append( entity.name +" --> " + a.name + "\n"));
+        }
+        return cadena.toString();
+    }
+
+    public String printUsed(Entity entity){
+        StringBuilder cadena = new StringBuilder();
+        if(!entity.getUsed().isEmpty()){
+            entity.getUsed().forEach(u -> cadena.append( entity.name +" ..> " + u.name + "\n"));
         }
         return cadena.toString();
     }

@@ -152,4 +152,37 @@ class ModelTest {
         assertThat(entityModel.getPartList().contains(firstAssociate), is (true));
         assertThat(entityModel.getPartList().contains(secondAssociate), is (true));
     }
+
+    @Test
+    void shouldBeReturnTheFirstUsedEntity(){
+
+        Model model = new Model();
+        Entity firstEntity = new Entity("Entity");
+        Entity firstUsed = new Entity("Used");
+        Entity secondUsed = new Entity("Used");
+
+        model.addEntity(firstEntity).addPart(firstUsed).addPart(secondUsed);
+
+        Entity entityModel = model.getEntity("Entity");
+
+        assertThat(entityModel.getPartList().size(), is(1));
+        assertThat(entityModel.getPartList().contains(firstUsed), is (true));
+    }
+
+    @Test
+    void shouldBeReturnTheFirstAndSecondUsedEntity(){
+
+        Model model = new Model();
+        Entity firstEntity = new Entity("Entity");
+        Entity firstUsed = new Entity("Used");
+        Entity secondUsed = new Entity("Used2");
+
+        model.addEntity(firstEntity).addPart(firstUsed).addPart(secondUsed);
+
+        Entity entityModel = model.getEntity("Entity");
+
+        assertThat(entityModel.getPartList().size(), is(2));
+        assertThat(entityModel.getPartList().contains(firstUsed), is (true));
+        assertThat(entityModel.getPartList().contains(secondUsed), is (true));
+    }
 }

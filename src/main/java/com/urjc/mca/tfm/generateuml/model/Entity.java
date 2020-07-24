@@ -10,6 +10,7 @@ public class Entity {
     private Set<Entity> base = new HashSet<>();
     private Set<Entity> elements = new HashSet<>();
     private Set<Entity> associates = new HashSet<>();
+    private Set<Entity> used = new HashSet<>();
 
     public Entity(String name) {
         this.name = name;
@@ -31,6 +32,10 @@ public class Entity {
         base.add(entity);
     }
 
+    public void addUsed(Entity entity){
+        used.add(entity);
+    }
+
     public Set<Entity> getBase() {
         return this.base;
     }
@@ -45,6 +50,10 @@ public class Entity {
 
     public Set<Entity> getAssociates(){
         return this.associates;
+    }
+
+    public Set<Entity> getUsed(){
+        return this.used;
     }
 
 }

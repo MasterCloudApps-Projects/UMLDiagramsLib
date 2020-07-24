@@ -9,7 +9,7 @@ import static org.hamcrest.core.Is.is;
 class ClassDiagramTest {
 
     @Test
-    public void printClassName(){
+    void printClassName(){
         ClassDiagram classDiagram = new ClassDiagram();
         Model model = new Model();
         Entity firstEntity = new Entity("Entity1");
@@ -24,7 +24,7 @@ class ClassDiagramTest {
     }
 
     @Test
-    public void printBase(){
+    void printBase(){
         ClassDiagram classDiagram = new ClassDiagram();
         Model model = new Model();
         Entity firstEntity = new Entity("Entity1");
@@ -38,7 +38,7 @@ class ClassDiagramTest {
     }
 
     @Test
-    public void printPart(){
+    void printPart(){
         ClassDiagram classDiagram = new ClassDiagram();
         Model model = new Model();
         Entity firstEntity = new Entity("Entity1");
@@ -52,21 +52,21 @@ class ClassDiagramTest {
     }
 
     @Test
-    public void printElement(){
+    void printElement(){
         ClassDiagram classDiagram = new ClassDiagram();
         Model model = new Model();
         Entity firstEntity = new Entity("Entity1");
         Entity elementEntity = new Entity("Element");
 
         String result = "class Entity1\nclass Element\nEntity1 o--> Element\n";
-        model.addEntity(firstEntity).addElelement(elementEntity);
+        model.addEntity(firstEntity).addElement(elementEntity);
         classDiagram.addClasses(model.getEntityList()).print();
 
         assertThat(classDiagram.print(), is(result));
     }
 
     @Test
-    public void printAssociates(){
+    void printAssociates(){
         ClassDiagram classDiagram = new ClassDiagram();
         Model model = new Model();
         Entity firstEntity = new Entity("Entity1");
@@ -79,4 +79,62 @@ class ClassDiagramTest {
         assertThat(classDiagram.print(), is(result));
     }
 
+    @Test
+    void printUsed(){
+        ClassDiagram classDiagram = new ClassDiagram();
+        Model model = new Model();
+        Entity firstEntity = new Entity("Entity1");
+        Entity usedEntity = new Entity("Used");
+
+        String result = "class Entity1\nclass Used\nEntity1 ..> Used\n";
+        model.addEntity(firstEntity).addUsed(usedEntity);
+        classDiagram.addClasses(model.getEntityList()).print();
+
+        assertThat(classDiagram.print(), is(result));
+    }
+
+    @Test
+    void test1(){
+        ClassDiagram classDiagram = new ClassDiagram();
+        Model model = new Model();
+        Entity classA = new Entity("classA");
+        Entity classB = new Entity("classB");
+        Entity classC = new Entity("classC");
+        Entity classD = new Entity("classD");
+
+        String result = "class classB\nclass classA\nclass classC\nclass classD\n" +
+                "classA <|-- classB\nclassB *--> classC\nclassB *--> classD\n";
+
+        model.addEntity(classB).addBase(classA).addPart(classC).addPart(classD);
+        classDiagram.addClasses(model.getEntityList()).print();
+
+        assertThat(classDiagram.print(), is(result));
+    }
+
+    @Test
+    void test2(){
+        ClassDiagram classDiagram = new ClassDiagram();
+        Model model = new Model();
+        Entity masterMind = new Entity("Mastermind");
+        Entity withConsoleModel = new Entity("WithConsoleModel");
+        Entity secretCombination = new Entity("SecretCombination");
+        Entity proposedCombination = new Entity("ProposedCombination");
+        Entity result = new Entity("Result");
+
+        String resultPrint = "class Mastermind\n" +
+                "class WithConsoleModel\n" +
+                "class SecretCombination\n" +
+                "class ProposedCombination\n" +
+                "class Result\n" +
+                "WithConsoleModel <|-- Mastermind\n" +
+                "Mastermind *--> Result\n" +
+                "Mastermind *--> SecretCombination\n" +
+                "Mastermind *--> ProposedCombination";
+
+        model.addEntity(masterMind).addBase(withConsoleModel).addPart(secretCombination).addPart(proposedCombination)
+                .addPart(result);
+        classDiagram.addClasses(model.getEntityList()).print();
+
+        assertThat(classDiagram.print(), is(resultPrint));
+    }
 }
