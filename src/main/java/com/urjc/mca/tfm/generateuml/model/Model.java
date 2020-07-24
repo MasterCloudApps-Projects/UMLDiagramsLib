@@ -14,6 +14,10 @@ public class Model {
         return this;
     }
 
+    public Model addEntity(String entity){
+        return addEntity(new Entity(entity));
+    }
+
     private Entity getEntity(Entity entity) {
 //        Entity aux = entityList.stream().filter(e -> e.name.equals(entity.name)).findFirst().orElse(null);
         Entity aux = getEntity(entity.name);
@@ -30,9 +34,17 @@ public class Model {
         return this;
     }
 
+    public Model addBase(String entity){
+        return addBase(new Entity(entity));
+    }
+
     public Model addPart(Entity entity){
         this.activeEntity.addPart(getEntity(entity));
         return this;
+    }
+
+    public Model addPart(String entity){
+        return addPart(new Entity(entity));
     }
 
     public Model addElement(Entity entity){
@@ -40,14 +52,26 @@ public class Model {
         return this;
     }
 
+    public Model addElement(String entity){
+        return addElement(new Entity(entity));
+    }
+
     public Model addAssociate(Entity entity){
         this.activeEntity.addAssociate(getEntity(entity));
         return this;
     }
 
+    public Model addAssociate(String entity){
+        return addAssociate(new Entity(entity));
+    }
+
     public Model addUsed(Entity entity){
         this.activeEntity.addUsed(getEntity(entity));
         return this;
+    }
+
+    public Model addUsed(String entity){
+        return addUsed(new Entity(entity));
     }
 
     public Entity getEntity(String name){

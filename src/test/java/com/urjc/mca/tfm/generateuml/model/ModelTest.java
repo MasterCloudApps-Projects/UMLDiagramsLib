@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
-import static org.junit.jupiter.api.Assertions.*;
 
 class ModelTest {
 
@@ -184,5 +183,21 @@ class ModelTest {
         assertThat(entityModel.getPartList().size(), is(2));
         assertThat(entityModel.getPartList().contains(firstUsed), is (true));
         assertThat(entityModel.getPartList().contains(secondUsed), is (true));
+    }
+
+    @Test
+    void shouldBeReturnBasePartElementAssociateUsedWithStringCreateMethod(){
+
+        Model model = new Model();
+        model.addEntity("Entity").addBase("Base").addAssociate("Associate").addElement("Element").addPart("Part")
+                .addUsed("Used");
+
+        Entity entityModel = model.getEntity("Entity");
+
+        assertThat(entityModel.getPartList().contains(new Entity("Part")), is (true));
+        assertThat(entityModel.getBase().contains(new Entity("Base")), is (true));
+        assertThat(entityModel.getElements().contains(new Entity("Element")), is (true));
+        assertThat(entityModel.getAssociates().contains(new Entity("Associate")), is (true));
+        assertThat(entityModel.getUsed().contains(new Entity("Used")), is (true));
     }
 }
