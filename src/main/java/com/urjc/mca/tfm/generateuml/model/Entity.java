@@ -1,29 +1,23 @@
 package com.urjc.mca.tfm.generateuml.model;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public class Entity {
 
     public final String name;
-    private List<Entity> partList = new ArrayList<>();
+    private Set<Entity> partList = new HashSet<>();
     private Set<Entity> base = new HashSet<>();
 
     public Entity(String name) {
         this.name = name;
     }
 
-    public String getName() {
-        return this.name;
-    }
-
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("Class " + name)
                 .append(printBase())
-                .append(name + " *--> " + partList.get(0).name);
+                .append(printPart());
         System.out.println(stringBuilder);
         base.forEach(e -> System.out.println(e.name));
         partList.forEach(e -> System.out.println(e.name));
@@ -33,6 +27,12 @@ public class Entity {
     private String printBase() {
         StringBuilder stringBuilder = new StringBuilder();
         base.forEach(b -> stringBuilder.append(b.name + " <|-- " + name));
+        return stringBuilder.toString();
+    }
+
+    private String printPart() {
+        StringBuilder stringBuilder = new StringBuilder();
+        partList.forEach(p -> stringBuilder.append(name + " *--> " + p.name));
         return stringBuilder.toString();
     }
 
@@ -48,7 +48,7 @@ public class Entity {
         return this.base;
     }
 
-    public List<Entity> getPartList() {
+    public Set<Entity> getPartList() {
         return this.partList;
     }
 }

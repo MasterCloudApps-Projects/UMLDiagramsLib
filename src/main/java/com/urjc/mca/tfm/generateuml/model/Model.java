@@ -19,7 +19,7 @@ public class Model {
         Entity aux = getEntity(entity.name);
         if(aux == null){
             entityList.add(entity);
-            this.activeEntity = entity;
+            //this.activeEntity = entity;
             aux = entity;
         }
         return aux;

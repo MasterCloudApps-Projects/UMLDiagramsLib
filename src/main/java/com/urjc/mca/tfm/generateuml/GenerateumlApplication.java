@@ -24,8 +24,7 @@ public class GenerateumlApplication implements CommandLineRunner {
     public void run(String... args) throws Exception {
         LOG.info("EXECUTING : command line runner");
 
-        Entity entity = new Entity();
-        entity.name = "Padre";
+        Entity entity = new Entity("Padre");
         entity.addBase(new Entity("Abuelo"));
         entity.addPart(new Entity("Hijo"));
         entity.toString();

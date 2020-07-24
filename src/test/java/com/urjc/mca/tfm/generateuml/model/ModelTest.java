@@ -62,14 +62,14 @@ class ModelTest {
 
         Model model = new Model();
         Entity firstEntity = new Entity("Entity");
-        Entity firstPart = new Entity("Base");
-        Entity secondPart = new Entity("Base");
+        Entity firstPart = new Entity("Part");
+        Entity secondPart = new Entity("Part");
 
-        model.addEntity(firstEntity).addPart(firstPart).addBase(secondPart);
+        model.addEntity(firstEntity).addPart(firstPart).addPart(secondPart);
 
         Entity entityModel = model.getEntity("Entity");
 
         assertThat(entityModel.getPartList().size(), is(1));
-        assertThat(entityModel.getPartList().get(0), is (firstPart));
+        assertThat(entityModel.getPartList().contains(firstPart), is (true));
     }
 }
