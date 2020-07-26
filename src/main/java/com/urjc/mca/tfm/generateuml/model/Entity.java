@@ -1,8 +1,6 @@
 package com.urjc.mca.tfm.generateuml.model;
 
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 public class Entity {
 
@@ -57,6 +55,17 @@ public class Entity {
         return this.used;
     }
 
+    public List<Entity> getDescendand(){
+
+        //Cogemos las "bases" o no es necesario y solo tomamos los descendientes?
+        List<Entity> descendand = new ArrayList<>();
+        descendand.add(this);
+//        partList.forEach(p -> descendand.add(p));
+//        elements.forEach(e -> descendand.add(e));
+//        associates.forEach(a -> descendand.add(a));
+//        used.forEach(u -> descendand.add(u));
+        return descendand;
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

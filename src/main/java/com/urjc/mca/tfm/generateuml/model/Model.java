@@ -29,6 +29,10 @@ public class Model {
         return aux;
     }
 
+    public Entity getEntity(String name){
+        return entityList.stream().filter(e -> e.name.equals(name)).findFirst().orElse(null);
+    }
+
     public Model addBase(Entity entity){
         this.activeEntity.addBase(getEntity(entity));
         return this;
@@ -74,9 +78,6 @@ public class Model {
         return addUsed(new Entity(entity));
     }
 
-    public Entity getEntity(String name){
-        return entityList.stream().filter(e -> e.name.equals(name)).findFirst().orElse(null);
-    }
 
     public List<Entity> getEntityList(){
         return this.entityList;
