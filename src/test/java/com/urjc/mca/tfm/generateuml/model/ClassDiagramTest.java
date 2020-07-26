@@ -94,95 +94,6 @@ class ClassDiagramTest {
     }
 
     @Test
-    void test1(){
-        ClassDiagram classDiagram = new ClassDiagram();
-        Model model = new Model();
-        Entity classA = new Entity("classA");
-        Entity classB = new Entity("classB");
-        Entity classC = new Entity("classC");
-        Entity classD = new Entity("classD");
-
-        String result = "class classB\nclass classA\nclass classC\nclass classD\n" +
-                "classA <|-- classB\nclassB *--> classC\nclassB *--> classD\n";
-
-        model.addEntity(classB).addBase(classA).addPart(classC).addPart(classD);
-        classDiagram.addClasses(model.getEntityList()).print();
-
-        assertThat(classDiagram.print(), is(result));
-    }
-
-    @Test
-    void test2(){
-        ClassDiagram classDiagram = new ClassDiagram();
-        Model model = new Model();
-        Entity masterMind = new Entity("Mastermind");
-        Entity withConsoleModel = new Entity("WithConsoleModel");
-        Entity secretCombination = new Entity("SecretCombination");
-        Entity proposedCombination = new Entity("ProposedCombination");
-        Entity result = new Entity("Result");
-        String resultPrint = "class Mastermind\n" +
-                "class WithConsoleModel\n" +
-                "class SecretCombination\n" +
-                "class ProposedCombination\n" +
-                "class Result\n" +
-                "WithConsoleModel <|-- Mastermind\n" +
-                "Mastermind *--> SecretCombination\n" +
-                "Mastermind *--> ProposedCombination\n" +
-                "Mastermind *--> Result\n";
-
-
-        model.addEntity(masterMind).addBase(withConsoleModel).addPart(secretCombination).addPart(proposedCombination)
-                .addPart(result);
-        classDiagram.addClasses(model.getEntityList()).print();
-
-        assertThat(classDiagram.print(), is(resultPrint));
-    }
-
-    @Test
-    void test3(){
-        ClassDiagram classDiagram = new ClassDiagram();
-        Model model = new Model();
-        Entity masterMind = new Entity("Mastermind");
-        Entity withConsoleModel = new Entity("WithConsoleModel");
-        Entity secretCombination = new Entity("SecretCombination");
-        Entity proposedCombination = new Entity("ProposedCombination");
-        Entity result = new Entity("Result");
-        String resultPrint = "class Mastermind\n" +
-                "class WithConsoleModel\n" +
-                "class SecretCombination\n" +
-                "class ProposedCombination\n" +
-                "class Result\n" +
-                "class Message\n" +
-                "class Combination\n" +
-                "class Color\n" +
-                "class Error\n" +
-                "WithConsoleModel <|-- Mastermind\n" +
-                "Mastermind *--> SecretCombination\n" +
-                "Mastermind *--> ProposedCombination\n" +
-                "Mastermind *--> Result\n" +
-                "Mastermind ..> Message\n" +
-                "Combination <|-- SecretCombination\n" +
-                "SecretCombination ..> Message\n" +
-                "SecretCombination ..> ProposedCombination\n" +
-                "SecretCombination ..> Result\n" +
-                "Combination <|-- ProposedCombination\n" +
-                "ProposedCombination ..> Message\n" +
-                "ProposedCombination ..> Error\n" +
-                "WithConsoleModel <|-- Combination\n" +
-                "Combination *--> Color\n" +
-                "Combination *--> SecretCombination\n";
-
-
-        model.addEntity(masterMind).addBase(withConsoleModel).addPart(secretCombination).addPart(proposedCombination)
-                .addPart(result).addUsed("Message").addEntity("Combination").addBase(withConsoleModel).addPart("Color")
-        .addPart(secretCombination).addEntity(secretCombination).addBase("Combination").addUsed(proposedCombination)
-        .addUsed("Message").addUsed(result).addEntity(proposedCombination).addBase("Combination").addUsed("Error").addUsed("Message");
-        classDiagram.addClasses(model.getEntityList()).print();
-
-        assertThat(classDiagram.print(), is(resultPrint));
-    }
-
-    @Test
     void shouldBeReturnDiagramClassPractice1Design(){
         ClassDiagram classDiagram = new ClassDiagram();
         Model model = new Model();
@@ -221,6 +132,32 @@ class ClassDiagramTest {
                 .addPart(result).addUsed("Message").addEntity("Combination").addBase(withConsoleModel).addPart("Color")
         .addPart(secretCombination).addEntity(secretCombination).addBase("Combination").addUsed(proposedCombination)
         .addUsed("Message").addUsed(result).addEntity(proposedCombination).addBase("Combination").addUsed("Error").addUsed("Message");
+        classDiagram.addClasses(model.getEntityList()).print();
+
+        assertThat(classDiagram.print(), is(resultPrint));
+    }
+
+    @Test
+    void shouldBeReturnSecretCombinationInDiagramClassPractice1Design(){
+        ClassDiagram classDiagram = new ClassDiagram();
+        Model model = new Model();
+        Entity masterMind = new Entity("Mastermind");
+        Entity withConsoleModel = new Entity("WithConsoleModel");
+        Entity secretCombination = new Entity("SecretCombination");
+        Entity proposedCombination = new Entity("ProposedCombination");
+        Entity result = new Entity("Result");
+        String resultPrint = "class SecretCombination\n" +
+                "Combination <|-- SecretCombination\n" +
+                "SecretCombination ..> Message\n" +
+                "SecretCombination ..> ProposedCombination\n" +
+                "SecretCombination ..> Result\n";
+
+
+        model.addEntity(masterMind).addBase(withConsoleModel).addPart(secretCombination).addPart(proposedCombination)
+                .addPart(result).addUsed("Message").addEntity("Combination").addBase(withConsoleModel).addPart("Color")
+        .addPart(secretCombination).addEntity(secretCombination).addBase("Combination").addUsed(proposedCombination)
+        .addUsed("Message").addUsed(result).addEntity(proposedCombination).addBase("Combination").addUsed("Error").addUsed("Message");
+
         classDiagram.addClasses(model.getEntity(secretCombination.name).getDescendand()).print();
 
         assertThat(classDiagram.print(), is(resultPrint));
