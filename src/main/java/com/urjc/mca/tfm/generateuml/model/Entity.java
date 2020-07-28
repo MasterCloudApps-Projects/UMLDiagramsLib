@@ -10,6 +10,7 @@ public class Entity {
     private Set<Entity> elements = new HashSet<>();
     private Set<Entity> associates = new HashSet<>();
     private Set<Entity> used = new HashSet<>();
+    private Model model;
 
     public Entity(String name) {
         this.name = name;
@@ -33,6 +34,14 @@ public class Entity {
 
     public void addUsed(Entity entity){
         used.add(entity);
+    }
+
+    public Model getModel() {
+        return model;
+    }
+
+    public void setModel(Model model) {
+        this.model = model;
     }
 
     public Set<Entity> getBase() {
