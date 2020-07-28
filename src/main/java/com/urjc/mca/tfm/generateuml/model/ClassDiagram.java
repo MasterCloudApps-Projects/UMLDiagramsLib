@@ -7,6 +7,15 @@ import java.util.List;
 
 public class ClassDiagram {
 
+    private static final String LINE_BREAK = "\n";
+    private static final String DOT = ".";
+    private static final String PART_RELATIONSHIP = " *--> ";
+    private static final String BASE_RELATIONSHIP = " <|-- ";
+    private static final String ELEMENT_RELATIONSHIP = " o--> ";
+    private static final String ASSOCIATION_RELATIONSHIP = " --> ";
+    private static final String USE_RELATIONSHIP = " ..> ";
+    private static final String CLASS_AND_SPACE = "class ";
+
     List<Entity> classes = new ArrayList<>();
 
     public ClassDiagram addClass(Entity entity) {
@@ -40,50 +49,50 @@ public class ClassDiagram {
     }
 
     public String printClassName(Entity entity) {
-        return "class " + printName(entity) + "\n";
+        return CLASS_AND_SPACE + printName(entity) + LINE_BREAK;
     }
 
     private String printName(Entity entity) {
-        return !StringUtils.isEmpty(entity.getModel().name) ? entity.getModel().name + "." + entity.name : entity.name;
+        return !StringUtils.isEmpty(entity.getModel().name) ? entity.getModel().name + DOT + entity.name : entity.name;
     }
 
     public String printPart(Entity entity) {
-        StringBuilder cadena = new StringBuilder();
+        StringBuilder chain = new StringBuilder();
         if (!entity.getPartList().isEmpty()) {
-            entity.getPartList().forEach(p -> cadena.append(printName(entity) + " *--> " + printName(p) + "\n"));
+            entity.getPartList().forEach(p -> chain.append(printName(entity) + PART_RELATIONSHIP + printName(p) + LINE_BREAK));
         }
-        return cadena.toString();
+        return chain.toString();
     }
 
     public String printBase(Entity entity) {
-        StringBuilder cadena = new StringBuilder();
+        StringBuilder chain = new StringBuilder();
         if (!entity.getBase().isEmpty()) {
-            entity.getBase().forEach(b -> cadena.append(printName(b) + " <|-- " + printName(entity) + "\n"));
+            entity.getBase().forEach(b -> chain.append(printName(b) + BASE_RELATIONSHIP + printName(entity) + LINE_BREAK));
         }
-        return cadena.toString();
+        return chain.toString();
     }
 
     public String printElement(Entity entity) {
-        StringBuilder cadena = new StringBuilder();
+        StringBuilder chain = new StringBuilder();
         if (!entity.getElements().isEmpty()) {
-            entity.getElements().forEach(e -> cadena.append(printName(entity) + " o--> " + printName(e) + "\n"));
+            entity.getElements().forEach(e -> chain.append(printName(entity) + ELEMENT_RELATIONSHIP + printName(e) + LINE_BREAK));
         }
-        return cadena.toString();
+        return chain.toString();
     }
 
     public String printAssociates(Entity entity) {
-        StringBuilder cadena = new StringBuilder();
+        StringBuilder chain = new StringBuilder();
         if (!entity.getAssociates().isEmpty()) {
-            entity.getAssociates().forEach(a -> cadena.append(printName(entity) + " --> " + printName(a) + "\n"));
+            entity.getAssociates().forEach(a -> chain.append(printName(entity) + ASSOCIATION_RELATIONSHIP + printName(a) + LINE_BREAK));
         }
-        return cadena.toString();
+        return chain.toString();
     }
 
     public String printUsed(Entity entity) {
-        StringBuilder cadena = new StringBuilder();
+        StringBuilder chain = new StringBuilder();
         if (!entity.getUsed().isEmpty()) {
-            entity.getUsed().forEach(u -> cadena.append(printName(entity) + " ..> " + printName(u) + "\n"));
+            entity.getUsed().forEach(u -> chain.append(printName(entity) + USE_RELATIONSHIP + printName(u) + LINE_BREAK));
         }
-        return cadena.toString();
+        return chain.toString();
     }
 }
