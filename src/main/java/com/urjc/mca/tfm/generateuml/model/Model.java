@@ -25,7 +25,8 @@ public class Model {
     private Entity getEntity(Entity entity) {
         Entity aux = getEntity(entity.name);
         if(aux == null){
-            entity.setModel(this);
+            if(entity.getModel() == null)
+                entity.setModel(this);
             entityList.add(entity);
             aux = entity;
         }
