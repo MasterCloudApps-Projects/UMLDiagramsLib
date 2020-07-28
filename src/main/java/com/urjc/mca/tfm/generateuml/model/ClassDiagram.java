@@ -7,7 +7,7 @@ import java.util.List;
 
 public class ClassDiagram {
 
-    List<Entity> classes = new ArrayList();
+    List<Entity> classes = new ArrayList<>();
 
     public ClassDiagram addClass(Entity entity){
         classes.add(entity);
@@ -15,7 +15,7 @@ public class ClassDiagram {
     }
 
     public ClassDiagram addClasses(List<Entity> entities){
-        entities.forEach(e -> this.addClass(e));
+        entities.forEach(this::addClass);
         return this;
     }
 

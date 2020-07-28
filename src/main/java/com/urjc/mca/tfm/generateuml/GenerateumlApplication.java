@@ -10,19 +10,19 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class GenerateumlApplication implements CommandLineRunner {
 
-    private static Logger LOG = LoggerFactory
+    private static Logger log = LoggerFactory
             .getLogger(GenerateumlApplication.class);
 
     public static void main(String[] args) {
-        LOG.info("STARTING THE APPLICATION");
+        log.info("STARTING THE APPLICATION");
 //        SpringApplication.run(SpringBootConsoleApplication.class, args);
         SpringApplication.run(GenerateumlApplication.class, args);
-        LOG.info("APPLICATION FINISHED");
+        log.info("APPLICATION FINISHED");
     }
 
     @Override
     public void run(String... args) throws Exception {
-        LOG.info("EXECUTING : command line runner");
+        log.info("EXECUTING : command line runner");
 
         Entity entity = new Entity("Padre");
         entity.addBase(new Entity("Abuelo"));

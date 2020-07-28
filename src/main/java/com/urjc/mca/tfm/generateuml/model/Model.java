@@ -23,12 +23,10 @@ public class Model {
     }
 
     private Entity getEntity(Entity entity) {
-//        Entity aux = entityList.stream().filter(e -> e.name.equals(entity.name)).findFirst().orElse(null);
         Entity aux = getEntity(entity.name);
         if(aux == null){
             entity.setModel(this);
             entityList.add(entity);
-            //this.activeEntity = entity;
             aux = entity;
         }
         return aux;
