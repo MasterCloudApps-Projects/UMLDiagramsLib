@@ -9,17 +9,22 @@ public class ClassDiagram {
 
     List<Entity> classes = new ArrayList<>();
 
-    public ClassDiagram addClass(Entity entity){
+    public ClassDiagram addClass(Entity entity) {
         classes.add(entity);
         return this;
     }
 
-    public ClassDiagram addClasses(List<Entity> entities){
+    public ClassDiagram addClasses(List<Entity> entities) {
         entities.forEach(this::addClass);
         return this;
     }
 
-    public String print(){
+    public ClassDiagram addModel(Model model) {
+        this.addClasses(model.getEntityList());
+        return this;
+    }
+
+    public String print() {
         StringBuilder className = new StringBuilder();
         StringBuilder relations = new StringBuilder();
 
@@ -34,50 +39,50 @@ public class ClassDiagram {
         return className.toString() + relations.toString();
     }
 
-    public String printClassName(Entity entity){
+    public String printClassName(Entity entity) {
         return "class " + printName(entity) + "\n";
     }
 
-    private String printName(Entity entity){
-        return !StringUtils.isEmpty(entity.getModel().name) ? entity.getModel().name + "." + entity.name: entity.name;
+    private String printName(Entity entity) {
+        return !StringUtils.isEmpty(entity.getModel().name) ? entity.getModel().name + "." + entity.name : entity.name;
     }
 
-    public String printPart(Entity entity){
+    public String printPart(Entity entity) {
         StringBuilder cadena = new StringBuilder();
-        if(!entity.getPartList().isEmpty()){
-            entity.getPartList().forEach( p -> cadena.append(printName(entity) + " *--> " + printName(p) + "\n"));
+        if (!entity.getPartList().isEmpty()) {
+            entity.getPartList().forEach(p -> cadena.append(printName(entity) + " *--> " + printName(p) + "\n"));
         }
         return cadena.toString();
     }
 
-    public String printBase(Entity entity){
+    public String printBase(Entity entity) {
         StringBuilder cadena = new StringBuilder();
-        if(!entity.getBase().isEmpty()){
-            entity.getBase().forEach(b -> cadena.append( printName(b) + " <|-- " + printName(entity) + "\n"));
+        if (!entity.getBase().isEmpty()) {
+            entity.getBase().forEach(b -> cadena.append(printName(b) + " <|-- " + printName(entity) + "\n"));
         }
         return cadena.toString();
     }
 
-    public String printElement(Entity entity){
+    public String printElement(Entity entity) {
         StringBuilder cadena = new StringBuilder();
-        if(!entity.getElements().isEmpty()){
-            entity.getElements().forEach(e -> cadena.append( printName(entity) +" o--> " + printName(e) + "\n"));
+        if (!entity.getElements().isEmpty()) {
+            entity.getElements().forEach(e -> cadena.append(printName(entity) + " o--> " + printName(e) + "\n"));
         }
         return cadena.toString();
     }
 
-    public String printAssociates(Entity entity){
+    public String printAssociates(Entity entity) {
         StringBuilder cadena = new StringBuilder();
-        if(!entity.getAssociates().isEmpty()){
-            entity.getAssociates().forEach(a -> cadena.append( printName(entity) +" --> " + printName(a) + "\n"));
+        if (!entity.getAssociates().isEmpty()) {
+            entity.getAssociates().forEach(a -> cadena.append(printName(entity) + " --> " + printName(a) + "\n"));
         }
         return cadena.toString();
     }
 
-    public String printUsed(Entity entity){
+    public String printUsed(Entity entity) {
         StringBuilder cadena = new StringBuilder();
-        if(!entity.getUsed().isEmpty()){
-            entity.getUsed().forEach(u -> cadena.append( printName(entity) +" ..> " + printName(u) + "\n"));
+        if (!entity.getUsed().isEmpty()) {
+            entity.getUsed().forEach(u -> cadena.append(printName(entity) + " ..> " + printName(u) + "\n"));
         }
         return cadena.toString();
     }

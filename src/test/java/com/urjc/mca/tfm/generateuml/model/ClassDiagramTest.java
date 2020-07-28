@@ -216,4 +216,50 @@ class ClassDiagramTest {
 
         assertThat(classDiagram.print(), is(resultPrint));
     }
+    @Test
+    void shouldBeReturnDiagramClassPractice1DesignWithTwoModelsWhenAddModel(){
+        ClassDiagram classDiagram = new ClassDiagram();
+        Model model = new Model("mastermind");
+        Model modelUtils = new Model("mastermind.utils");
+        Entity masterMind = new Entity("Mastermind");
+        Entity withConsoleModel = new Entity("WithConsoleModel");
+        Entity secretCombination = new Entity("SecretCombination");
+        Entity proposedCombination = new Entity("ProposedCombination");
+        Entity result = new Entity("Result");
+
+        String resultPrint = "class mastermind.Mastermind\n" +
+                "class mastermind.utils.WithConsoleModel\n" +
+                "class mastermind.SecretCombination\n" +
+                "class mastermind.ProposedCombination\n" +
+                "class mastermind.Result\n" +
+                "class mastermind.Message\n" +
+                "class mastermind.Combination\n" +
+                "class mastermind.Color\n" +
+                "class mastermind.Error\n" +
+                "mastermind.utils.WithConsoleModel <|-- mastermind.Mastermind\n" +
+                "mastermind.Mastermind *--> mastermind.SecretCombination\n" +
+                "mastermind.Mastermind *--> mastermind.ProposedCombination\n" +
+                "mastermind.Mastermind *--> mastermind.Result\n" +
+                "mastermind.Mastermind ..> mastermind.Message\n" +
+                "mastermind.Combination <|-- mastermind.SecretCombination\n" +
+                "mastermind.SecretCombination ..> mastermind.Message\n" +
+                "mastermind.SecretCombination ..> mastermind.ProposedCombination\n" +
+                "mastermind.SecretCombination ..> mastermind.Result\n" +
+                "mastermind.Combination <|-- mastermind.ProposedCombination\n" +
+                "mastermind.ProposedCombination ..> mastermind.Message\n" +
+                "mastermind.ProposedCombination ..> mastermind.Error\n" +
+                "mastermind.utils.WithConsoleModel <|-- mastermind.Combination\n" +
+                "mastermind.Combination *--> mastermind.Color\n" +
+                "mastermind.Combination *--> mastermind.SecretCombination\n";
+
+
+        modelUtils.addEntity(withConsoleModel);
+        model.addEntity(masterMind).addBase(withConsoleModel).addPart(secretCombination).addPart(proposedCombination)
+                .addPart(result).addUsed("Message").addEntity("Combination").addBase(withConsoleModel).addPart("Color")
+                .addPart(secretCombination).addEntity(secretCombination).addBase("Combination").addUsed(proposedCombination)
+                .addUsed("Message").addUsed(result).addEntity(proposedCombination).addBase("Combination").addUsed("Error").addUsed("Message");
+        classDiagram.addModel(model).print();
+
+        assertThat(classDiagram.print(), is(resultPrint));
+    }
 }
