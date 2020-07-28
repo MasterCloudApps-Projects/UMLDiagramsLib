@@ -5,9 +5,13 @@ import java.util.List;
 
 public class Model {
 
+    public final String name;
     private List<Entity> entityList = new ArrayList<>();
     private Entity activeEntity;
 
+    public Model(String name){
+        this.name = name;
+    }
 
     public Model addEntity(Entity entity){
         this.activeEntity = this.getEntity(entity);

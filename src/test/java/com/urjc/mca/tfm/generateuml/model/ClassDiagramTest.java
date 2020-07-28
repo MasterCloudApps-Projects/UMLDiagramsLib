@@ -11,7 +11,7 @@ class ClassDiagramTest {
     @Test
     void printClassName(){
         ClassDiagram classDiagram = new ClassDiagram();
-        Model model = new Model();
+        Model model = new Model("model");
         Entity firstEntity = new Entity("Entity1");
         Entity secondEntity = new Entity("Entity2");
 
@@ -26,7 +26,7 @@ class ClassDiagramTest {
     @Test
     void printBase(){
         ClassDiagram classDiagram = new ClassDiagram();
-        Model model = new Model();
+        Model model = new Model("model");
         Entity firstEntity = new Entity("Entity1");
         Entity baseEntity = new Entity("Base");
 
@@ -40,7 +40,7 @@ class ClassDiagramTest {
     @Test
     void printPart(){
         ClassDiagram classDiagram = new ClassDiagram();
-        Model model = new Model();
+        Model model = new Model("model");
         Entity firstEntity = new Entity("Entity1");
         Entity partEntity = new Entity("Part");
 
@@ -54,7 +54,7 @@ class ClassDiagramTest {
     @Test
     void printElement(){
         ClassDiagram classDiagram = new ClassDiagram();
-        Model model = new Model();
+        Model model = new Model("model");
         Entity firstEntity = new Entity("Entity1");
         Entity elementEntity = new Entity("Element");
 
@@ -68,7 +68,7 @@ class ClassDiagramTest {
     @Test
     void printAssociates(){
         ClassDiagram classDiagram = new ClassDiagram();
-        Model model = new Model();
+        Model model = new Model("model");
         Entity firstEntity = new Entity("Entity1");
         Entity associateEntity = new Entity("Associate");
 
@@ -82,7 +82,7 @@ class ClassDiagramTest {
     @Test
     void printUsed(){
         ClassDiagram classDiagram = new ClassDiagram();
-        Model model = new Model();
+        Model model = new Model("model");
         Entity firstEntity = new Entity("Entity1");
         Entity usedEntity = new Entity("Used");
 
@@ -96,7 +96,7 @@ class ClassDiagramTest {
     @Test
     void shouldBeReturnDiagramClassPractice1Design(){
         ClassDiagram classDiagram = new ClassDiagram();
-        Model model = new Model();
+        Model model = new Model("mastermind");
         Entity masterMind = new Entity("Mastermind");
         Entity withConsoleModel = new Entity("WithConsoleModel");
         Entity secretCombination = new Entity("SecretCombination");
@@ -140,7 +140,7 @@ class ClassDiagramTest {
     @Test
     void shouldBeReturnSecretCombinationInDiagramClassPractice1Design(){
         ClassDiagram classDiagram = new ClassDiagram();
-        Model model = new Model();
+        Model model = new Model("");
         Entity masterMind = new Entity("Mastermind");
         Entity withConsoleModel = new Entity("WithConsoleModel");
         Entity secretCombination = new Entity("SecretCombination");
@@ -153,10 +153,16 @@ class ClassDiagramTest {
                 "SecretCombination ..> Result\n";
 
 
-        model.addEntity(masterMind).addBase(withConsoleModel).addPart(secretCombination).addPart(proposedCombination)
-                .addPart(result).addUsed("Message").addEntity("Combination").addBase(withConsoleModel).addPart("Color")
-        .addPart(secretCombination).addEntity(secretCombination).addBase("Combination").addUsed(proposedCombination)
-        .addUsed("Message").addUsed(result).addEntity(proposedCombination).addBase("Combination").addUsed("Error").addUsed("Message");
+        model.addEntity(masterMind).addBase(withConsoleModel)
+                    .addPart(secretCombination).addPart(proposedCombination)
+                    .addPart(result).addUsed("Message")
+                    .addEntity("Combination").addBase(withConsoleModel).addPart("Color")
+                    .addPart(secretCombination)
+                .addEntity(secretCombination)
+                    .addBase("Combination").addUsed(proposedCombination)
+                    .addUsed("Message").addUsed(result)
+                .addEntity(proposedCombination)
+                    .addBase("Combination").addUsed("Error").addUsed("Message");
 
         classDiagram.addClasses(model.getEntity(secretCombination.name).getDescendand()).print();
 
