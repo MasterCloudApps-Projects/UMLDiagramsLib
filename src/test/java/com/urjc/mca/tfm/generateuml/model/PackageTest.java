@@ -5,12 +5,12 @@ import org.junit.jupiter.api.Test;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
-class ModelTest {
+class PackageTest {
 
     @Test
     void shouldBeReturnTheFirstEntityWhenAddClass(){
 
-        Model model = new Model("model");
+        Package model = new Package("model");
         Entity firstEntity = new Entity("Entity");
         Entity secondEntity = new Entity("Entity");
 
@@ -23,7 +23,7 @@ class ModelTest {
     @Test
     void shouldBeReturnTheFirstBaseEntity(){
 
-        Model model = new Model("model");
+        Package model = new Package("model");
         Entity firstEntity = new Entity("Entity");
         Entity firstBase = new Entity("Base");
         Entity secondBase = new Entity("Base");
@@ -39,7 +39,7 @@ class ModelTest {
     @Test
     void shouldBeReturnTheFirstBaseAndSecondBaseEntity(){
 
-        Model model = new Model("model");
+        Package model = new Package("model");
         Entity firstEntity = new Entity("Entity");
         Entity firstBase = new Entity("Base");
         Entity secondBase = new Entity("Base2");
@@ -56,7 +56,7 @@ class ModelTest {
     @Test
     void shouldBeReturnTheFirstPartEntity(){
 
-        Model model = new Model("model");
+        Package model = new Package("model");
         Entity firstEntity = new Entity("Entity");
         Entity firstPart = new Entity("Part");
         Entity secondPart = new Entity("Part");
@@ -72,7 +72,7 @@ class ModelTest {
     @Test
     void shouldBeReturnTheFirstAndSecondPartEntity(){
 
-        Model model = new Model("model");
+        Package model = new Package("model");
         Entity firstEntity = new Entity("Entity");
         Entity firstPart = new Entity("Part");
         Entity secondPart = new Entity("Part2");
@@ -89,7 +89,7 @@ class ModelTest {
     @Test
     void shouldBeReturnTheFirstElementEntity(){
 
-        Model model = new Model("model");
+        Package model = new Package("model");
         Entity firstEntity = new Entity("Entity");
         Entity firstElement = new Entity("Element");
         Entity secondElement = new Entity("Element");
@@ -105,7 +105,7 @@ class ModelTest {
     @Test
     void shouldBeReturnTheFirstAndSecondElementEntity(){
 
-        Model model = new Model("model");
+        Package model = new Package("model");
         Entity firstEntity = new Entity("Entity");
         Entity firstElement = new Entity("Element");
         Entity secondElement = new Entity("Element2");
@@ -122,7 +122,7 @@ class ModelTest {
     @Test
     void shouldBeReturnTheFirstAssociateEntity(){
 
-        Model model = new Model("model");
+        Package model = new Package("model");
         Entity firstEntity = new Entity("Entity");
         Entity firstAssociate = new Entity("Associate");
         Entity secondAssociate = new Entity("Associate");
@@ -138,7 +138,7 @@ class ModelTest {
     @Test
     void shouldBeReturnTheFirstAndSecondAssociateEntity(){
 
-        Model model = new Model("model");
+        Package model = new Package("model");
         Entity firstEntity = new Entity("Entity");
         Entity firstAssociate = new Entity("Element");
         Entity secondAssociate = new Entity("Element2");
@@ -155,7 +155,7 @@ class ModelTest {
     @Test
     void shouldBeReturnTheFirstUsedEntity(){
 
-        Model model = new Model("model");
+        Package model = new Package("model");
         Entity firstEntity = new Entity("Entity");
         Entity firstUsed = new Entity("Used");
         Entity secondUsed = new Entity("Used");
@@ -171,7 +171,7 @@ class ModelTest {
     @Test
     void shouldBeReturnTheFirstAndSecondUsedEntity(){
 
-        Model model = new Model("model");
+        Package model = new Package("model");
         Entity firstEntity = new Entity("Entity");
         Entity firstUsed = new Entity("Used");
         Entity secondUsed = new Entity("Used2");
@@ -188,7 +188,7 @@ class ModelTest {
     @Test
     void shouldBeReturnBasePartElementAssociateUsedWithStringCreateMethod(){
 
-        Model model = new Model("model");
+        Package model = new Package("model");
         model.addEntity("Entity").addBase("Base").addAssociate("Associate").addElement("Element").addPart("Part")
                 .addUsed("Used");
 
