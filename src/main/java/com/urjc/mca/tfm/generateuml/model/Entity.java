@@ -64,16 +64,16 @@ public class Entity {
         return this.used;
     }
 
-    public List<Entity> getDescendand(){
+    public List<Entity> getEferents(){
 
         //Cogemos las "bases" o no es necesario y solo tomamos los descendientes?
-        List<Entity> descendand = new ArrayList<>();
-        descendand.add(this);
-//        partList.forEach(p -> descendand.add(p));
-//        elements.forEach(e -> descendand.add(e));
-//        associates.forEach(a -> descendand.add(a));
-//        used.forEach(u -> descendand.add(u));
-        return descendand;
+        List<Entity> eferents = new ArrayList<>();
+        eferents.add(this);
+//        partList.forEach(p -> eferents.add(p));
+//        elements.forEach(e -> eferents.add(e));
+//        associates.forEach(a -> eferents.add(a));
+//        used.forEach(u -> eferents.add(u));
+        return eferents;
     }
     @Override
     public boolean equals(Object o) {
