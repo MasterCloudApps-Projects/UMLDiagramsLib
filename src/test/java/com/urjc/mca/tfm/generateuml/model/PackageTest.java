@@ -11,8 +11,8 @@ class PackageTest {
     void shouldBeReturnTheFirstEntityWhenAddClass(){
 
         Package model = new Package("model");
-        Entity firstEntity = new Entity("Entity");
-        Entity secondEntity = new Entity("Entity");
+        Unit firstEntity = new Unit("Entity");
+        Unit secondEntity = new Unit("Entity");
 
         model.addEntity(firstEntity).addEntity(secondEntity);
 
@@ -24,13 +24,13 @@ class PackageTest {
     void shouldBeReturnTheFirstBaseEntity(){
 
         Package model = new Package("model");
-        Entity firstEntity = new Entity("Entity");
-        Entity firstBase = new Entity("Base");
-        Entity secondBase = new Entity("Base");
+        Unit firstEntity = new Unit("Entity");
+        Unit firstBase = new Unit("Base");
+        Unit secondBase = new Unit("Base");
 
         model.addEntity(firstEntity).addBase(firstBase).addBase(secondBase);
 
-        Entity entityModel = model.getEntity("Entity");
+        Unit entityModel = model.getEntity("Entity");
 
         assertThat(entityModel.getBase().size(), is(1));
         assertThat(entityModel.getBase().contains(firstBase), is(true));
@@ -40,13 +40,13 @@ class PackageTest {
     void shouldBeReturnTheFirstBaseAndSecondBaseEntity(){
 
         Package model = new Package("model");
-        Entity firstEntity = new Entity("Entity");
-        Entity firstBase = new Entity("Base");
-        Entity secondBase = new Entity("Base2");
+        Unit firstEntity = new Unit("Entity");
+        Unit firstBase = new Unit("Base");
+        Unit secondBase = new Unit("Base2");
 
         model.addEntity(firstEntity).addBase(firstBase).addBase(secondBase);
 
-        Entity entityModel = model.getEntity("Entity");
+        Unit entityModel = model.getEntity("Entity");
 
         assertThat(entityModel.getBase().size(), is(2));
         assertThat(entityModel.getBase().contains(firstBase), is(true));
@@ -57,13 +57,13 @@ class PackageTest {
     void shouldBeReturnTheFirstPartEntity(){
 
         Package model = new Package("model");
-        Entity firstEntity = new Entity("Entity");
-        Entity firstPart = new Entity("Part");
-        Entity secondPart = new Entity("Part");
+        Unit firstEntity = new Unit("Entity");
+        Unit firstPart = new Unit("Part");
+        Unit secondPart = new Unit("Part");
 
         model.addEntity(firstEntity).addPart(firstPart).addPart(secondPart);
 
-        Entity entityModel = model.getEntity("Entity");
+        Unit entityModel = model.getEntity("Entity");
 
         assertThat(entityModel.getPartList().size(), is(1));
         assertThat(entityModel.getPartList().contains(firstPart), is (true));
@@ -73,13 +73,13 @@ class PackageTest {
     void shouldBeReturnTheFirstAndSecondPartEntity(){
 
         Package model = new Package("model");
-        Entity firstEntity = new Entity("Entity");
-        Entity firstPart = new Entity("Part");
-        Entity secondPart = new Entity("Part2");
+        Unit firstEntity = new Unit("Entity");
+        Unit firstPart = new Unit("Part");
+        Unit secondPart = new Unit("Part2");
 
         model.addEntity(firstEntity).addPart(firstPart).addPart(secondPart);
 
-        Entity entityModel = model.getEntity("Entity");
+        Unit entityModel = model.getEntity("Entity");
 
         assertThat(entityModel.getPartList().size(), is(2));
         assertThat(entityModel.getPartList().contains(firstPart), is (true));
@@ -90,13 +90,13 @@ class PackageTest {
     void shouldBeReturnTheFirstElementEntity(){
 
         Package model = new Package("model");
-        Entity firstEntity = new Entity("Entity");
-        Entity firstElement = new Entity("Element");
-        Entity secondElement = new Entity("Element");
+        Unit firstEntity = new Unit("Entity");
+        Unit firstElement = new Unit("Element");
+        Unit secondElement = new Unit("Element");
 
         model.addEntity(firstEntity).addPart(firstElement).addPart(secondElement);
 
-        Entity entityModel = model.getEntity("Entity");
+        Unit entityModel = model.getEntity("Entity");
 
         assertThat(entityModel.getPartList().size(), is(1));
         assertThat(entityModel.getPartList().contains(firstElement), is (true));
@@ -106,13 +106,13 @@ class PackageTest {
     void shouldBeReturnTheFirstAndSecondElementEntity(){
 
         Package model = new Package("model");
-        Entity firstEntity = new Entity("Entity");
-        Entity firstElement = new Entity("Element");
-        Entity secondElement = new Entity("Element2");
+        Unit firstEntity = new Unit("Entity");
+        Unit firstElement = new Unit("Element");
+        Unit secondElement = new Unit("Element2");
 
         model.addEntity(firstEntity).addPart(firstElement).addPart(secondElement);
 
-        Entity entityModel = model.getEntity("Entity");
+        Unit entityModel = model.getEntity("Entity");
 
         assertThat(entityModel.getPartList().size(), is(2));
         assertThat(entityModel.getPartList().contains(firstElement), is (true));
@@ -123,13 +123,13 @@ class PackageTest {
     void shouldBeReturnTheFirstAssociateEntity(){
 
         Package model = new Package("model");
-        Entity firstEntity = new Entity("Entity");
-        Entity firstAssociate = new Entity("Associate");
-        Entity secondAssociate = new Entity("Associate");
+        Unit firstEntity = new Unit("Entity");
+        Unit firstAssociate = new Unit("Associate");
+        Unit secondAssociate = new Unit("Associate");
 
         model.addEntity(firstEntity).addPart(firstAssociate).addPart(secondAssociate);
 
-        Entity entityModel = model.getEntity("Entity");
+        Unit entityModel = model.getEntity("Entity");
 
         assertThat(entityModel.getPartList().size(), is(1));
         assertThat(entityModel.getPartList().contains(firstAssociate), is (true));
@@ -139,13 +139,13 @@ class PackageTest {
     void shouldBeReturnTheFirstAndSecondAssociateEntity(){
 
         Package model = new Package("model");
-        Entity firstEntity = new Entity("Entity");
-        Entity firstAssociate = new Entity("Element");
-        Entity secondAssociate = new Entity("Element2");
+        Unit firstEntity = new Unit("Entity");
+        Unit firstAssociate = new Unit("Element");
+        Unit secondAssociate = new Unit("Element2");
 
         model.addEntity(firstEntity).addPart(firstAssociate).addPart(secondAssociate);
 
-        Entity entityModel = model.getEntity("Entity");
+        Unit entityModel = model.getEntity("Entity");
 
         assertThat(entityModel.getPartList().size(), is(2));
         assertThat(entityModel.getPartList().contains(firstAssociate), is (true));
@@ -156,13 +156,13 @@ class PackageTest {
     void shouldBeReturnTheFirstUsedEntity(){
 
         Package model = new Package("model");
-        Entity firstEntity = new Entity("Entity");
-        Entity firstUsed = new Entity("Used");
-        Entity secondUsed = new Entity("Used");
+        Unit firstEntity = new Unit("Entity");
+        Unit firstUsed = new Unit("Used");
+        Unit secondUsed = new Unit("Used");
 
         model.addEntity(firstEntity).addPart(firstUsed).addPart(secondUsed);
 
-        Entity entityModel = model.getEntity("Entity");
+        Unit entityModel = model.getEntity("Entity");
 
         assertThat(entityModel.getPartList().size(), is(1));
         assertThat(entityModel.getPartList().contains(firstUsed), is (true));
@@ -172,13 +172,13 @@ class PackageTest {
     void shouldBeReturnTheFirstAndSecondUsedEntity(){
 
         Package model = new Package("model");
-        Entity firstEntity = new Entity("Entity");
-        Entity firstUsed = new Entity("Used");
-        Entity secondUsed = new Entity("Used2");
+        Unit firstEntity = new Unit("Entity");
+        Unit firstUsed = new Unit("Used");
+        Unit secondUsed = new Unit("Used2");
 
         model.addEntity(firstEntity).addPart(firstUsed).addPart(secondUsed);
 
-        Entity entityModel = model.getEntity("Entity");
+        Unit entityModel = model.getEntity("Entity");
 
         assertThat(entityModel.getPartList().size(), is(2));
         assertThat(entityModel.getPartList().contains(firstUsed), is (true));
@@ -192,12 +192,12 @@ class PackageTest {
         model.addEntity("Entity").addBase("Base").addAssociate("Associate").addElement("Element").addPart("Part")
                 .addUsed("Used");
 
-        Entity entityModel = model.getEntity("Entity");
+        Unit entityModel = model.getEntity("Entity");
 
-        assertThat(entityModel.getPartList().contains(new Entity("Part")), is (true));
-        assertThat(entityModel.getBase().contains(new Entity("Base")), is (true));
-        assertThat(entityModel.getElements().contains(new Entity("Element")), is (true));
-        assertThat(entityModel.getAssociates().contains(new Entity("Associate")), is (true));
-        assertThat(entityModel.getUsed().contains(new Entity("Used")), is (true));
+        assertThat(entityModel.getPartList().contains(new Unit("Part")), is (true));
+        assertThat(entityModel.getBase().contains(new Unit("Base")), is (true));
+        assertThat(entityModel.getElements().contains(new Unit("Element")), is (true));
+        assertThat(entityModel.getAssociates().contains(new Unit("Associate")), is (true));
+        assertThat(entityModel.getUsed().contains(new Unit("Used")), is (true));
     }
 }

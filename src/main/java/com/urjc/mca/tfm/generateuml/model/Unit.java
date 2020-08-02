@@ -2,37 +2,37 @@ package com.urjc.mca.tfm.generateuml.model;
 
 import java.util.*;
 
-public class Entity {
+public class Unit {
 
     public final String name;
-    private Set<Entity> partList = new HashSet<>();
-    private Set<Entity> base = new HashSet<>();
-    private Set<Entity> elements = new HashSet<>();
-    private Set<Entity> associates = new HashSet<>();
-    private Set<Entity> used = new HashSet<>();
+    private Set<Unit> partList = new HashSet<>();
+    private Set<Unit> base = new HashSet<>();
+    private Set<Unit> elements = new HashSet<>();
+    private Set<Unit> associates = new HashSet<>();
+    private Set<Unit> used = new HashSet<>();
     private Package model;
 
-    public Entity(String name) {
+    public Unit(String name) {
         this.name = name;
     }
 
-    public void addPart(Entity entity) {
+    public void addPart(Unit entity) {
         partList.add(entity);
     }
 
-    public void addElement(Entity entity){
+    public void addElement(Unit entity){
         elements.add(entity);
     }
 
-    public void addAssociate(Entity entity){
+    public void addAssociate(Unit entity){
         associates.add(entity);
     }
 
-    public void addBase(Entity entity) {
+    public void addBase(Unit entity) {
         base.add(entity);
     }
 
-    public void addUsed(Entity entity){
+    public void addUsed(Unit entity){
         used.add(entity);
     }
 
@@ -44,30 +44,30 @@ public class Entity {
         this.model = model;
     }
 
-    public Set<Entity> getBase() {
+    public Set<Unit> getBase() {
         return this.base;
     }
 
-    public Set<Entity> getPartList() {
+    public Set<Unit> getPartList() {
         return this.partList;
     }
 
-    public Set<Entity> getElements(){
+    public Set<Unit> getElements(){
         return this.elements;
     }
 
-    public Set<Entity> getAssociates(){
+    public Set<Unit> getAssociates(){
         return this.associates;
     }
 
-    public Set<Entity> getUsed(){
+    public Set<Unit> getUsed(){
         return this.used;
     }
 
-    public List<Entity> getEferents(){
+    public List<Unit> getEferents(){
 
         //Cogemos las "bases" o no es necesario y solo tomamos los descendientes?
-        List<Entity> eferents = new ArrayList<>();
+        List<Unit> eferents = new ArrayList<>();
         eferents.add(this);
 //        partList.forEach(p -> eferents.add(p));
 //        elements.forEach(e -> eferents.add(e));
@@ -79,7 +79,7 @@ public class Entity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Entity entity = (Entity) o;
+        Unit entity = (Unit) o;
         return Objects.equals(name, entity.name);
     }
 

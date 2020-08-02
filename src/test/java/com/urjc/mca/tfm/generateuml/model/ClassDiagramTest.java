@@ -11,8 +11,8 @@ class ClassDiagramTest {
     @Test
     void printClassName(){
         Package model = new Package("model");
-        Entity firstEntity = new Entity("Entity1");
-        Entity secondEntity = new Entity("Entity2");
+        Unit firstEntity = new Unit("Entity1");
+        Unit secondEntity = new Unit("Entity2");
         model.addEntity(firstEntity).addEntity(secondEntity);
         ClassDiagram classDiagram = new ClassDiagram();
 
@@ -27,8 +27,8 @@ class ClassDiagramTest {
     void printBase(){
         ClassDiagram classDiagram = new ClassDiagram();
         Package model = new Package("model");
-        Entity firstEntity = new Entity("Entity1");
-        Entity baseEntity = new Entity("Base");
+        Unit firstEntity = new Unit("Entity1");
+        Unit baseEntity = new Unit("Base");
 
         String result = "class model.Entity1\nclass model.Base\nmodel.Base <|-- model.Entity1\n";
         model.addEntity(firstEntity).addBase(baseEntity);
@@ -41,8 +41,8 @@ class ClassDiagramTest {
     void printPart(){
         ClassDiagram classDiagram = new ClassDiagram();
         Package model = new Package("model");
-        Entity firstEntity = new Entity("Entity1");
-        Entity partEntity = new Entity("Part");
+        Unit firstEntity = new Unit("Entity1");
+        Unit partEntity = new Unit("Part");
 
         String result = "class model.Entity1\nclass model.Part\nmodel.Entity1 *--> model.Part\n";
         model.addEntity(firstEntity).addPart(partEntity);
@@ -55,8 +55,8 @@ class ClassDiagramTest {
     void printElement(){
         ClassDiagram classDiagram = new ClassDiagram();
         Package model = new Package("model");
-        Entity firstEntity = new Entity("Entity1");
-        Entity elementEntity = new Entity("Element");
+        Unit firstEntity = new Unit("Entity1");
+        Unit elementEntity = new Unit("Element");
 
         String result = "class model.Entity1\nclass model.Element\nmodel.Entity1 o--> model.Element\n";
         model.addEntity(firstEntity).addElement(elementEntity);
@@ -69,8 +69,8 @@ class ClassDiagramTest {
     void printAssociates(){
         ClassDiagram classDiagram = new ClassDiagram();
         Package model = new Package("model");
-        Entity firstEntity = new Entity("Entity1");
-        Entity associateEntity = new Entity("Associate");
+        Unit firstEntity = new Unit("Entity1");
+        Unit associateEntity = new Unit("Associate");
 
         String result = "class model.Entity1\nclass model.Associate\nmodel.Entity1 --> model.Associate\n";
         model.addEntity(firstEntity).addAssociate(associateEntity);
@@ -83,8 +83,8 @@ class ClassDiagramTest {
     void printUsed(){
         ClassDiagram classDiagram = new ClassDiagram();
         Package model = new Package("model");
-        Entity firstEntity = new Entity("Entity1");
-        Entity usedEntity = new Entity("Used");
+        Unit firstEntity = new Unit("Entity1");
+        Unit usedEntity = new Unit("Used");
 
         String result = "class model.Entity1\nclass model.Used\nmodel.Entity1 ..> model.Used\n";
         model.addEntity(firstEntity).addUsed(usedEntity);
@@ -97,11 +97,11 @@ class ClassDiagramTest {
     void shouldBeReturnDiagramClassPractice1Design(){
         ClassDiagram classDiagram = new ClassDiagram();
         Package model = new Package("mastermind");
-        Entity masterMind = new Entity("Mastermind");
-        Entity withConsoleModel = new Entity("WithConsoleModel");
-        Entity secretCombination = new Entity("SecretCombination");
-        Entity proposedCombination = new Entity("ProposedCombination");
-        Entity result = new Entity("Result");
+        Unit masterMind = new Unit("Mastermind");
+        Unit withConsoleModel = new Unit("WithConsoleModel");
+        Unit secretCombination = new Unit("SecretCombination");
+        Unit proposedCombination = new Unit("ProposedCombination");
+        Unit result = new Unit("Result");
         String resultPrint = "class mastermind.Mastermind\n" +
                 "class mastermind.WithConsoleModel\n" +
                 "class mastermind.SecretCombination\n" +
@@ -141,11 +141,11 @@ class ClassDiagramTest {
     void shouldBeReturnSecretCombinationInDiagramClassPractice1Design(){
         ClassDiagram classDiagram = new ClassDiagram();
         Package model = new Package("mastermind");
-        Entity masterMind = new Entity("Mastermind");
-        Entity withConsoleModel = new Entity("WithConsoleModel");
-        Entity secretCombination = new Entity("SecretCombination");
-        Entity proposedCombination = new Entity("ProposedCombination");
-        Entity result = new Entity("Result");
+        Unit masterMind = new Unit("Mastermind");
+        Unit withConsoleModel = new Unit("WithConsoleModel");
+        Unit secretCombination = new Unit("SecretCombination");
+        Unit proposedCombination = new Unit("ProposedCombination");
+        Unit result = new Unit("Result");
         String resultPrint = "class mastermind.SecretCombination\n" +
                 "mastermind.Combination <|-- mastermind.SecretCombination\n" +
                 "mastermind.SecretCombination ..> mastermind.Message\n" +
@@ -175,11 +175,11 @@ class ClassDiagramTest {
         ClassDiagram classDiagram = new ClassDiagram();
         Package model = new Package("mastermind");
         Package modelUtils = new Package("mastermind.utils");
-        Entity masterMind = new Entity("Mastermind");
-        Entity withConsoleModel = new Entity("WithConsoleModel");
-        Entity secretCombination = new Entity("SecretCombination");
-        Entity proposedCombination = new Entity("ProposedCombination");
-        Entity result = new Entity("Result");
+        Unit masterMind = new Unit("Mastermind");
+        Unit withConsoleModel = new Unit("WithConsoleModel");
+        Unit secretCombination = new Unit("SecretCombination");
+        Unit proposedCombination = new Unit("ProposedCombination");
+        Unit result = new Unit("Result");
 
         String resultPrint = "class mastermind.Mastermind\n" +
                 "class mastermind.utils.WithConsoleModel\n" +
@@ -221,11 +221,11 @@ class ClassDiagramTest {
         ClassDiagram classDiagram = new ClassDiagram();
         Package model = new Package("mastermind");
         Package modelUtils = new Package("mastermind.utils");
-        Entity masterMind = new Entity("Mastermind");
-        Entity withConsoleModel = new Entity("WithConsoleModel");
-        Entity secretCombination = new Entity("SecretCombination");
-        Entity proposedCombination = new Entity("ProposedCombination");
-        Entity result = new Entity("Result");
+        Unit masterMind = new Unit("Mastermind");
+        Unit withConsoleModel = new Unit("WithConsoleModel");
+        Unit secretCombination = new Unit("SecretCombination");
+        Unit proposedCombination = new Unit("ProposedCombination");
+        Unit result = new Unit("Result");
 
         String resultPrint = "class mastermind.Mastermind\n" +
                 "class mastermind.utils.WithConsoleModel\n" +

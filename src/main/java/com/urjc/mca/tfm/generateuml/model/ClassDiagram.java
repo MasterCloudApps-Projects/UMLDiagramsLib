@@ -16,14 +16,14 @@ public class ClassDiagram {
     private static final String USE_RELATIONSHIP = " ..> ";
     private static final String CLASS_AND_SPACE = "class ";
 
-    List<Entity> classes = new ArrayList<>();
+    List<Unit> classes = new ArrayList<>();
 
-    public ClassDiagram addClass(Entity entity) {
+    public ClassDiagram addClass(Unit entity) {
         classes.add(entity);
         return this;
     }
 
-    public ClassDiagram addClasses(List<Entity> entities) {
+    public ClassDiagram addClasses(List<Unit> entities) {
         entities.forEach(this::addClass);
         return this;
     }
@@ -48,15 +48,15 @@ public class ClassDiagram {
         return className.toString() + relations.toString();
     }
 
-    public String printClassName(Entity entity) {
+    public String printClassName(Unit entity) {
         return CLASS_AND_SPACE + printName(entity) + LINE_BREAK;
     }
 
-    private String printName(Entity entity) {
+    private String printName(Unit entity) {
         return !StringUtils.isEmpty(entity.getModel().name) ? entity.getModel().name + DOT + entity.name : entity.name;
     }
 
-    public String printPart(Entity entity) {
+    public String printPart(Unit entity) {
         StringBuilder chain = new StringBuilder();
         if (!entity.getPartList().isEmpty()) {
             entity.getPartList().forEach(p -> chain.append(printName(entity) + PART_RELATIONSHIP + printName(p) + LINE_BREAK));
@@ -64,7 +64,7 @@ public class ClassDiagram {
         return chain.toString();
     }
 
-    public String printBase(Entity entity) {
+    public String printBase(Unit entity) {
         StringBuilder chain = new StringBuilder();
         if (!entity.getBase().isEmpty()) {
             entity.getBase().forEach(b -> chain.append(printName(b) + BASE_RELATIONSHIP + printName(entity) + LINE_BREAK));
@@ -72,7 +72,7 @@ public class ClassDiagram {
         return chain.toString();
     }
 
-    public String printElement(Entity entity) {
+    public String printElement(Unit entity) {
         StringBuilder chain = new StringBuilder();
         if (!entity.getElements().isEmpty()) {
             entity.getElements().forEach(e -> chain.append(printName(entity) + ELEMENT_RELATIONSHIP + printName(e) + LINE_BREAK));
@@ -80,7 +80,7 @@ public class ClassDiagram {
         return chain.toString();
     }
 
-    public String printAssociates(Entity entity) {
+    public String printAssociates(Unit entity) {
         StringBuilder chain = new StringBuilder();
         if (!entity.getAssociates().isEmpty()) {
             entity.getAssociates().forEach(a -> chain.append(printName(entity) + ASSOCIATION_RELATIONSHIP + printName(a) + LINE_BREAK));
@@ -88,7 +88,7 @@ public class ClassDiagram {
         return chain.toString();
     }
 
-    public String printUsed(Entity entity) {
+    public String printUsed(Unit entity) {
         StringBuilder chain = new StringBuilder();
         if (!entity.getUsed().isEmpty()) {
             entity.getUsed().forEach(u -> chain.append(printName(entity) + USE_RELATIONSHIP + printName(u) + LINE_BREAK));

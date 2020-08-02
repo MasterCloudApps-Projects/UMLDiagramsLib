@@ -6,24 +6,24 @@ import java.util.List;
 public class Package {
 
     public final String name;
-    private List<Entity> entityList = new ArrayList<>();
-    private Entity activeEntity;
+    private List<Unit> entityList = new ArrayList<>();
+    private Unit activeEntity;
 
     public Package(String name){
         this.name = name;
     }
 
-    public Package addEntity(Entity entity){
+    public Package addEntity(Unit entity){
         this.activeEntity = this.getEntity(entity);
         return this;
     }
 
     public Package addEntity(String entity){
-        return addEntity(new Entity(entity));
+        return addEntity(new Unit(entity));
     }
 
-    private Entity getEntity(Entity entity) {
-        Entity aux = getEntity(entity.name);
+    private Unit getEntity(Unit entity) {
+        Unit aux = getEntity(entity.name);
         if(aux == null){
             if(entity.getModel() == null)
                 entity.setModel(this);
@@ -33,57 +33,57 @@ public class Package {
         return aux;
     }
 
-    public Entity getEntity(String name){
+    public Unit getEntity(String name){
         return entityList.stream().filter(e -> e.name.equals(name)).findFirst().orElse(null);
     }
 
-    public Package addBase(Entity entity){
+    public Package addBase(Unit entity){
         this.activeEntity.addBase(getEntity(entity));
         return this;
     }
 
     public Package addBase(String entity){
-        return addBase(new Entity(entity));
+        return addBase(new Unit(entity));
     }
 
-    public Package addPart(Entity entity){
+    public Package addPart(Unit entity){
         this.activeEntity.addPart(getEntity(entity));
         return this;
     }
 
     public Package addPart(String entity){
-        return addPart(new Entity(entity));
+        return addPart(new Unit(entity));
     }
 
-    public Package addElement(Entity entity){
+    public Package addElement(Unit entity){
         this.activeEntity.addElement(getEntity(entity));
         return this;
     }
 
     public Package addElement(String entity){
-        return addElement(new Entity(entity));
+        return addElement(new Unit(entity));
     }
 
-    public Package addAssociate(Entity entity){
+    public Package addAssociate(Unit entity){
         this.activeEntity.addAssociate(getEntity(entity));
         return this;
     }
 
     public Package addAssociate(String entity){
-        return addAssociate(new Entity(entity));
+        return addAssociate(new Unit(entity));
     }
 
-    public Package addUsed(Entity entity){
+    public Package addUsed(Unit entity){
         this.activeEntity.addUsed(getEntity(entity));
         return this;
     }
 
     public Package addUsed(String entity){
-        return addUsed(new Entity(entity));
+        return addUsed(new Unit(entity));
     }
 
 
-    public List<Entity> getEntityList(){
+    public List<Unit> getEntityList(){
         return this.entityList;
     }
 }

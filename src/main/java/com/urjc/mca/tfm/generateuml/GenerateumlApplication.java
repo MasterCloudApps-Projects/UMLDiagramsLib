@@ -1,6 +1,6 @@
 package com.urjc.mca.tfm.generateuml;
 
-import com.urjc.mca.tfm.generateuml.model.Entity;
+import com.urjc.mca.tfm.generateuml.model.Unit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -24,9 +24,9 @@ public class GenerateumlApplication implements CommandLineRunner {
     public void run(String... args) throws Exception {
         log.info("EXECUTING : command line runner");
 
-        Entity entity = new Entity("Padre");
-        entity.addBase(new Entity("Abuelo"));
-        entity.addPart(new Entity("Hijo"));
+        Unit entity = new Unit("Padre");
+        entity.addBase(new Unit("Abuelo"));
+        entity.addPart(new Unit("Hijo"));
         entity.toString();
     }
 }
