@@ -53,7 +53,7 @@ public class ClassDiagram {
     }
 
     private String printName(Unit entity) {
-        return !StringUtils.isEmpty(entity.getModel().name) ? entity.getModel().name + DOT + entity.name : entity.name;
+        return !StringUtils.isEmpty(entity.getMyPackage()) ? entity.getMyPackage() + DOT + entity.name : entity.name;
     }
 
     public String printPart(Unit entity) {

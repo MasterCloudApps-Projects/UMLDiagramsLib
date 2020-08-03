@@ -25,8 +25,8 @@ public class Model {
     private Unit getEntity(Unit entity) {
         Unit aux = getEntity(entity.name);
         if(aux == null){
-            if(entity.getModel() == null)
-                entity.setModel(this);
+            if(entity.getMyPackage() == null)
+                entity.setMyPackage(this.name);
             entityList.add(entity);
             aux = entity;
         }
