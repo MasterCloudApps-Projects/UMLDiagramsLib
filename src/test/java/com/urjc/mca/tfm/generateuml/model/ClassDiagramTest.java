@@ -11,12 +11,12 @@ class ClassDiagramTest {
     @Test
     void printClassName(){
         Model model = new Model("model");
-        model.addEntity("Entity1").addEntity("Entity2");
+        model.addPackage("package").addEntity("Entity1").addEntity("Entity2");
         ClassDiagram classDiagram = new ClassDiagram();
 
         classDiagram.addClasses(model.getEntityList()).print();
 
-        String result = "class model.Entity1\nclass model.Entity2\n";
+        String result = "class package.Entity1\nclass package.Entity2\n";
         assertThat(classDiagram.print(), is(result));
 
     }
@@ -26,8 +26,8 @@ class ClassDiagramTest {
         ClassDiagram classDiagram = new ClassDiagram();
         Model model = new Model("model");
 
-        String result = "class model.Entity1\nclass model.Base\nmodel.Base <|-- model.Entity1\n";
-        model.addEntity("Entity1").addBase("Base");
+        String result = "class package.Entity1\nclass package.Base\npackage.Base <|-- package.Entity1\n";
+        model.addPackage("package").addEntity("Entity1").addBase("Base");
         classDiagram.addClasses(model.getEntityList()).print();
 
         assertThat(classDiagram.print(), is(result));
@@ -37,11 +37,9 @@ class ClassDiagramTest {
     void printPart(){
         ClassDiagram classDiagram = new ClassDiagram();
         Model model = new Model("model");
-        Unit firstEntity = new Unit("Entity1");
-        Unit partEntity = new Unit("Part");
 
-        String result = "class model.Entity1\nclass model.Part\nmodel.Entity1 *--> model.Part\n";
-        model.addEntity("Entity1").addPart("Part");
+        String result = "class package.Entity1\nclass package.Part\npackage.Entity1 *--> package.Part\n";
+        model.addPackage("package").addEntity("Entity1").addPart("Part");
         classDiagram.addClasses(model.getEntityList()).print();
 
         assertThat(classDiagram.print(), is(result));
@@ -54,8 +52,8 @@ class ClassDiagramTest {
         Unit firstEntity = new Unit("Entity1");
         Unit elementEntity = new Unit("Element");
 
-        String result = "class model.Entity1\nclass model.Element\nmodel.Entity1 o--> model.Element\n";
-        model.addEntity("Entity1").addElement("Element");
+        String result = "class package.Entity1\nclass package.Element\npackage.Entity1 o--> package.Element\n";
+        model.addPackage("package").addEntity("Entity1").addElement("Element");
         classDiagram.addClasses(model.getEntityList()).print();
 
         assertThat(classDiagram.print(), is(result));
@@ -68,8 +66,8 @@ class ClassDiagramTest {
         Unit firstEntity = new Unit("Entity1");
         Unit associateEntity = new Unit("Associate");
 
-        String result = "class model.Entity1\nclass model.Associate\nmodel.Entity1 --> model.Associate\n";
-        model.addEntity("Entity1").addAssociate("Associate");
+        String result = "class package.Entity1\nclass package.Associate\npackage.Entity1 --> package.Associate\n";
+        model.addPackage("package").addEntity("Entity1").addAssociate("Associate");
         classDiagram.addClasses(model.getEntityList()).print();
 
         assertThat(classDiagram.print(), is(result));
@@ -82,8 +80,8 @@ class ClassDiagramTest {
         Unit firstEntity = new Unit("Entity1");
         Unit usedEntity = new Unit("Used");
 
-        String result = "class model.Entity1\nclass model.Used\nmodel.Entity1 ..> model.Used\n";
-        model.addEntity("Entity1").addUsed("Used");
+        String result = "class package.Entity1\nclass package.Used\npackage.Entity1 ..> package.Used\n";
+        model.addPackage("package").addEntity("Entity1").addUsed("Used");
         classDiagram.addClasses(model.getEntityList()).print();
 
         assertThat(classDiagram.print(), is(result));
@@ -124,7 +122,7 @@ class ClassDiagramTest {
                 "mastermind.Combination *--> mastermind.SecretCombination\n";
 
 
-        model.addEntity("Mastermind").addBase("WithConsoleModel").addPart("SecretCombination").addPart("ProposedCombination")
+        model.addPackage("mastermind").addEntity("Mastermind").addBase("WithConsoleModel").addPart("SecretCombination").addPart("ProposedCombination")
                 .addPart("Result").addUsed("Message").addEntity("Combination").addBase("WithConsoleModel").addPart("Color")
         .addPart("SecretCombination").addEntity("SecretCombination").addBase("Combination").addUsed("ProposedCombination")
         .addUsed("Message").addUsed("Result").addEntity("ProposedCombination").addBase("Combination").addUsed("Error").addUsed("Message");
@@ -149,7 +147,7 @@ class ClassDiagramTest {
                 "mastermind.SecretCombination ..> mastermind.Result\n";
 
 
-        model.addEntity("Mastermind").addBase("WithConsoleModel").addPart("SecretCombination").addPart("ProposedCombination")
+        model.addPackage("mastermind").addEntity("Mastermind").addBase("WithConsoleModel").addPart("SecretCombination").addPart("ProposedCombination")
                 .addPart("Result").addUsed("Message")
                     .addEntity("Combination").addBase("WithConsoleModel").addPart("Color")
                     .addPart("SecretCombination")
@@ -203,7 +201,7 @@ class ClassDiagramTest {
 
 
         modelUtils.addEntity("WithConsoleModel");
-        model.addEntity("Mastermind").addBase("WithConsoleModel").addPart("SecretCombination").addPart("ProposedCombination")
+        model.addPackage("mastermind").addEntity("Mastermind").addPackage("mastermind.utils").addBase("WithConsoleModel").addPackage("mastermind").addPart("SecretCombination").addPart("ProposedCombination")
                 .addPart("Result").addUsed("Message").addEntity("Combination").addBase("WithConsoleModel").addPart("Color")
                 .addPart("SecretCombination").addEntity("SecretCombination").addBase("Combination").addUsed("ProposedCombination")
                 .addUsed("Message").addUsed("Result").addEntity("ProposedCombination").addBase("Combination").addUsed("Error").addUsed("Message");
@@ -248,15 +246,15 @@ class ClassDiagramTest {
                 "mastermind.Combination *--> mastermind.SecretCombination\n";
 
 
-        modelUtils.addEntity("WithConsoleModel");
-        model.addEntity("Mastermind").addBase("WithConsoleModel").addPart("SecretCombination").addPart("ProposedCombination")
+        //modelUtils.addPackage("mastermind.utils").addEntity("WithConsoleModel");
+        model.addPackage("mastermind").addEntity("Mastermind").addPackage("mastermind.utils").addBase("WithConsoleModel").addPackage("mastermind").addPart("SecretCombination").addPart("ProposedCombination")
                 .addPart("Result").addUsed("Message")
                 .addEntity("Combination").addBase("WithConsoleModel").addPart("Color")
                 .addPart("SecretCombination")
                 .addEntity("SecretCombination").addBase("Combination").addUsed("ProposedCombination")
                 .addUsed("Message").addUsed("Result")
                 .addEntity("ProposedCombination").addBase("Combination").addUsed("Error").addUsed("Message");
-        classDiagram.addModel(modelUtils).addModel(model).print();
+        classDiagram.addModel(model).print();
 
         assertThat(classDiagram.print(), is(resultPrint));
     }

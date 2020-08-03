@@ -14,7 +14,7 @@ class ModelTest {
         model.addEntity("Entity").addEntity("Entity");
 
         assertThat(model.getEntityList().size(), is(1));
-        assertThat(model.getEntityList().get(0), is("Entity"));
+        assertThat(model.getEntityList().get(0).name, is("Entity"));
     }
 
     @Test
@@ -26,7 +26,7 @@ class ModelTest {
         Unit entityModel = model.getEntity("Entity");
 
         assertThat(entityModel.getBase().size(), is(1));
-        assertThat(entityModel.getBase().contains("Base"), is(true));
+        assertThat(entityModel.getBase().contains(new Unit("Base")), is(true));
     }
 
     @Test
@@ -38,8 +38,8 @@ class ModelTest {
         Unit entityModel = model.getEntity("Entity");
 
         assertThat(entityModel.getBase().size(), is(2));
-        assertThat(entityModel.getBase().contains("Base"), is(true));
-        assertThat(entityModel.getBase().contains("Base2"), is(true));
+        assertThat(entityModel.getBase().contains(new Unit("Base")), is(true));
+        assertThat(entityModel.getBase().contains(new Unit("Base2")), is(true));
     }
 
     @Test
@@ -51,7 +51,7 @@ class ModelTest {
         Unit entityModel = model.getEntity("Entity");
 
         assertThat(entityModel.getPartList().size(), is(1));
-        assertThat(entityModel.getPartList().contains("Part"), is (true));
+        assertThat(entityModel.getPartList().contains(new Unit("Part")), is (true));
     }
 
     @Test
@@ -63,8 +63,8 @@ class ModelTest {
         Unit entityModel = model.getEntity("Entity");
 
         assertThat(entityModel.getPartList().size(), is(2));
-        assertThat(entityModel.getPartList().contains("Part"), is (true));
-        assertThat(entityModel.getPartList().contains("Part2"), is (true));
+        assertThat(entityModel.getPartList().contains(new Unit("Part")), is (true));
+        assertThat(entityModel.getPartList().contains(new Unit("Part2")), is (true));
     }
 
     @Test
@@ -76,7 +76,7 @@ class ModelTest {
         Unit entityModel = model.getEntity("Entity");
 
         assertThat(entityModel.getPartList().size(), is(1));
-        assertThat(entityModel.getPartList().contains("Element"), is (true));
+        assertThat(entityModel.getPartList().contains(new Unit("Element")), is (true));
     }
 
     @Test
@@ -88,8 +88,8 @@ class ModelTest {
         Unit entityModel = model.getEntity("Entity");
 
         assertThat(entityModel.getPartList().size(), is(2));
-        assertThat(entityModel.getPartList().contains("Element"), is (true));
-        assertThat(entityModel.getPartList().contains("Element2"), is (true));
+        assertThat(entityModel.getPartList().contains(new Unit("Element")), is (true));
+        assertThat(entityModel.getPartList().contains(new Unit("Element2")), is (true));
     }
 
     @Test
@@ -101,7 +101,7 @@ class ModelTest {
         Unit entityModel = model.getEntity("Entity");
 
         assertThat(entityModel.getPartList().size(), is(1));
-        assertThat(entityModel.getPartList().contains("Associate"), is (true));
+        assertThat(entityModel.getPartList().contains(new Unit("Associate")), is (true));
     }
 
     @Test
@@ -113,8 +113,8 @@ class ModelTest {
         Unit entityModel = model.getEntity("Entity");
 
         assertThat(entityModel.getPartList().size(), is(2));
-        assertThat(entityModel.getPartList().contains("Associate"), is (true));
-        assertThat(entityModel.getPartList().contains("Associate2"), is (true));
+        assertThat(entityModel.getPartList().contains(new Unit("Associate")), is (true));
+        assertThat(entityModel.getPartList().contains(new Unit("Associate2")), is (true));
     }
 
     @Test
@@ -126,7 +126,7 @@ class ModelTest {
         Unit entityModel = model.getEntity("Entity");
 
         assertThat(entityModel.getPartList().size(), is(1));
-        assertThat(entityModel.getPartList().contains("Used"), is (true));
+        assertThat(entityModel.getPartList().contains(new Unit("Used")), is (true));
     }
 
     @Test
@@ -138,8 +138,8 @@ class ModelTest {
         Unit entityModel = model.getEntity("Entity");
 
         assertThat(entityModel.getPartList().size(), is(2));
-        assertThat(entityModel.getPartList().contains("Used"), is (true));
-        assertThat(entityModel.getPartList().contains("Used2"), is (true));
+        assertThat(entityModel.getPartList().contains(new Unit("Used")), is (true));
+        assertThat(entityModel.getPartList().contains(new Unit("Used2")), is (true));
     }
 
     @Test

@@ -1,5 +1,7 @@
 package com.urjc.mca.tfm.generateuml.model;
 
+import org.springframework.util.StringUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,6 +10,7 @@ public class Model {
     public final String name;
     private List<Unit> entityList = new ArrayList<>();
     private Unit activeEntity;
+    private String activePackage;
 
     public Model(String name){
         this.name = name;
@@ -22,11 +25,21 @@ public class Model {
         return addEntity(new Unit(entity));
     }
 
+    public Model addPackage(String myPackage){
+        this.activePackage = myPackage;
+        return this;
+    }
+
+    public Model nonPackage(){
+        this.activePackage = "";
+        return this;
+    }
+
     private Unit getEntity(Unit entity) {
         Unit aux = getEntity(entity.name);
         if(aux == null){
-            if(entity.getMyPackage() == null)
-                entity.setMyPackage(this.name);
+            if(StringUtils.isEmpty(entity.getMyPackage()))
+                entity.setMyPackage(this.activePackage);
             entityList.add(entity);
             aux = entity;
         }
