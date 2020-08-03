@@ -28,7 +28,7 @@ public class ClassDiagram {
         return this;
     }
 
-    public ClassDiagram addModel(Package model) {
+    public ClassDiagram addModel(Model model) {
         this.addClasses(model.getEntityList());
         return this;
     }

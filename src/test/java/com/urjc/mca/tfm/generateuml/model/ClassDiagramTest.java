@@ -10,10 +10,8 @@ class ClassDiagramTest {
 
     @Test
     void printClassName(){
-        Package model = new Package("model");
-        Unit firstEntity = new Unit("Entity1");
-        Unit secondEntity = new Unit("Entity2");
-        model.addEntity(firstEntity).addEntity(secondEntity);
+        Model model = new Model("model");
+        model.addEntity("Entity1").addEntity("Entity2");
         ClassDiagram classDiagram = new ClassDiagram();
 
         classDiagram.addClasses(model.getEntityList()).print();
@@ -26,12 +24,10 @@ class ClassDiagramTest {
     @Test
     void printBase(){
         ClassDiagram classDiagram = new ClassDiagram();
-        Package model = new Package("model");
-        Unit firstEntity = new Unit("Entity1");
-        Unit baseEntity = new Unit("Base");
+        Model model = new Model("model");
 
         String result = "class model.Entity1\nclass model.Base\nmodel.Base <|-- model.Entity1\n";
-        model.addEntity(firstEntity).addBase(baseEntity);
+        model.addEntity("Entity1").addBase("Base");
         classDiagram.addClasses(model.getEntityList()).print();
 
         assertThat(classDiagram.print(), is(result));
@@ -40,12 +36,12 @@ class ClassDiagramTest {
     @Test
     void printPart(){
         ClassDiagram classDiagram = new ClassDiagram();
-        Package model = new Package("model");
+        Model model = new Model("model");
         Unit firstEntity = new Unit("Entity1");
         Unit partEntity = new Unit("Part");
 
         String result = "class model.Entity1\nclass model.Part\nmodel.Entity1 *--> model.Part\n";
-        model.addEntity(firstEntity).addPart(partEntity);
+        model.addEntity("Entity1").addPart("Part");
         classDiagram.addClasses(model.getEntityList()).print();
 
         assertThat(classDiagram.print(), is(result));
@@ -54,12 +50,12 @@ class ClassDiagramTest {
     @Test
     void printElement(){
         ClassDiagram classDiagram = new ClassDiagram();
-        Package model = new Package("model");
+        Model model = new Model("model");
         Unit firstEntity = new Unit("Entity1");
         Unit elementEntity = new Unit("Element");
 
         String result = "class model.Entity1\nclass model.Element\nmodel.Entity1 o--> model.Element\n";
-        model.addEntity(firstEntity).addElement(elementEntity);
+        model.addEntity("Entity1").addElement("Element");
         classDiagram.addClasses(model.getEntityList()).print();
 
         assertThat(classDiagram.print(), is(result));
@@ -68,12 +64,12 @@ class ClassDiagramTest {
     @Test
     void printAssociates(){
         ClassDiagram classDiagram = new ClassDiagram();
-        Package model = new Package("model");
+        Model model = new Model("model");
         Unit firstEntity = new Unit("Entity1");
         Unit associateEntity = new Unit("Associate");
 
         String result = "class model.Entity1\nclass model.Associate\nmodel.Entity1 --> model.Associate\n";
-        model.addEntity(firstEntity).addAssociate(associateEntity);
+        model.addEntity("Entity1").addAssociate("Associate");
         classDiagram.addClasses(model.getEntityList()).print();
 
         assertThat(classDiagram.print(), is(result));
@@ -82,12 +78,12 @@ class ClassDiagramTest {
     @Test
     void printUsed(){
         ClassDiagram classDiagram = new ClassDiagram();
-        Package model = new Package("model");
+        Model model = new Model("model");
         Unit firstEntity = new Unit("Entity1");
         Unit usedEntity = new Unit("Used");
 
         String result = "class model.Entity1\nclass model.Used\nmodel.Entity1 ..> model.Used\n";
-        model.addEntity(firstEntity).addUsed(usedEntity);
+        model.addEntity("Entity1").addUsed("Used");
         classDiagram.addClasses(model.getEntityList()).print();
 
         assertThat(classDiagram.print(), is(result));
@@ -96,7 +92,7 @@ class ClassDiagramTest {
     @Test
     void shouldBeReturnDiagramClassPractice1Design(){
         ClassDiagram classDiagram = new ClassDiagram();
-        Package model = new Package("mastermind");
+        Model model = new Model("mastermind");
         Unit masterMind = new Unit("Mastermind");
         Unit withConsoleModel = new Unit("WithConsoleModel");
         Unit secretCombination = new Unit("SecretCombination");
@@ -128,10 +124,10 @@ class ClassDiagramTest {
                 "mastermind.Combination *--> mastermind.SecretCombination\n";
 
 
-        model.addEntity(masterMind).addBase(withConsoleModel).addPart(secretCombination).addPart(proposedCombination)
-                .addPart(result).addUsed("Message").addEntity("Combination").addBase(withConsoleModel).addPart("Color")
-        .addPart(secretCombination).addEntity(secretCombination).addBase("Combination").addUsed(proposedCombination)
-        .addUsed("Message").addUsed(result).addEntity(proposedCombination).addBase("Combination").addUsed("Error").addUsed("Message");
+        model.addEntity("Mastermind").addBase("WithConsoleModel").addPart("SecretCombination").addPart("ProposedCombination")
+                .addPart("Result").addUsed("Message").addEntity("Combination").addBase("WithConsoleModel").addPart("Color")
+        .addPart("SecretCombination").addEntity("SecretCombination").addBase("Combination").addUsed("ProposedCombination")
+        .addUsed("Message").addUsed("Result").addEntity("ProposedCombination").addBase("Combination").addUsed("Error").addUsed("Message");
         classDiagram.addClasses(model.getEntityList()).print();
 
         assertThat(classDiagram.print(), is(resultPrint));
@@ -140,7 +136,7 @@ class ClassDiagramTest {
     @Test
     void shouldBeReturnSecretCombinationInDiagramClassPractice1Design(){
         ClassDiagram classDiagram = new ClassDiagram();
-        Package model = new Package("mastermind");
+        Model model = new Model("mastermind");
         Unit masterMind = new Unit("Mastermind");
         Unit withConsoleModel = new Unit("WithConsoleModel");
         Unit secretCombination = new Unit("SecretCombination");
@@ -153,15 +149,14 @@ class ClassDiagramTest {
                 "mastermind.SecretCombination ..> mastermind.Result\n";
 
 
-        model.addEntity(masterMind).addBase(withConsoleModel)
-                    .addPart(secretCombination).addPart(proposedCombination)
-                    .addPart(result).addUsed("Message")
-                    .addEntity("Combination").addBase(withConsoleModel).addPart("Color")
-                    .addPart(secretCombination)
-                .addEntity(secretCombination)
-                    .addBase("Combination").addUsed(proposedCombination)
-                    .addUsed("Message").addUsed(result)
-                .addEntity(proposedCombination)
+        model.addEntity("Mastermind").addBase("WithConsoleModel").addPart("SecretCombination").addPart("ProposedCombination")
+                .addPart("Result").addUsed("Message")
+                    .addEntity("Combination").addBase("WithConsoleModel").addPart("Color")
+                    .addPart("SecretCombination")
+                .addEntity("SecretCombination")
+                    .addBase("Combination").addUsed("ProposedCombination")
+                    .addUsed("Message").addUsed("Result")
+                .addEntity("ProposedCombination")
                     .addBase("Combination").addUsed("Error").addUsed("Message");
 
         classDiagram.addClasses(model.getEntity(secretCombination.name).getEferents()).print();
@@ -173,8 +168,8 @@ class ClassDiagramTest {
     @Test
     void shouldBeReturnDiagramClassPractice1DesignWithTwoModels(){
         ClassDiagram classDiagram = new ClassDiagram();
-        Package model = new Package("mastermind");
-        Package modelUtils = new Package("mastermind.utils");
+        Model model = new Model("mastermind");
+        Model modelUtils = new Model("mastermind.utils");
         Unit masterMind = new Unit("Mastermind");
         Unit withConsoleModel = new Unit("WithConsoleModel");
         Unit secretCombination = new Unit("SecretCombination");
@@ -207,11 +202,11 @@ class ClassDiagramTest {
                 "mastermind.Combination *--> mastermind.SecretCombination\n";
 
 
-        modelUtils.addEntity(withConsoleModel);
-        model.addEntity(masterMind).addBase(withConsoleModel).addPart(secretCombination).addPart(proposedCombination)
-                .addPart(result).addUsed("Message").addEntity("Combination").addBase(withConsoleModel).addPart("Color")
-                .addPart(secretCombination).addEntity(secretCombination).addBase("Combination").addUsed(proposedCombination)
-                .addUsed("Message").addUsed(result).addEntity(proposedCombination).addBase("Combination").addUsed("Error").addUsed("Message");
+        modelUtils.addEntity("WithConsoleModel");
+        model.addEntity("Mastermind").addBase("WithConsoleModel").addPart("SecretCombination").addPart("ProposedCombination")
+                .addPart("Result").addUsed("Message").addEntity("Combination").addBase("WithConsoleModel").addPart("Color")
+                .addPart("SecretCombination").addEntity("SecretCombination").addBase("Combination").addUsed("ProposedCombination")
+                .addUsed("Message").addUsed("Result").addEntity("ProposedCombination").addBase("Combination").addUsed("Error").addUsed("Message");
         classDiagram.addClasses(model.getEntityList()).print();
 
         assertThat(classDiagram.print(), is(resultPrint));
@@ -219,8 +214,8 @@ class ClassDiagramTest {
     @Test
     void shouldBeReturnDiagramClassPractice1DesignWithTwoModelsWhenAddModel(){
         ClassDiagram classDiagram = new ClassDiagram();
-        Package model = new Package("mastermind");
-        Package modelUtils = new Package("mastermind.utils");
+        Model model = new Model("mastermind");
+        Model modelUtils = new Model("mastermind.utils");
         Unit masterMind = new Unit("Mastermind");
         Unit withConsoleModel = new Unit("WithConsoleModel");
         Unit secretCombination = new Unit("SecretCombination");
@@ -253,31 +248,31 @@ class ClassDiagramTest {
                 "mastermind.Combination *--> mastermind.SecretCombination\n";
 
 
-        modelUtils.addEntity(withConsoleModel);
-        model.addEntity(masterMind).addBase(withConsoleModel).addPart(secretCombination).addPart(proposedCombination)
-                .addPart(result).addUsed("Message")
-                .addEntity("Combination").addBase(withConsoleModel).addPart("Color")
-                .addPart(secretCombination)
-                .addEntity(secretCombination).addBase("Combination").addUsed(proposedCombination)
-                .addUsed("Message").addUsed(result)
-                .addEntity(proposedCombination).addBase("Combination").addUsed("Error").addUsed("Message");
-        classDiagram.addModel(model).print();
+        modelUtils.addEntity("WithConsoleModel");
+        model.addEntity("Mastermind").addBase("WithConsoleModel").addPart("SecretCombination").addPart("ProposedCombination")
+                .addPart("Result").addUsed("Message")
+                .addEntity("Combination").addBase("WithConsoleModel").addPart("Color")
+                .addPart("SecretCombination")
+                .addEntity("SecretCombination").addBase("Combination").addUsed("ProposedCombination")
+                .addUsed("Message").addUsed("Result")
+                .addEntity("ProposedCombination").addBase("Combination").addUsed("Error").addUsed("Message");
+        classDiagram.addModel(modelUtils).addModel(model).print();
 
         assertThat(classDiagram.print(), is(resultPrint));
     }
 
-    @Test
-    void test(){
-        ClassDiagram classDiagram = new ClassDiagram();
-        Package model1 = new Package("model1");
-        Package model2 = new Package("model2");
-
-        model2.addEntity("entity2");
-        model1.addEntity("entity1").addPart("Part1").addBase(model2.getEntity("entity2"));
-
-//        classDiagram.addModel(model1).addModel(model2);
-        classDiagram.addClasses(model1.getEntityList());
-
-        System.out.println(classDiagram.print());
-    }
+//    @Test
+//    void test(){
+//        ClassDiagram classDiagram = new ClassDiagram();
+//        Package model1 = new Package("model1");
+//        Package model2 = new Package("model2");
+//
+//        model2.addEntity("entity2");
+//        model1.addEntity("entity1").addPart("Part1").addBase(model2.getEntity("entity2"));
+//
+////        classDiagram.addModel(model1).addModel(model2);
+//        classDiagram.addClasses(model1.getEntityList());
+//
+//        System.out.println(classDiagram.print());
+//    }
 }

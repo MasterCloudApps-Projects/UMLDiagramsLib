@@ -3,22 +3,22 @@ package com.urjc.mca.tfm.generateuml.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Package {
+public class Model {
 
     public final String name;
     private List<Unit> entityList = new ArrayList<>();
     private Unit activeEntity;
 
-    public Package(String name){
+    public Model(String name){
         this.name = name;
     }
 
-    public Package addEntity(Unit entity){
+    private Model addEntity(Unit entity){
         this.activeEntity = this.getEntity(entity);
         return this;
     }
 
-    public Package addEntity(String entity){
+    public Model addEntity(String entity){
         return addEntity(new Unit(entity));
     }
 
@@ -37,48 +37,48 @@ public class Package {
         return entityList.stream().filter(e -> e.name.equals(name)).findFirst().orElse(null);
     }
 
-    public Package addBase(Unit entity){
+    private Model addBase(Unit entity){
         this.activeEntity.addBase(getEntity(entity));
         return this;
     }
 
-    public Package addBase(String entity){
+    public Model addBase(String entity){
         return addBase(new Unit(entity));
     }
 
-    public Package addPart(Unit entity){
+    private Model addPart(Unit entity){
         this.activeEntity.addPart(getEntity(entity));
         return this;
     }
 
-    public Package addPart(String entity){
+    public Model addPart(String entity){
         return addPart(new Unit(entity));
     }
 
-    public Package addElement(Unit entity){
+    private Model addElement(Unit entity){
         this.activeEntity.addElement(getEntity(entity));
         return this;
     }
 
-    public Package addElement(String entity){
+    public Model addElement(String entity){
         return addElement(new Unit(entity));
     }
 
-    public Package addAssociate(Unit entity){
+    private Model addAssociate(Unit entity){
         this.activeEntity.addAssociate(getEntity(entity));
         return this;
     }
 
-    public Package addAssociate(String entity){
+    public Model addAssociate(String entity){
         return addAssociate(new Unit(entity));
     }
 
-    public Package addUsed(Unit entity){
+    private Model addUsed(Unit entity){
         this.activeEntity.addUsed(getEntity(entity));
         return this;
     }
 
-    public Package addUsed(String entity){
+    public Model addUsed(String entity){
         return addUsed(new Unit(entity));
     }
 

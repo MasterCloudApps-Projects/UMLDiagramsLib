@@ -10,7 +10,7 @@ public class Unit {
     private Set<Unit> elements = new HashSet<>();
     private Set<Unit> associates = new HashSet<>();
     private Set<Unit> used = new HashSet<>();
-    private Package model;
+    private Model model;
 
     public Unit(String name) {
         this.name = name;
@@ -36,11 +36,11 @@ public class Unit {
         used.add(entity);
     }
 
-    public Package getModel() {
+    public Model getModel() {
         return model;
     }
 
-    public void setModel(Package model) {
+    public void setModel(Model model) {
         this.model = model;
     }
 
