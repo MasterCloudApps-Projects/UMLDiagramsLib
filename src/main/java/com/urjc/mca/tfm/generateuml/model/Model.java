@@ -101,7 +101,11 @@ public class Model {
     }
 
     public Model addAttribute(String name){
-        this.activeEntity.addAttribute(new Attribute(name));
+        return addAttribute(name, null);
+    }
+
+    public Model addAttribute(String name, Visibility visibility){
+        this.activeEntity.addAttribute(new Attribute(name, visibility));
         return this;
     }
 }

@@ -4,6 +4,7 @@ import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class ClassDiagram {
 
@@ -38,7 +39,7 @@ public class ClassDiagram {
         StringBuilder relations = new StringBuilder();
 
         classes.forEach(e -> {
-            className.append(printClassName(e));
+            className.append(printClass(e));
             relations.append(printBase(e));
             relations.append(printPart(e));
             relations.append(printElement(e));
@@ -48,8 +49,28 @@ public class ClassDiagram {
         return className.toString() + relations.toString();
     }
 
-    public String printClassName(Unit entity) {
-        return CLASS_AND_SPACE + printName(entity) + LINE_BREAK;
+    private String printClass(Unit unit){
+        if(unit.getAttributes().size() > 0){
+            return printClassNameWithAttribute(unit);
+        }
+        else{
+            return printClassName(unit);
+        }
+    }
+
+    private String printClassName(Unit unit) {
+        return CLASS_AND_SPACE + printName(unit) + LINE_BREAK;
+    }
+
+    private String printClassNameWithAttribute(Unit unit){
+        return CLASS_AND_SPACE + printName(unit)
+                + "{" + LINE_BREAK + printAttributes(unit.getAttributes()) + "}";
+    }
+
+    private String printAttributes(Set<Attribute> attributes){
+        StringBuilder attributesString = new StringBuilder();
+        attributes.forEach( a -> attributesString.append(a.visibility.getCharacter() + " " + a.name + "\n"));
+        return attributesString.toString();
     }
 
     private String printName(Unit entity) {

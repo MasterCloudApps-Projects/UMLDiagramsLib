@@ -263,6 +263,76 @@ class ClassDiagramTest {
         assertThat(classDiagram.print(), is(resultPrint));
     }
 
+    @Test
+    void shouldBeReturnAttributeWithPublicVisibility(){
+        ClassDiagram classDiagram = new ClassDiagram();
+        Model model = new Model("model");
+        model.addUnit("unit").addAttribute("attribute", Visibility.PUBLIC);
+
+        classDiagram.addModel(model);
+
+        String resultPrint = "class unit{\n" +
+                            "+ attribute\n" +
+                            "}";
+        assertThat(classDiagram.print(), is(resultPrint));
+
+    }
+    @Test
+    void shouldBeReturnAttributeWithPrivateVisibility(){
+        ClassDiagram classDiagram = new ClassDiagram();
+        Model model = new Model("model");
+        model.addUnit("unit").addAttribute("attribute", Visibility.PRIVATE);
+
+        classDiagram.addModel(model);
+
+        String resultPrint = "class unit{\n" +
+                            "- attribute\n" +
+                            "}";
+        assertThat(classDiagram.print(), is(resultPrint));
+
+    }
+    @Test
+    void shouldBeReturnAttributeWithProtectedVisibility(){
+        ClassDiagram classDiagram = new ClassDiagram();
+        Model model = new Model("model");
+        model.addUnit("unit").addAttribute("attribute", Visibility.PROTECTED);
+
+        classDiagram.addModel(model);
+
+        String resultPrint = "class unit{\n" +
+                            "# attribute\n" +
+                            "}";
+        assertThat(classDiagram.print(), is(resultPrint));
+
+    }
+    @Test
+    void shouldBeReturnAttributeWithPackageVisibility(){
+        ClassDiagram classDiagram = new ClassDiagram();
+        Model model = new Model("model");
+        model.addUnit("unit").addAttribute("attribute", Visibility.PACKAGE);
+
+        classDiagram.addModel(model);
+
+        String resultPrint = "class unit{\n" +
+                            "~ attribute\n" +
+                            "}";
+        assertThat(classDiagram.print(), is(resultPrint));
+
+    }
+    @Test
+    void shouldBeReturnAttributeWithoutVisibility(){
+        ClassDiagram classDiagram = new ClassDiagram();
+        Model model = new Model("model");
+        model.addUnit("unit").addAttribute("attribute", Visibility.EMPTY_VISIBILITY);
+
+        classDiagram.addModel(model);
+
+        String resultPrint = "class unit{\n" +
+                            " attribute\n" +
+                            "}";
+        assertThat(classDiagram.print(), is(resultPrint));
+
+    }
 //    @Test
 //    void test(){
 //        ClassDiagram classDiagram = new ClassDiagram();

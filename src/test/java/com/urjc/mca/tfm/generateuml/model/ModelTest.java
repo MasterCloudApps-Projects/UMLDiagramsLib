@@ -189,4 +189,48 @@ class ModelTest {
         assertThat(unitModel.getAttributes().contains(new Attribute("attribute")), is(true));
 
     }
+
+    @Test
+    public void shouldBeReturnAUnitWithAttributeAndVisibilityPublic(){
+        Model model = new Model("model");
+        model.addUnit("unit").addAttribute("attribute",Visibility.PUBLIC);
+
+        Unit unitModel = model.getUnit("unit");
+        Attribute attribute = unitModel.getAttributes().stream().filter(new Attribute("attribute")::equals).findAny().orElse(null);
+        assertThat(unitModel.getAttributes().contains(new Attribute("attribute")), is(true));
+        assertThat(attribute.visibility, is(Visibility.PUBLIC));
+    }
+
+    @Test
+    public void shouldBeReturnAUnitWithAttributeAndVisibilityPrivate(){
+        Model model = new Model("model");
+        model.addUnit("unit").addAttribute("attribute",Visibility.PRIVATE);
+
+        Unit unitModel = model.getUnit("unit");
+        Attribute attribute = unitModel.getAttributes().stream().filter(new Attribute("attribute")::equals).findAny().orElse(null);
+        assertThat(unitModel.getAttributes().contains(new Attribute("attribute")), is(true));
+        assertThat(attribute.visibility, is(Visibility.PRIVATE));
+    }
+
+    @Test
+    public void shouldBeReturnAUnitWithAttributeAndVisibilityProtected(){
+        Model model = new Model("model");
+        model.addUnit("unit").addAttribute("attribute",Visibility.PROTECTED);
+
+        Unit unitModel = model.getUnit("unit");
+        Attribute attribute = unitModel.getAttributes().stream().filter(new Attribute("attribute")::equals).findAny().orElse(null);
+        assertThat(unitModel.getAttributes().contains(new Attribute("attribute")), is(true));
+        assertThat(attribute.visibility, is(Visibility.PROTECTED));
+    }
+
+    @Test
+    public void shouldBeReturnAUnitWithAttributeAndVisibilityPackage(){
+        Model model = new Model("model");
+        model.addUnit("unit").addAttribute("attribute",Visibility.PACKAGE);
+
+        Unit unitModel = model.getUnit("unit");
+        Attribute attribute = unitModel.getAttributes().stream().filter(new Attribute("attribute")::equals).findAny().orElse(null);
+        assertThat(unitModel.getAttributes().contains(new Attribute("attribute")), is(true));
+        assertThat(attribute.visibility, is(Visibility.PACKAGE));
+    }
 }
