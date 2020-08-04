@@ -99,4 +99,9 @@ public class Model {
     public List<Unit> getUnitList(){
         return this.unitList;
     }
+
+    public Model addAttribute(String name){
+        this.activeEntity.addAttribute(new Attribute(name));
+        return this;
+    }
 }

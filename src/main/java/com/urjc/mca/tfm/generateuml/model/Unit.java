@@ -11,6 +11,7 @@ public class Unit {
     private Set<Unit> associates = new HashSet<>();
     private Set<Unit> used = new HashSet<>();
     private String myPackage;
+    private Set<Attribute> attributes = new HashSet<>();
 
     public Unit(String name) {
         this.name = name;
@@ -86,5 +87,13 @@ public class Unit {
     @Override
     public int hashCode() {
         return Objects.hash(name);
+    }
+
+    public void addAttribute(Attribute name) {
+        this.attributes.add(name);
+    }
+
+    public Set<Attribute> getAttributes(){
+        return this.attributes;
     }
 }

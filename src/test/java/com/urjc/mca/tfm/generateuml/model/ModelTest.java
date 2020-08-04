@@ -179,4 +179,14 @@ class ModelTest {
         assertThat(unit2Model.getMyPackage(), is (""));
     }
 
+    @Test
+    public void shouldBeReturnAUnitWithAttribute(){
+        Model model = new Model("model");
+        model.addUnit("unit").addAttribute("attribute");
+
+        Unit unitModel = model.getUnit("unit");
+
+        assertThat(unitModel.getAttributes().contains(new Attribute("attribute")), is(true));
+
+    }
 }
