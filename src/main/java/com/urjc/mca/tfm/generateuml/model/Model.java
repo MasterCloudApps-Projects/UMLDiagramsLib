@@ -8,7 +8,7 @@ import java.util.List;
 public class Model {
 
     public final String name;
-    private List<Unit> entityList = new ArrayList<>();
+    private List<Unit> unitList = new ArrayList<>();
     private Unit activeEntity;
     private String activePackage;
 
@@ -16,13 +16,13 @@ public class Model {
         this.name = name;
     }
 
-    private Model addEntity(Unit entity){
-        this.activeEntity = this.getEntity(entity);
+    private Model addUnit(Unit unit){
+        this.activeEntity = this.getUnit(unit);
         return this;
     }
 
-    public Model addEntity(String entity){
-        return addEntity(new Unit(entity));
+    public Model addUnit(String entity){
+        return addUnit(new Unit(entity));
     }
 
     public Model addPackage(String myPackage){
@@ -35,68 +35,68 @@ public class Model {
         return this;
     }
 
-    private Unit getEntity(Unit entity) {
-        Unit aux = getEntity(entity.name);
+    private Unit getUnit(Unit unit) {
+        Unit aux = getUnit(unit.name);
         if(aux == null){
-            if(StringUtils.isEmpty(entity.getMyPackage()))
-                entity.setMyPackage(this.activePackage);
-            entityList.add(entity);
-            aux = entity;
+            if(StringUtils.isEmpty(unit.getMyPackage()))
+                unit.setMyPackage(this.activePackage);
+            unitList.add(unit);
+            aux = unit;
         }
         return aux;
     }
 
-    public Unit getEntity(String name){
-        return entityList.stream().filter(e -> e.name.equals(name)).findFirst().orElse(null);
+    public Unit getUnit(String name){
+        return unitList.stream().filter(e -> e.name.equals(name)).findFirst().orElse(null);
     }
 
-    private Model addBase(Unit entity){
-        this.activeEntity.addBase(getEntity(entity));
+    private Model addBase(Unit unit){
+        this.activeEntity.addBase(getUnit(unit));
         return this;
     }
 
-    public Model addBase(String entity){
-        return addBase(new Unit(entity));
+    public Model addBase(String unit){
+        return addBase(new Unit(unit));
     }
 
-    private Model addPart(Unit entity){
-        this.activeEntity.addPart(getEntity(entity));
+    private Model addPart(Unit unit){
+        this.activeEntity.addPart(getUnit(unit));
         return this;
     }
 
-    public Model addPart(String entity){
-        return addPart(new Unit(entity));
+    public Model addPart(String unit){
+        return addPart(new Unit(unit));
     }
 
-    private Model addElement(Unit entity){
-        this.activeEntity.addElement(getEntity(entity));
+    private Model addElement(Unit unit){
+        this.activeEntity.addElement(getUnit(unit));
         return this;
     }
 
-    public Model addElement(String entity){
-        return addElement(new Unit(entity));
+    public Model addElement(String unit){
+        return addElement(new Unit(unit));
     }
 
-    private Model addAssociate(Unit entity){
-        this.activeEntity.addAssociate(getEntity(entity));
+    private Model addAssociate(Unit unit){
+        this.activeEntity.addAssociate(getUnit(unit));
         return this;
     }
 
-    public Model addAssociate(String entity){
-        return addAssociate(new Unit(entity));
+    public Model addAssociate(String unit){
+        return addAssociate(new Unit(unit));
     }
 
-    private Model addUsed(Unit entity){
-        this.activeEntity.addUsed(getEntity(entity));
+    private Model addUsed(Unit unit){
+        this.activeEntity.addUsed(getUnit(unit));
         return this;
     }
 
-    public Model addUsed(String entity){
-        return addUsed(new Unit(entity));
+    public Model addUsed(String unit){
+        return addUsed(new Unit(unit));
     }
 
 
-    public List<Unit> getEntityList(){
-        return this.entityList;
+    public List<Unit> getUnitList(){
+        return this.unitList;
     }
 }

@@ -8,153 +8,175 @@ import static org.hamcrest.core.Is.is;
 class ModelTest {
 
     @Test
-    void shouldBeReturnTheFirstEntityWhenAddClass(){
+    void shouldBeReturnTheFirstUnitWhenAddClass(){
 
         Model model = new Model("model");
-        model.addEntity("Entity").addEntity("Entity");
+        model.addUnit("unit").addUnit("unit");
 
-        assertThat(model.getEntityList().size(), is(1));
-        assertThat(model.getEntityList().get(0).name, is("Entity"));
+        assertThat(model.getUnitList().size(), is(1));
+        assertThat(model.getUnitList().get(0).name, is("unit"));
     }
 
     @Test
-    void shouldBeReturnTheFirstBaseEntity(){
+    void shouldBeReturnTheFirstBaseUnit(){
 
         Model model = new Model("model");
-        model.addEntity("Entity").addBase("Base").addBase("Base");
+        model.addUnit("unit").addBase("Base").addBase("Base");
 
-        Unit entityModel = model.getEntity("Entity");
+        Unit unitModel = model.getUnit("unit");
 
-        assertThat(entityModel.getBase().size(), is(1));
-        assertThat(entityModel.getBase().contains(new Unit("Base")), is(true));
+        assertThat(unitModel.getBase().size(), is(1));
+        assertThat(unitModel.getBase().contains(new Unit("Base")), is(true));
     }
 
     @Test
-    void shouldBeReturnTheFirstBaseAndSecondBaseEntity(){
+    void shouldBeReturnTheFirstBaseAndSecondBaseUnit(){
 
         Model model = new Model("model");
-        model.addEntity("Entity").addBase("Base").addBase("Base2");
+        model.addUnit("unit").addBase("Base").addBase("Base2");
 
-        Unit entityModel = model.getEntity("Entity");
+        Unit unitModel = model.getUnit("unit");
 
-        assertThat(entityModel.getBase().size(), is(2));
-        assertThat(entityModel.getBase().contains(new Unit("Base")), is(true));
-        assertThat(entityModel.getBase().contains(new Unit("Base2")), is(true));
+        assertThat(unitModel.getBase().size(), is(2));
+        assertThat(unitModel.getBase().contains(new Unit("Base")), is(true));
+        assertThat(unitModel.getBase().contains(new Unit("Base2")), is(true));
     }
 
     @Test
-    void shouldBeReturnTheFirstPartEntity(){
+    void shouldBeReturnTheFirstPartUnit(){
 
         Model model = new Model("model");
-        model.addEntity("Entity").addPart("Part").addPart("Part");
+        model.addUnit("unit").addPart("Part").addPart("Part");
 
-        Unit entityModel = model.getEntity("Entity");
+        Unit unitModel = model.getUnit("unit");
 
-        assertThat(entityModel.getPartList().size(), is(1));
-        assertThat(entityModel.getPartList().contains(new Unit("Part")), is (true));
+        assertThat(unitModel.getPartList().size(), is(1));
+        assertThat(unitModel.getPartList().contains(new Unit("Part")), is (true));
     }
 
     @Test
-    void shouldBeReturnTheFirstAndSecondPartEntity(){
+    void shouldBeReturnTheFirstAndSecondPartUnit(){
 
         Model model = new Model("model");
-        model.addEntity("Entity").addPart("Part").addPart("Part2");
+        model.addUnit("unit").addPart("Part").addPart("Part2");
 
-        Unit entityModel = model.getEntity("Entity");
+        Unit unitModel = model.getUnit("unit");
 
-        assertThat(entityModel.getPartList().size(), is(2));
-        assertThat(entityModel.getPartList().contains(new Unit("Part")), is (true));
-        assertThat(entityModel.getPartList().contains(new Unit("Part2")), is (true));
+        assertThat(unitModel.getPartList().size(), is(2));
+        assertThat(unitModel.getPartList().contains(new Unit("Part")), is (true));
+        assertThat(unitModel.getPartList().contains(new Unit("Part2")), is (true));
     }
 
     @Test
-    void shouldBeReturnTheFirstElementEntity(){
+    void shouldBeReturnTheFirstElementUnit(){
 
         Model model = new Model("model");
-        model.addEntity("Entity").addPart("Element").addPart("Element");
+        model.addUnit("unit").addPart("Element").addPart("Element");
 
-        Unit entityModel = model.getEntity("Entity");
+        Unit unitModel = model.getUnit("unit");
 
-        assertThat(entityModel.getPartList().size(), is(1));
-        assertThat(entityModel.getPartList().contains(new Unit("Element")), is (true));
+        assertThat(unitModel.getPartList().size(), is(1));
+        assertThat(unitModel.getPartList().contains(new Unit("Element")), is (true));
     }
 
     @Test
-    void shouldBeReturnTheFirstAndSecondElementEntity(){
+    void shouldBeReturnTheFirstAndSecondElementUnit(){
 
         Model model = new Model("model");
-        model.addEntity("Entity").addPart("Element").addPart("Element2");
+        model.addUnit("unit").addPart("Element").addPart("Element2");
 
-        Unit entityModel = model.getEntity("Entity");
+        Unit unitModel = model.getUnit("unit");
 
-        assertThat(entityModel.getPartList().size(), is(2));
-        assertThat(entityModel.getPartList().contains(new Unit("Element")), is (true));
-        assertThat(entityModel.getPartList().contains(new Unit("Element2")), is (true));
+        assertThat(unitModel.getPartList().size(), is(2));
+        assertThat(unitModel.getPartList().contains(new Unit("Element")), is (true));
+        assertThat(unitModel.getPartList().contains(new Unit("Element2")), is (true));
     }
 
     @Test
-    void shouldBeReturnTheFirstAssociateEntity(){
+    void shouldBeReturnTheFirstAssociateUnit(){
 
         Model model = new Model("model");
-        model.addEntity("Entity").addPart("Associate").addPart("Associate");
+        model.addUnit("unit").addPart("Associate").addPart("Associate");
 
-        Unit entityModel = model.getEntity("Entity");
+        Unit unitModel = model.getUnit("unit");
 
-        assertThat(entityModel.getPartList().size(), is(1));
-        assertThat(entityModel.getPartList().contains(new Unit("Associate")), is (true));
+        assertThat(unitModel.getPartList().size(), is(1));
+        assertThat(unitModel.getPartList().contains(new Unit("Associate")), is (true));
     }
 
     @Test
-    void shouldBeReturnTheFirstAndSecondAssociateEntity(){
+    void shouldBeReturnTheFirstAndSecondAssociateUnit(){
 
         Model model = new Model("model");
-        model.addEntity("Entity").addPart("Associate").addPart("Associate2");
+        model.addUnit("unit").addPart("Associate").addPart("Associate2");
 
-        Unit entityModel = model.getEntity("Entity");
+        Unit unitModel = model.getUnit("unit");
 
-        assertThat(entityModel.getPartList().size(), is(2));
-        assertThat(entityModel.getPartList().contains(new Unit("Associate")), is (true));
-        assertThat(entityModel.getPartList().contains(new Unit("Associate2")), is (true));
+        assertThat(unitModel.getPartList().size(), is(2));
+        assertThat(unitModel.getPartList().contains(new Unit("Associate")), is (true));
+        assertThat(unitModel.getPartList().contains(new Unit("Associate2")), is (true));
     }
 
     @Test
-    void shouldBeReturnTheFirstUsedEntity(){
+    void shouldBeReturnTheFirstUsedUnit(){
 
         Model model = new Model("model");
-        model.addEntity("Entity").addPart("Used").addPart("Used");
+        model.addUnit("unit").addPart("Used").addPart("Used");
 
-        Unit entityModel = model.getEntity("Entity");
+        Unit unitModel = model.getUnit("unit");
 
-        assertThat(entityModel.getPartList().size(), is(1));
-        assertThat(entityModel.getPartList().contains(new Unit("Used")), is (true));
+        assertThat(unitModel.getPartList().size(), is(1));
+        assertThat(unitModel.getPartList().contains(new Unit("Used")), is (true));
     }
 
     @Test
-    void shouldBeReturnTheFirstAndSecondUsedEntity(){
+    void shouldBeReturnTheFirstAndSecondUsedUnit(){
 
         Model model = new Model("model");
-        model.addEntity("Entity").addPart("Used").addPart("Used2");
+        model.addUnit("unit").addPart("Used").addPart("Used2");
 
-        Unit entityModel = model.getEntity("Entity");
+        Unit unitModel = model.getUnit("unit");
 
-        assertThat(entityModel.getPartList().size(), is(2));
-        assertThat(entityModel.getPartList().contains(new Unit("Used")), is (true));
-        assertThat(entityModel.getPartList().contains(new Unit("Used2")), is (true));
+        assertThat(unitModel.getPartList().size(), is(2));
+        assertThat(unitModel.getPartList().contains(new Unit("Used")), is (true));
+        assertThat(unitModel.getPartList().contains(new Unit("Used2")), is (true));
     }
 
     @Test
     void shouldBeReturnBasePartElementAssociateUsedWithStringCreateMethod(){
 
         Model model = new Model("model");
-        model.addEntity("Entity").addBase("Base").addAssociate("Associate").addElement("Element").addPart("Part")
+        model.addUnit("unit").addBase("Base").addAssociate("Associate").addElement("Element").addPart("Part")
                 .addUsed("Used");
 
-        Unit entityModel = model.getEntity("Entity");
+        Unit unitModel = model.getUnit("unit");
 
-        assertThat(entityModel.getPartList().contains(new Unit("Part")), is (true));
-        assertThat(entityModel.getBase().contains(new Unit("Base")), is (true));
-        assertThat(entityModel.getElements().contains(new Unit("Element")), is (true));
-        assertThat(entityModel.getAssociates().contains(new Unit("Associate")), is (true));
-        assertThat(entityModel.getUsed().contains(new Unit("Used")), is (true));
+        assertThat(unitModel.getPartList().contains(new Unit("Part")), is (true));
+        assertThat(unitModel.getBase().contains(new Unit("Base")), is (true));
+        assertThat(unitModel.getElements().contains(new Unit("Element")), is (true));
+        assertThat(unitModel.getAssociates().contains(new Unit("Associate")), is (true));
+        assertThat(unitModel.getUsed().contains(new Unit("Used")), is (true));
     }
+
+    @Test
+    public void shouldBeReturnUnitWithPackage(){
+        Model model = new Model("");
+        model.addPackage("package").addUnit("unit");
+
+        Unit unitModel = model.getUnit("unit");
+        assertThat(unitModel.getMyPackage(), is ("package"));
+    }
+
+    @Test
+    public void shouldBeReturnUnitWithoutPackage(){
+        Model model = new Model("");
+        model.addPackage("package").addUnit("unit").nonPackage().addUnit("unit2");
+
+        Unit unitModel = model.getUnit("unit");
+        Unit unit2Model = model.getUnit("unit2");
+
+        assertThat(unitModel.getMyPackage(), is ("package"));
+        assertThat(unit2Model.getMyPackage(), is (""));
+    }
+
 }
