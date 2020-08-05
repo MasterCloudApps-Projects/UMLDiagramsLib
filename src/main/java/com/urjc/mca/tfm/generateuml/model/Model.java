@@ -101,11 +101,15 @@ public class Model {
     }
 
     public Model addAttribute(String name){
-        return addAttribute(name, null);
+        return addAttribute(name, Visibility.EMPTY_VISIBILITY);
     }
 
     public Model addAttribute(String name, Visibility visibility){
-        this.activeEntity.addAttribute(new Attribute(name, visibility));
+        return addAttribute(name, Visibility.EMPTY_VISIBILITY, Type.EMPTY_TYPE);
+    }
+
+    public Model addAttribute(String name, Visibility visibility, Type type){
+        this.activeEntity.addAttribute(new Attribute(name, visibility, type));
         return this;
     }
 }

@@ -1,6 +1,8 @@
 package com.urjc.mca.tfm.generateuml.model;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
@@ -230,7 +232,21 @@ class ModelTest {
 
         Unit unitModel = model.getUnit("unit");
         Attribute attribute = unitModel.getAttributes().stream().filter(new Attribute("attribute")::equals).findAny().orElse(null);
+
         assertThat(unitModel.getAttributes().contains(new Attribute("attribute")), is(true));
         assertThat(attribute.visibility, is(Visibility.PACKAGE));
+    }
+
+    @ParameterizedTest
+    @EnumSource(Type.class)
+    void test(Type type){
+        Model model = new Model("model");
+        model.addUnit("unit").addAttribute("attribute",Visibility.PACKAGE, type);
+
+        Unit unitModel = model.getUnit("unit");
+        Attribute attribute = unitModel.getAttributes().stream().filter(new Attribute("attribute")::equals).findAny().orElse(null);
+
+        assertThat(unitModel.getAttributes().contains(new Attribute("attribute")), is(true));
+        assertThat(attribute.type, is(type));
     }
 }
