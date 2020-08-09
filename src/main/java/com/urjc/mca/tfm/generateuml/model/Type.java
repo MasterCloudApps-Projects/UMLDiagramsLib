@@ -17,4 +17,8 @@ public enum Type {
     public String getDescrption(String type){
         return description + "<" + type + ">";
     }
+
+    public void setDescription(String name){
+        this.description = name;
+    }
 }
