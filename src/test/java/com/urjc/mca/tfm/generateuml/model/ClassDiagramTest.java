@@ -10,7 +10,7 @@ class ClassDiagramTest {
 
     @Test
     void printClassName(){
-        Model model = new Model("model");
+        Domain model = new Domain("model");
         model.addPackage("package")
                 .addUnit("Entity1")
                 .addUnit("Entity2");
@@ -26,7 +26,7 @@ class ClassDiagramTest {
 
     @Test
     void printBase(){
-        Model model = new Model("model");
+        Domain model = new Domain("model");
         model.addPackage("package")
                 .addUnit("Entity1")
                 .addBase("Base");
@@ -43,7 +43,7 @@ class ClassDiagramTest {
     @Test
     void printPart(){
         ClassDiagram classDiagram = new ClassDiagram();
-        Model model = new Model("model");
+        Domain model = new Domain("model");
         model.addPackage("package")
                 .addUnit("Entity1")
                 .addPart("Part");
@@ -59,7 +59,7 @@ class ClassDiagramTest {
     @Test
     void printElement(){
         ClassDiagram classDiagram = new ClassDiagram();
-        Model model = new Model("model");
+        Domain model = new Domain("model");
         model.addPackage("package")
                 .addUnit("Entity1")
                 .addElement("Element");
@@ -75,7 +75,7 @@ class ClassDiagramTest {
     @Test
     void printAssociates(){
         ClassDiagram classDiagram = new ClassDiagram();
-        Model model = new Model("model");
+        Domain model = new Domain("model");
         model.addPackage("package")
                 .addUnit("Entity1")
                 .addAssociate("Associate");
@@ -91,7 +91,7 @@ class ClassDiagramTest {
     @Test
     void printUsed(){
         ClassDiagram classDiagram = new ClassDiagram();
-        Model model = new Model("model");
+        Domain model = new Domain("model");
         model.addPackage("package")
                 .addUnit("Entity1")
                 .addUsed("Used");
@@ -107,7 +107,7 @@ class ClassDiagramTest {
     @Test
     void shouldBeReturnDiagramClassPractice1Design(){
         ClassDiagram classDiagram = new ClassDiagram();
-        Model model = new Model("mastermind");
+        Domain model = new Domain("mastermind");
         model.addPackage("mastermind")
                 .addUnit("Mastermind").addBase("WithConsoleModel").addPart("SecretCombination").addPart("ProposedCombination")
                 .addPart("Result").addUsed("Message")
@@ -149,7 +149,7 @@ class ClassDiagramTest {
     @Test
     void shouldBeReturnSecretCombinationInDiagramClassPractice1Design(){
         ClassDiagram classDiagram = new ClassDiagram();
-        Model model = new Model("mastermind");
+        Domain model = new Domain("mastermind");
         model.addPackage("mastermind")
                 .addUnit("Mastermind").addBase("WithConsoleModel").addPart("SecretCombination").addPart("ProposedCombination")
                 .addPart("Result").addUsed("Message")
@@ -174,7 +174,7 @@ class ClassDiagramTest {
     @Test
     void shouldBeReturnAfferentUnit(){
         ClassDiagram classDiagram = new ClassDiagram();
-        Model model = new Model("mastermind");
+        Domain model = new Domain("mastermind");
         model.addUnit("X")
                 .addBase("Base_de_X")
                 .addPart("Parte_de_X")
@@ -189,7 +189,7 @@ class ClassDiagramTest {
                 .addUnit("Descendiente_de_X")
                 .addBase("X");
 
-        classDiagram.addClasses(model.getUnit("X").getEfferent());
+        classDiagram.addClasses(model.getAfferent("X"));
         String resultPrint = "class Todo_de_X\n" +
                 "class Usa_X\n" +
                 "class Asociado_a_X\n" +
@@ -197,7 +197,7 @@ class ClassDiagramTest {
                 "Todo_de_X *--> X\n" +
                 "Usa_X ..> X\n" +
                 "Asociado_a_X --> X\n" +
-                "X <|-- Descendiente_de_X";
+                "X <|-- Descendiente_de_X\n";
         assertThat(classDiagram.print(), is(resultPrint));
 
     }
@@ -205,8 +205,8 @@ class ClassDiagramTest {
     @Test
     void shouldBeReturnDiagramClassPractice1DesignWithTwoModels(){
         ClassDiagram classDiagram = new ClassDiagram();
-        Model model = new Model("mastermind");
-        Model modelUtils = new Model("mastermind.utils");
+        Domain model = new Domain("mastermind");
+        Domain modelUtils = new Domain("mastermind.utils");
         modelUtils.addUnit("WithConsoleModel");
         model.addPackage("mastermind")
                 .addUnit("Mastermind").addPackage("mastermind.utils").addBase("WithConsoleModel").addPackage("mastermind").addPart("SecretCombination").addPart("ProposedCombination")
@@ -247,7 +247,7 @@ class ClassDiagramTest {
     @Test
     void shouldBeReturnDiagramClassPractice1DesignWithTwoModelsWhenAddModel(){
         ClassDiagram classDiagram = new ClassDiagram();
-        Model model = new Model("mastermind");
+        Domain model = new Domain("mastermind");
         model.addPackage("mastermind")
                 .addUnit("Mastermind")
                 .addPackage("mastermind.utils")
@@ -296,7 +296,7 @@ class ClassDiagramTest {
     @Test
     void shouldBeReturnAttributeWithPublicVisibility(){
         ClassDiagram classDiagram = new ClassDiagram();
-        Model model = new Model("model");
+        Domain model = new Domain("model");
         model.addUnit("unit").addAttribute("attribute", Visibility.PUBLIC);
 
         classDiagram.addModel(model);
@@ -310,7 +310,7 @@ class ClassDiagramTest {
     @Test
     void shouldBeReturnAttributeWithPrivateVisibility(){
         ClassDiagram classDiagram = new ClassDiagram();
-        Model model = new Model("model");
+        Domain model = new Domain("model");
         model.addUnit("unit").addAttribute("attribute", Visibility.PRIVATE);
 
         classDiagram.addModel(model);
@@ -324,7 +324,7 @@ class ClassDiagramTest {
     @Test
     void shouldBeReturnAttributeWithProtectedVisibility(){
         ClassDiagram classDiagram = new ClassDiagram();
-        Model model = new Model("model");
+        Domain model = new Domain("model");
         model.addUnit("unit").addAttribute("attribute", Visibility.PROTECTED);
 
         classDiagram.addModel(model);
@@ -338,7 +338,7 @@ class ClassDiagramTest {
     @Test
     void shouldBeReturnAttributeWithPackageVisibility(){
         ClassDiagram classDiagram = new ClassDiagram();
-        Model model = new Model("model");
+        Domain model = new Domain("model");
         model.addUnit("unit").addAttribute("attribute", Visibility.PACKAGE);
 
         classDiagram.addModel(model);
@@ -352,7 +352,7 @@ class ClassDiagramTest {
     @Test
     void shouldBeReturnAttributeWithoutVisibility(){
         ClassDiagram classDiagram = new ClassDiagram();
-        Model model = new Model("model");
+        Domain model = new Domain("model");
         model.addUnit("unit").addAttribute("attribute", Visibility.EMPTY_VISIBILITY);
 
         classDiagram.addModel(model);

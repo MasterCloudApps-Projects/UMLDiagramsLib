@@ -5,32 +5,32 @@ import org.springframework.util.StringUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Model {
+public class Domain {
 
     public final String name;
     private List<Unit> unitList = new ArrayList<>();
     private Unit activeEntity;
     private String activePackage;
 
-    public Model(String name){
+    public Domain(String name){
         this.name = name;
     }
 
-    private Model addUnit(Unit unit){
+    private Domain addUnit(Unit unit){
         this.activeEntity = this.getUnit(unit);
         return this;
     }
 
-    public Model addUnit(String entity){
+    public Domain addUnit(String entity){
         return addUnit(new Unit(entity));
     }
 
-    public Model addPackage(String myPackage){
+    public Domain addPackage(String myPackage){
         this.activePackage = myPackage;
         return this;
     }
 
-    public Model nonPackage(){
+    public Domain nonPackage(){
         this.activePackage = "";
         return this;
     }
@@ -50,48 +50,48 @@ public class Model {
         return unitList.stream().filter(e -> e.name.equals(name)).findFirst().orElse(null);
     }
 
-    private Model addBase(Unit unit){
+    private Domain addBase(Unit unit){
         this.activeEntity.addBase(getUnit(unit));
         return this;
     }
 
-    public Model addBase(String unit){
+    public Domain addBase(String unit){
         return addBase(new Unit(unit));
     }
 
-    private Model addPart(Unit unit){
+    private Domain addPart(Unit unit){
         this.activeEntity.addPart(getUnit(unit));
         return this;
     }
 
-    public Model addPart(String unit){
+    public Domain addPart(String unit){
         return addPart(new Unit(unit));
     }
 
-    private Model addElement(Unit unit){
+    private Domain addElement(Unit unit){
         this.activeEntity.addElement(getUnit(unit));
         return this;
     }
 
-    public Model addElement(String unit){
+    public Domain addElement(String unit){
         return addElement(new Unit(unit));
     }
 
-    private Model addAssociate(Unit unit){
+    private Domain addAssociate(Unit unit){
         this.activeEntity.addAssociate(getUnit(unit));
         return this;
     }
 
-    public Model addAssociate(String unit){
+    public Domain addAssociate(String unit){
         return addAssociate(new Unit(unit));
     }
 
-    private Model addUsed(Unit unit){
+    private Domain addUsed(Unit unit){
         this.activeEntity.addUsed(getUnit(unit));
         return this;
     }
 
-    public Model addUsed(String unit){
+    public Domain addUsed(String unit){
         return addUsed(new Unit(unit));
     }
 
@@ -100,15 +100,15 @@ public class Model {
         return this.unitList;
     }
 
-    public Model addAttribute(String name){
+    public Domain addAttribute(String name){
         return addAttribute(name, Visibility.EMPTY_VISIBILITY);
     }
 
-    public Model addAttribute(String name, Visibility visibility){
-        return addAttribute(name, Visibility.EMPTY_VISIBILITY, Type.EMPTY_TYPE);
+    public Domain addAttribute(String name, Visibility visibility){
+        return addAttribute(name, visibility, Type.EMPTY_TYPE);
     }
 
-    public Model addAttribute(String name, Visibility visibility, Type type){
+    public Domain addAttribute(String name, Visibility visibility, Type type){
         this.activeEntity.addAttribute(new Attribute(name, visibility, type));
         return this;
     }

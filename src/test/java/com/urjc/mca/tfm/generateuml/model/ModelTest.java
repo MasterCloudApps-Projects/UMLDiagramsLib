@@ -12,7 +12,7 @@ class ModelTest {
     @Test
     void shouldBeReturnTheFirstUnitWhenAddClass(){
 
-        Model model = new Model("model");
+        Domain model = new Domain("model");
         model.addUnit("unit").addUnit("unit");
 
         assertThat(model.getUnitList().size(), is(1));
@@ -22,7 +22,7 @@ class ModelTest {
     @Test
     void shouldBeReturnTheFirstBaseUnit(){
 
-        Model model = new Model("model");
+        Domain model = new Domain("model");
         model.addUnit("unit").addBase("Base").addBase("Base");
 
         Unit unitModel = model.getUnit("unit");
@@ -34,7 +34,7 @@ class ModelTest {
     @Test
     void shouldBeReturnTheFirstBaseAndSecondBaseUnit(){
 
-        Model model = new Model("model");
+        Domain model = new Domain("model");
         model.addUnit("unit").addBase("Base").addBase("Base2");
 
         Unit unitModel = model.getUnit("unit");
@@ -47,7 +47,7 @@ class ModelTest {
     @Test
     void shouldBeReturnTheFirstPartUnit(){
 
-        Model model = new Model("model");
+        Domain model = new Domain("model");
         model.addUnit("unit").addPart("Part").addPart("Part");
 
         Unit unitModel = model.getUnit("unit");
@@ -59,7 +59,7 @@ class ModelTest {
     @Test
     void shouldBeReturnTheFirstAndSecondPartUnit(){
 
-        Model model = new Model("model");
+        Domain model = new Domain("model");
         model.addUnit("unit").addPart("Part").addPart("Part2");
 
         Unit unitModel = model.getUnit("unit");
@@ -72,7 +72,7 @@ class ModelTest {
     @Test
     void shouldBeReturnTheFirstElementUnit(){
 
-        Model model = new Model("model");
+        Domain model = new Domain("model");
         model.addUnit("unit").addPart("Element").addPart("Element");
 
         Unit unitModel = model.getUnit("unit");
@@ -84,7 +84,7 @@ class ModelTest {
     @Test
     void shouldBeReturnTheFirstAndSecondElementUnit(){
 
-        Model model = new Model("model");
+        Domain model = new Domain("model");
         model.addUnit("unit").addPart("Element").addPart("Element2");
 
         Unit unitModel = model.getUnit("unit");
@@ -97,7 +97,7 @@ class ModelTest {
     @Test
     void shouldBeReturnTheFirstAssociateUnit(){
 
-        Model model = new Model("model");
+        Domain model = new Domain("model");
         model.addUnit("unit").addPart("Associate").addPart("Associate");
 
         Unit unitModel = model.getUnit("unit");
@@ -109,7 +109,7 @@ class ModelTest {
     @Test
     void shouldBeReturnTheFirstAndSecondAssociateUnit(){
 
-        Model model = new Model("model");
+        Domain model = new Domain("model");
         model.addUnit("unit").addPart("Associate").addPart("Associate2");
 
         Unit unitModel = model.getUnit("unit");
@@ -122,7 +122,7 @@ class ModelTest {
     @Test
     void shouldBeReturnTheFirstUsedUnit(){
 
-        Model model = new Model("model");
+        Domain model = new Domain("model");
         model.addUnit("unit").addPart("Used").addPart("Used");
 
         Unit unitModel = model.getUnit("unit");
@@ -134,7 +134,7 @@ class ModelTest {
     @Test
     void shouldBeReturnTheFirstAndSecondUsedUnit(){
 
-        Model model = new Model("model");
+        Domain model = new Domain("model");
         model.addUnit("unit").addPart("Used").addPart("Used2");
 
         Unit unitModel = model.getUnit("unit");
@@ -147,7 +147,7 @@ class ModelTest {
     @Test
     void shouldBeReturnBasePartElementAssociateUsedWithStringCreateMethod(){
 
-        Model model = new Model("model");
+        Domain model = new Domain("model");
         model.addUnit("unit").addBase("Base").addAssociate("Associate").addElement("Element").addPart("Part")
                 .addUsed("Used");
 
@@ -162,7 +162,7 @@ class ModelTest {
 
     @Test
     public void shouldBeReturnUnitWithPackage(){
-        Model model = new Model("");
+        Domain model = new Domain("");
         model.addPackage("package").addUnit("unit");
 
         Unit unitModel = model.getUnit("unit");
@@ -171,7 +171,7 @@ class ModelTest {
 
     @Test
     public void shouldBeReturnUnitWithoutPackage(){
-        Model model = new Model("");
+        Domain model = new Domain("");
         model.addPackage("package").addUnit("unit").nonPackage().addUnit("unit2");
 
         Unit unitModel = model.getUnit("unit");
@@ -183,7 +183,7 @@ class ModelTest {
 
     @Test
     public void shouldBeReturnAUnitWithAttribute(){
-        Model model = new Model("model");
+        Domain model = new Domain("model");
         model.addUnit("unit").addAttribute("attribute");
 
         Unit unitModel = model.getUnit("unit");
@@ -194,7 +194,7 @@ class ModelTest {
 
     @Test
     public void shouldBeReturnAUnitWithAttributeAndVisibilityPublic(){
-        Model model = new Model("model");
+        Domain model = new Domain("model");
         model.addUnit("unit").addAttribute("attribute",Visibility.PUBLIC);
 
         Unit unitModel = model.getUnit("unit");
@@ -205,7 +205,7 @@ class ModelTest {
 
     @Test
     public void shouldBeReturnAUnitWithAttributeAndVisibilityPrivate(){
-        Model model = new Model("model");
+        Domain model = new Domain("model");
         model.addUnit("unit").addAttribute("attribute",Visibility.PRIVATE);
 
         Unit unitModel = model.getUnit("unit");
@@ -216,7 +216,7 @@ class ModelTest {
 
     @Test
     public void shouldBeReturnAUnitWithAttributeAndVisibilityProtected(){
-        Model model = new Model("model");
+        Domain model = new Domain("model");
         model.addUnit("unit").addAttribute("attribute",Visibility.PROTECTED);
 
         Unit unitModel = model.getUnit("unit");
@@ -227,7 +227,7 @@ class ModelTest {
 
     @Test
     public void shouldBeReturnAUnitWithAttributeAndVisibilityPackage(){
-        Model model = new Model("model");
+        Domain model = new Domain("model");
         model.addUnit("unit").addAttribute("attribute",Visibility.PACKAGE);
 
         Unit unitModel = model.getUnit("unit");
@@ -240,7 +240,7 @@ class ModelTest {
     @ParameterizedTest
     @EnumSource(Type.class)
     void test(Type type){
-        Model model = new Model("model");
+        Domain model = new Domain("model");
         model.addUnit("unit").addAttribute("attribute",Visibility.PACKAGE, type);
 
         Unit unitModel = model.getUnit("unit");

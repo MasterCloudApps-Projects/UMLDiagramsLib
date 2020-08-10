@@ -29,7 +29,7 @@ public class ClassDiagram {
         return this;
     }
 
-    public ClassDiagram addModel(Model model) {
+    public ClassDiagram addModel(Domain model) {
         this.addClasses(model.getUnitList());
         return this;
     }
