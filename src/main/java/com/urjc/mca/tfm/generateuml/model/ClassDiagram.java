@@ -50,7 +50,7 @@ public class ClassDiagram {
     }
 
     private String printClass(Unit unit){
-        if(unit.getAttributes().size() > 0){
+        if(!unit.getAttributes().isEmpty()){
             return printClassNameWithAttribute(unit);
         }
         else{

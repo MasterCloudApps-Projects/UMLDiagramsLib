@@ -161,7 +161,7 @@ class ModelTest {
     }
 
     @Test
-    public void shouldBeReturnUnitWithPackage(){
+    void shouldBeReturnUnitWithPackage(){
         Domain model = new Domain("");
         model.addPackage("package").addUnit("unit");
 
@@ -170,7 +170,7 @@ class ModelTest {
     }
 
     @Test
-    public void shouldBeReturnUnitWithoutPackage(){
+    void shouldBeReturnUnitWithoutPackage(){
         Domain model = new Domain("");
         model.addPackage("package").addUnit("unit").nonPackage().addUnit("unit2");
 
@@ -182,7 +182,7 @@ class ModelTest {
     }
 
     @Test
-    public void shouldBeReturnAUnitWithAttribute(){
+    void shouldBeReturnAUnitWithAttribute(){
         Domain model = new Domain("model");
         model.addUnit("unit").addAttribute("attribute");
 
@@ -193,7 +193,7 @@ class ModelTest {
     }
 
     @Test
-    public void shouldBeReturnAUnitWithAttributeAndVisibilityPublic(){
+    void shouldBeReturnAUnitWithAttributeAndVisibilityPublic(){
         Domain model = new Domain("model");
         model.addUnit("unit").addAttribute("attribute",Visibility.PUBLIC);
 
@@ -204,7 +204,7 @@ class ModelTest {
     }
 
     @Test
-    public void shouldBeReturnAUnitWithAttributeAndVisibilityPrivate(){
+    void shouldBeReturnAUnitWithAttributeAndVisibilityPrivate(){
         Domain model = new Domain("model");
         model.addUnit("unit").addAttribute("attribute",Visibility.PRIVATE);
 
@@ -215,7 +215,7 @@ class ModelTest {
     }
 
     @Test
-    public void shouldBeReturnAUnitWithAttributeAndVisibilityProtected(){
+    void shouldBeReturnAUnitWithAttributeAndVisibilityProtected(){
         Domain model = new Domain("model");
         model.addUnit("unit").addAttribute("attribute",Visibility.PROTECTED);
 
@@ -226,7 +226,7 @@ class ModelTest {
     }
 
     @Test
-    public void shouldBeReturnAUnitWithAttributeAndVisibilityPackage(){
+    void shouldBeReturnAUnitWithAttributeAndVisibilityPackage(){
         Domain model = new Domain("model");
         model.addUnit("unit").addAttribute("attribute",Visibility.PACKAGE);
 

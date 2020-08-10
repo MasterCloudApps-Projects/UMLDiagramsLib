@@ -15,7 +15,6 @@ public class GenerateumlApplication implements CommandLineRunner {
 
     public static void main(String[] args) {
         log.info("STARTING THE APPLICATION");
-//        SpringApplication.run(SpringBootConsoleApplication.class, args);
         SpringApplication.run(GenerateumlApplication.class, args);
         log.info("APPLICATION FINISHED");
     }

@@ -66,14 +66,8 @@ public class Unit {
     }
 
     public List<Unit> getEfferent(){
-
-        //Cogemos las "bases" o no es necesario y solo tomamos los descendientes?
         List<Unit> efferents = new ArrayList<>();
         efferents.add(this);
-//        partList.forEach(p -> efferents.add(p));
-//        elements.forEach(e -> efferents.add(e));
-//        associates.forEach(a -> efferents.add(a));
-//        used.forEach(u -> efferents.add(u));
         return efferents;
     }
 
