@@ -112,4 +112,23 @@ public class Model {
         this.activeEntity.addAttribute(new Attribute(name, visibility, type));
         return this;
     }
+
+    public List<Unit> getAfferent(String unit){
+        List<Unit> afferent = new ArrayList<>();
+
+        unitList.forEach( u -> {
+            if (u.getBase().contains(new Unit(unit)))
+                afferent.add(u);
+            if (u.getPartList().contains(new Unit(unit)))
+                afferent.add(u);
+            if (u.getAssociates().contains(new Unit(unit)))
+                afferent.add(u);
+            if (u.getElements().contains(new Unit(unit)))
+                afferent.add(u);
+            if (u.getUsed().contains(new Unit(unit)))
+                afferent.add(u);
+        });
+
+        return afferent;
+    }
 }

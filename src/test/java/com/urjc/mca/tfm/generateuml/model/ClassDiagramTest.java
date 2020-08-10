@@ -161,7 +161,7 @@ class ClassDiagramTest {
                 .addUnit("ProposedCombination")
                 .addBase("Combination").addUsed("Error").addUsed("Message");
 
-        classDiagram.addClasses(model.getUnit("SecretCombination").getEferents()).print();
+        classDiagram.addClasses(model.getUnit("SecretCombination").getEfferent());
 
         String resultPrint = "class mastermind.SecretCombination\n" +
                 "mastermind.Combination <|-- mastermind.SecretCombination\n" +
@@ -171,6 +171,36 @@ class ClassDiagramTest {
         assertThat(classDiagram.print(), is(resultPrint));
     }
 
+    @Test
+    void shouldBeReturnAfferentUnit(){
+        ClassDiagram classDiagram = new ClassDiagram();
+        Model model = new Model("mastermind");
+        model.addUnit("X")
+                .addBase("Base_de_X")
+                .addPart("Parte_de_X")
+                .addAssociate("Asociada_de_X")
+                .addUsed("Usada_por_X")
+                .addUnit("Todo_de_X")
+                .addPart("X")
+                .addUnit("Usa_X")
+                .addUsed("X")
+                .addUnit("Asociado_a_X")
+                .addAssociate("X")
+                .addUnit("Descendiente_de_X")
+                .addBase("X");
+
+        classDiagram.addClasses(model.getUnit("X").getEfferent());
+        String resultPrint = "class Todo_de_X\n" +
+                "class Usa_X\n" +
+                "class Asociado_a_X\n" +
+                "class Descendiente_de_X\n" +
+                "Todo_de_X *--> X\n" +
+                "Usa_X ..> X\n" +
+                "Asociado_a_X --> X\n" +
+                "X <|-- Descendiente_de_X";
+        assertThat(classDiagram.print(), is(resultPrint));
+
+    }
 
     @Test
     void shouldBeReturnDiagramClassPractice1DesignWithTwoModels(){

@@ -65,17 +65,19 @@ public class Unit {
         return this.used;
     }
 
-    public List<Unit> getEferents(){
+    public List<Unit> getEfferent(){
 
         //Cogemos las "bases" o no es necesario y solo tomamos los descendientes?
-        List<Unit> eferents = new ArrayList<>();
-        eferents.add(this);
-//        partList.forEach(p -> eferents.add(p));
-//        elements.forEach(e -> eferents.add(e));
-//        associates.forEach(a -> eferents.add(a));
-//        used.forEach(u -> eferents.add(u));
-        return eferents;
+        List<Unit> efferents = new ArrayList<>();
+        efferents.add(this);
+//        partList.forEach(p -> efferents.add(p));
+//        elements.forEach(e -> efferents.add(e));
+//        associates.forEach(a -> efferents.add(a));
+//        used.forEach(u -> efferents.add(u));
+        return efferents;
     }
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
