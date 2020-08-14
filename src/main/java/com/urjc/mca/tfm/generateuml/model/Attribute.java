@@ -6,17 +6,19 @@ public class Attribute {
 
     public final String name;
     public final Visibility visibility;
-    public final Type type;
+//    public final Type type;
+    public final String type;
 
     public Attribute(String name){
         this(name, Visibility.EMPTY_VISIBILITY);
     }
 
     public Attribute(String name, Visibility visibility){
-        this(name, visibility, Type.EMPTY_TYPE);
+//        this(name, visibility, Type.EMPTY_TYPE);
+        this(name, visibility, "");
     }
 
-    public Attribute(String name, Visibility visibility, Type type){
+    public Attribute(String name, Visibility visibility, String type){
         this.name = name;
         this.visibility = visibility;
         this.type = type;

@@ -105,10 +105,10 @@ public class Domain {
     }
 
     public Domain addAttribute(String name, Visibility visibility){
-        return addAttribute(name, visibility, Type.EMPTY_TYPE);
+        return addAttribute(name, visibility, "");
     }
 
-    public Domain addAttribute(String name, Visibility visibility, Type type){
+    public Domain addAttribute(String name, Visibility visibility, String type){
         this.activeEntity.addAttribute(new Attribute(name, visibility, type));
         return this;
     }

@@ -11,10 +11,10 @@ public enum Type {
     }
 
     public String getDescription(){
-        return getDescrption("");
+        return getDescription("");
     }
 
-    public String getDescrption(String type){
+    public String getDescription(String type){
         return description + "<" + type + ">";
     }
 
