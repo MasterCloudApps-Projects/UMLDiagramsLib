@@ -46,7 +46,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
           mvn -B -f pom.xml sonar:sonar \
-          -Dsonar.projectKey='pjcalvo_urjc_mca_tfm_uml_diagrams_lib' \
+          -Dsonar.projectKey='pjcalvo84_UMLDiagramsLib' \
           -Dsonar.projectName='UMLDiagramsLib' \
           -Dsonar.host.url=https://sonarcloud.io \
           -Dsonar.organization=pjcalvo \
