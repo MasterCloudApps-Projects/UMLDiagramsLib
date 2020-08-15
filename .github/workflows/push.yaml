@@ -41,32 +41,7 @@ jobs:
           path: target/site/jacoco/jacoco.xml
 
       - name: SonarCloud Scan
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: |
-          mvn -B -f pom.xml sonar:sonar \
-          -Dsonar.projectKey='pjcalvo84_UMLDiagramsLib' \
-          -Dsonar.projectName='UMLDiagramsLib' \
-          -Dsonar.host.url=https://sonarcloud.io \
-          -Dsonar.organization=pjcalvo84 \
-          -Dsonar.branch=master \
-          -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
-          -Dsonar.java.coveragePlugin=jacoco \
-          -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
-
-      - name: Run SonarCloud analyse
-        run: >
-          ./mvnw --batch-mode
-          -Pcoverage
-          clean verify
-          sonar:sonar
-          -Dsonar.host.url=https://sonarcloud.io
-          -Dsonar.organization=pjcalvo84
-          -Dsonar.projectKey=pjcalvo84_UMLDiagramsLib
-          -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml,target/site/jacoco-it/jacoco.xml
-          -Dsonar.javascript.lcov.reportPaths=target/js-coverage/lcov.info
-          -Dsonar.coverage.exclusions=**/__tests__/**
+        uses: sonarsource/sonarcloud-github-action@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
