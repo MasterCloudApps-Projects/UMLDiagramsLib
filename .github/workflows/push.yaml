@@ -1,6 +1,6 @@
 name: 'PR: Build, Test & Analysis'
 
-on: [push, pull_request]
+on: [push]
 
 jobs:
   pull_request_build_analysis:
@@ -41,7 +41,16 @@ jobs:
           path: target/site/jacoco/jacoco.xml
 
       - name: SonarCloud Scan
-        uses: sonarsource/sonarcloud-github-action@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+          mvn -B -f pom.xml sonar:sonar \
+          -Dsonar.projectKey='pjcalvo_urjc_mca_tfm_uml_diagrams_lib' \
+          -Dsonar.projectName='UMLDiagramsLib' \
+          -Dsonar.host.url=https://sonarcloud.io \
+          -Dsonar.organization=pjcalvo84 \
+          -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
+          -Dsonar.java.coveragePlugin=jacoco \
+          -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
+
