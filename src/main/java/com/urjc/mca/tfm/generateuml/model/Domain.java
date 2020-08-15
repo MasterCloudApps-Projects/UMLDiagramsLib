@@ -109,7 +109,11 @@ public class Domain {
     }
 
     public Domain addAttribute(String name, Visibility visibility, String type){
-        this.activeEntity.addAttribute(new Attribute(name, visibility, type));
+        return addAttribute(name, visibility, type, false);
+    }
+
+    public Domain addAttribute(String name, Visibility visibility, String type, boolean staticAttribute){
+        this.activeEntity.addAttribute(new Attribute(name, visibility, type, staticAttribute));
         return this;
     }
 

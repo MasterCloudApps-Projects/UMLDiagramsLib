@@ -248,4 +248,30 @@ class ModelTest {
         assertThat(unitModel.getAttributes().contains(new Attribute("attribute")), is(true));
         assertThat(attribute.type, is("String"));
     }
+
+    @Test
+    void shouldBeReturnStaticAttribute(){
+        Domain model = new Domain("model");
+        model.addUnit("unit").addAttribute("attribute",Visibility.PACKAGE, "String", true);
+
+        Unit unitModel = model.getUnit("unit");
+        Attribute attribute = unitModel.getAttributes().stream().filter(new Attribute("attribute")::equals).findAny().orElse(null);
+
+        assertThat(unitModel.getAttributes().contains(new Attribute("attribute")), is(true));
+        assertThat(attribute.type, is("String"));
+        assertThat(attribute.staticAtribute, is(true));
+    }
+
+    @Test
+    void shouldBeReturnNotStaticAttribute(){
+        Domain model = new Domain("model");
+        model.addUnit("unit").addAttribute("attribute",Visibility.PACKAGE, "String");
+
+        Unit unitModel = model.getUnit("unit");
+        Attribute attribute = unitModel.getAttributes().stream().filter(new Attribute("attribute")::equals).findAny().orElse(null);
+
+        assertThat(unitModel.getAttributes().contains(new Attribute("attribute")), is(true));
+        assertThat(attribute.type, is("String"));
+        assertThat(attribute.staticAtribute, is(false));
+    }
 }
