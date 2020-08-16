@@ -122,11 +122,11 @@ public class Domain {
     }
 
     public Domain addFunction(String name, Visibility visibility){
-        return addFunction(name, Visibility.EMPTY_VISIBILITY, "");
+        return addFunction(name, visibility, "");
     }
 
     public Domain addFunction(String name, Visibility visibility, String returnType){
-        return addFunction(name, Visibility.EMPTY_VISIBILITY, "", null);
+        return addFunction(name, visibility, returnType, null);
     }
 
     public Domain addFunction(String name, Visibility visibility, String returnType, String[] parameters){
