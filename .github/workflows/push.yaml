@@ -1,6 +1,6 @@
 name: 'Build, Test & Analysis'
 
-on: [push, pull_request]
+on: [push]
 
 jobs:
   pull_request_build_analysis:
