@@ -38,8 +38,8 @@ public class Function {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Attribute attribute = (Attribute) o;
-        return Objects.equals(name, attribute.name);
+        Function function = (Function) o;
+        return Objects.equals(name, function.name);
     }
 
     @Override

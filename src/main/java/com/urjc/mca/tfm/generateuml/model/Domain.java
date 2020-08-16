@@ -117,6 +117,27 @@ public class Domain {
         return this;
     }
 
+    public Domain addFunction(String name){
+        return addFunction(name, Visibility.EMPTY_VISIBILITY);
+    }
+
+    public Domain addFunction(String name, Visibility visibility){
+        return addFunction(name, Visibility.EMPTY_VISIBILITY, "");
+    }
+
+    public Domain addFunction(String name, Visibility visibility, String returnType){
+        return addFunction(name, Visibility.EMPTY_VISIBILITY, "", null);
+    }
+
+    public Domain addFunction(String name, Visibility visibility, String returnType, String[] parameters){
+        return addFunction(name, visibility, returnType, parameters, false);
+    }
+
+    public Domain addFunction(String name, Visibility visibility, String returnType, String[] parameters, boolean staticFunction){
+        this.activeEntity.addFunction(new Function(name, visibility, returnType, parameters, staticFunction));
+        return this;
+    }
+
     public List<Unit> getAfferent(String unit){
         List<Unit> afferent = new ArrayList<>();
 

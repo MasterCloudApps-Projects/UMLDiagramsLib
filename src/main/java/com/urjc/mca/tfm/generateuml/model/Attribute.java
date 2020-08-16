@@ -8,7 +8,7 @@ public class Attribute {
     public final Visibility visibility;
 //    public final Type type;
     public final String type;
-    public final boolean staticAtribute;
+    public final boolean staticAttribute;
 
     public Attribute(String name){
         this(name, Visibility.EMPTY_VISIBILITY);
@@ -23,11 +23,11 @@ public class Attribute {
         this(name, visibility, type, false);
     }
 
-    public Attribute(String name, Visibility visibility, String type, boolean staticAtribute){
+    public Attribute(String name, Visibility visibility, String type, boolean staticAttribute){
         this.name = name;
         this.visibility = visibility;
         this.type = type;
-        this.staticAtribute = staticAtribute;
+        this.staticAttribute = staticAttribute;
     }
 
     @Override
