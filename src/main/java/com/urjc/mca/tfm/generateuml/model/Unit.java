@@ -12,6 +12,7 @@ public class Unit {
     private Set<Unit> used = new HashSet<>();
     private String myPackage;
     private Set<Attribute> attributes = new HashSet<>();
+    private Set<Function> functions = new HashSet<>();
 
     public Unit(String name) {
         this.name = name;
@@ -91,5 +92,13 @@ public class Unit {
 
     public Set<Attribute> getAttributes(){
         return this.attributes;
+    }
+
+    public void addFunction(Function function){
+        this.functions.add(function);
+    }
+
+    public Set<Function> getFunctions(){
+        return this.functions;
     }
 }

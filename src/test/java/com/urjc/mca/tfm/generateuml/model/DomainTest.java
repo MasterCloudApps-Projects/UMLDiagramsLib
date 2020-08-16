@@ -1,11 +1,13 @@
 package com.urjc.mca.tfm.generateuml.model;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
-class ModelTest {
+class DomainTest {
 
     @Test
     void shouldBeReturnTheFirstUnitWhenAddClass(){
@@ -259,7 +261,7 @@ class ModelTest {
 
         assertThat(unitModel.getAttributes().contains(new Attribute("attribute")), is(true));
         assertThat(attribute.type, is("String"));
-        assertThat(attribute.staticAtribute, is(true));
+        assertThat(attribute.staticAttribute, is(true));
     }
 
     @Test
@@ -272,6 +274,93 @@ class ModelTest {
 
         assertThat(unitModel.getAttributes().contains(new Attribute("attribute")), is(true));
         assertThat(attribute.type, is("String"));
-        assertThat(attribute.staticAtribute, is(false));
+        assertThat(attribute.staticAttribute, is(false));
+    }
+
+    @Test
+    void shouldBeReturnFunction(){
+        Domain domain = new Domain("domain");
+        domain.addUnit("unit").addFunction("function");
+
+        Unit unitModel = domain.getUnit("unit");
+
+        assertThat(unitModel.getFunctions().contains(new Function("function")), is(true));
+    }
+
+    @ParameterizedTest
+    @EnumSource(Visibility.class)
+    void shouldBeReturnFunctionWithVisibility(Visibility visibility){
+        Domain domain = new Domain("domain");
+        domain.addUnit("unit").addFunction("function", visibility);
+
+        Unit unitModel = domain.getUnit("unit");
+        Function function = unitModel.getFunctions().stream().filter(new Function("function")::equals).findAny().orElse(null);
+
+        assertThat(unitModel.getFunctions().contains(new Function("function")), is(true));
+        assertThat(function.visibility, is(visibility));
+    }
+
+    @Test
+    void shouldBeReturnFunctionAndReturnType(){
+        Domain domain = new Domain("domain");
+        domain.addUnit("unit").addFunction("function", Visibility.PUBLIC, "String");
+
+        Unit unitModel = domain.getUnit("unit");
+        Function function = unitModel.getFunctions().stream().filter(new Function("function")::equals).findAny().orElse(null);
+
+        assertThat(unitModel.getFunctions().contains(new Function("function")), is(true));
+        assertThat(function.visibility, is(Visibility.PUBLIC));
+        assertThat(function.returnTypeName, is("String"));
+
+    }
+
+    @Test
+    void shouldBeReturnFunctionWithParameters(){
+        Domain domain = new Domain("domain");
+        String[] parameters = {"String", "int"};
+        domain.addUnit("unit").addFunction("function", Visibility.PUBLIC, "String", parameters);
+
+        Unit unitModel = domain.getUnit("unit");
+        Function function = unitModel.getFunctions().stream().filter(new Function("function")::equals).findAny().orElse(null);
+
+        assertThat(unitModel.getFunctions().contains(new Function("function")), is(true));
+        assertThat(function.visibility, is(Visibility.PUBLIC));
+        assertThat(function.returnTypeName, is("String"));
+        assertThat(function.parameters, is(parameters));
+
+    }
+
+    @Test
+    void shouldBeReturnStaticFunction(){
+        Domain domain = new Domain("domain");
+        String[] parameters = {"String", "int"};
+        domain.addUnit("unit").addFunction("function", Visibility.PUBLIC, "String", parameters, true);
+
+        Unit unitModel = domain.getUnit("unit");
+        Function function = unitModel.getFunctions().stream().filter(new Function("function")::equals).findAny().orElse(null);
+
+        assertThat(unitModel.getFunctions().contains(new Function("function")), is(true));
+        assertThat(function.visibility, is(Visibility.PUBLIC));
+        assertThat(function.returnTypeName, is("String"));
+        assertThat(function.parameters, is(parameters));
+        assertThat(function.staticFunction, is(true));
+
+    }
+
+    @Test
+    void shouldBeReturnNonStaticFunction(){
+        Domain domain = new Domain("domain");
+        String[] parameters = {"String", "int"};
+        domain.addUnit("unit").addFunction("function", Visibility.PUBLIC, "String", parameters, false);
+
+        Unit unitModel = domain.getUnit("unit");
+        Function function = unitModel.getFunctions().stream().filter(new Function("function")::equals).findAny().orElse(null);
+
+        assertThat(unitModel.getFunctions().contains(new Function("function")), is(true));
+        assertThat(function.visibility, is(Visibility.PUBLIC));
+        assertThat(function.returnTypeName, is("String"));
+        assertThat(function.parameters, is(parameters));
+        assertThat(function.staticFunction, is(false));
+
     }
 }
