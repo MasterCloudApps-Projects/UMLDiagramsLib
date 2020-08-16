@@ -56,8 +56,3 @@ jobs:
           -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
           -Dsonar.java.coveragePlugin=jacoco \
           -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
-      - name: SonarCloud Scan
-        uses: sonarsource/sonarcloud-github-action@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
