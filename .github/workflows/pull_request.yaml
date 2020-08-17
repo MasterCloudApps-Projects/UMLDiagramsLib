@@ -47,7 +47,6 @@ jobs:
         run: |
           mvn -B sonar:sonar \
           org.jacoco:jacoco-maven-plugin:prepare-agent verify \
-          org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
           -Dsonar.projectKey='MasterCloudApps-Projects_UMLDiagramsLib' \
           -Dsonar.projectName='UMLDiagramsLib' \
           -Dsonar.host.url=https://sonarcloud.io \
