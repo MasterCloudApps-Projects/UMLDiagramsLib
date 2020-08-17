@@ -1,6 +1,8 @@
 name: 'Build, Test & Analysis'
 
-on: [push]
+push:
+  branches:
+    - master
 
 jobs:
   pull_request_build_analysis:
