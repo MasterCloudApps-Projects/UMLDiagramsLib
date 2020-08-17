@@ -48,11 +48,11 @@ jobs:
           mvn -B sonar:sonar \
           org.jacoco:jacoco-maven-plugin:prepare-agent verify \
           org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
-#          -Dsonar.projectKey='pjcalvo84_UMLDiagramsLib' \
+          -Dsonar.projectKey='MasterCloudApps-Projects_UMLDiagramsLib' \
           -Dsonar.projectName='UMLDiagramsLib' \
           -Dsonar.host.url=https://sonarcloud.io \
-#          -Dsonar.organization=pjcalvo84 \
-#          -Dsonar.branch=master \
+          -Dsonar.organization=mastercloudapps-projects \
+          -Dsonar.branch=master \
           -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
           -Dsonar.java.coveragePlugin=jacoco \
           -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
