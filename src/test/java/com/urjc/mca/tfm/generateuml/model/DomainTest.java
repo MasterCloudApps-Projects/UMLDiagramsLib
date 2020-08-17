@@ -311,7 +311,6 @@ class DomainTest {
         assertThat(unitModel.getFunctions().contains(new Function("function")), is(true));
         assertThat(function.visibility, is(Visibility.PUBLIC));
         assertThat(function.returnTypeName, is("String"));
-
     }
 
     @Test
@@ -327,7 +326,6 @@ class DomainTest {
         assertThat(function.visibility, is(Visibility.PUBLIC));
         assertThat(function.returnTypeName, is("String"));
         assertThat(function.parameters, is(parameters));
-
     }
 
     @Test
@@ -344,7 +342,6 @@ class DomainTest {
         assertThat(function.returnTypeName, is("String"));
         assertThat(function.parameters, is(parameters));
         assertThat(function.staticFunction, is(true));
-
     }
 
     @Test
@@ -361,6 +358,5 @@ class DomainTest {
         assertThat(function.returnTypeName, is("String"));
         assertThat(function.parameters, is(parameters));
         assertThat(function.staticFunction, is(false));
-
     }
 }
