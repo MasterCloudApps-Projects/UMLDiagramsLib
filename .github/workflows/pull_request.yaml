@@ -43,7 +43,7 @@ jobs:
       - name: SonarCloud Scan
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+#          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
           mvn -B sonar:sonar \
           org.jacoco:jacoco-maven-plugin:prepare-agent verify \
@@ -53,6 +53,6 @@ jobs:
           -Dsonar.host.url=https://sonarcloud.io \
           -Dsonar.organization=mastercloudapps-projects \
           -Dsonar.branch=master \
-          -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
+#          -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
           -Dsonar.java.coveragePlugin=jacoco \
           -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
