@@ -30,18 +30,6 @@ jobs:
       - name: Build, unit tests and slice tests with Maven
         run: mvn -B clean package -f pom.xml -Dtest='com.urjc.mca.tfm.generateuml.model.**'
 
-      - name: Save Jacoco Exec
-        uses: actions/upload-artifact@v2
-        with:
-          name: jacoco_coverage.exec
-          path: target/jacoco.exec
-
-      - name: Save Jacoco XML Report
-        uses: actions/upload-artifact@v2
-        with:
-          name: jacoco_coverage_report.xml
-          path: target/site/jacoco/jacoco.xml
-
       - name: SonarCloud Scan
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
