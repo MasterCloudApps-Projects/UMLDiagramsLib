@@ -1,4 +1,4 @@
-name: 'Build, Test & Analysis'
+name: 'Build, Test & Analysis Pull Request'
 
 on: [pull_request]
 
