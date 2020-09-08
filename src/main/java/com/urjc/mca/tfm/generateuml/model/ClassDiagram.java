@@ -6,10 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-public class ClassDiagram {
+public class  ClassDiagram {
 
     private static final String LINE_BREAK = "\n";
     private static final String DOT = ".";
+    private static final String QUOTE = "\"";
     private static final String PART_RELATIONSHIP = " *--> ";
     private static final String BASE_RELATIONSHIP = " <|-- ";
     private static final String ELEMENT_RELATIONSHIP = " o--> ";
@@ -74,7 +75,7 @@ public class ClassDiagram {
     }
 
     private String printName(Unit entity) {
-        return !StringUtils.isEmpty(entity.getMyPackage()) ? entity.getMyPackage() + DOT + entity.name : entity.name;
+        return !StringUtils.isEmpty(entity.getMyPackage()) ? QUOTE + entity.getMyPackage() + DOT + entity.name + QUOTE : QUOTE + entity.name + QUOTE;
     }
 
     public String printPart(Unit entity) {
