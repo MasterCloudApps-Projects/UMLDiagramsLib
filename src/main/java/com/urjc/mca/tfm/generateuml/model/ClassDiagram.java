@@ -75,6 +75,14 @@ public class  ClassDiagram {
     }
 
     private String printName(Unit entity) {
+        return entity.containsWhiteSpacesInName() ? printNameWithWhiteSpaces(entity) : printNameWithoutWhiteSpaces(entity);
+    }
+
+    private String printNameWithoutWhiteSpaces(Unit entity){
+        return !StringUtils.isEmpty(entity.getMyPackage()) ? entity.getMyPackage() + DOT + entity.name :  entity.name;
+    }
+
+    private String printNameWithWhiteSpaces(Unit entity){
         return !StringUtils.isEmpty(entity.getMyPackage()) ? QUOTE + entity.getMyPackage() + DOT + entity.name + QUOTE : QUOTE + entity.name + QUOTE;
     }
 
