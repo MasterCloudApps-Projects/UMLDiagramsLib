@@ -1,5 +1,7 @@
 package com.urjc.mca.tfm.generateuml.model;
 
+import org.springframework.util.StringUtils;
+
 import java.util.*;
 
 public class Unit {
@@ -100,5 +102,10 @@ public class Unit {
 
     public Set<Function> getFunctions(){
         return this.functions;
+    }
+
+    public boolean containsWhiteSpacesInName(){
+        return (!StringUtils.isEmpty(myPackage) && myPackage.matches(".*\\s.*"))
+                || name.matches(".*\\s.*");
     }
 }
