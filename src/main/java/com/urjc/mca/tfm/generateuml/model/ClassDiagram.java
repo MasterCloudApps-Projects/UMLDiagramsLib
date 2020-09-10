@@ -70,7 +70,7 @@ public class  ClassDiagram {
 
     private String printAttributes(Set<Attribute> attributes){
         StringBuilder attributesString = new StringBuilder();
-        attributes.forEach( a -> attributesString.append(a.visibility.getCharacter() + " " + a.name + "\n"));
+        attributes.forEach( a -> attributesString.append(a.visibility.getCharacter()).append(" ").append(a.name).append("\n"));
         return attributesString.toString();
     }
 
@@ -89,7 +89,7 @@ public class  ClassDiagram {
     public String printPart(Unit entity) {
         StringBuilder chain = new StringBuilder();
         if (!entity.getPartList().isEmpty()) {
-            entity.getPartList().forEach(p -> chain.append(printName(entity) + PART_RELATIONSHIP + printName(p) + LINE_BREAK));
+            entity.getPartList().forEach(p -> chain.append(printName(entity)).append(PART_RELATIONSHIP).append(printName(p)).append(LINE_BREAK));
         }
         return chain.toString();
     }
@@ -97,7 +97,7 @@ public class  ClassDiagram {
     public String printBase(Unit entity) {
         StringBuilder chain = new StringBuilder();
         if (!entity.getBase().isEmpty()) {
-            entity.getBase().forEach(b -> chain.append(printName(b) + BASE_RELATIONSHIP + printName(entity) + LINE_BREAK));
+            entity.getBase().forEach(b -> chain.append(printName(b)).append(BASE_RELATIONSHIP).append(printName(entity)).append(LINE_BREAK));
         }
         return chain.toString();
     }
@@ -105,7 +105,7 @@ public class  ClassDiagram {
     public String printElement(Unit entity) {
         StringBuilder chain = new StringBuilder();
         if (!entity.getElements().isEmpty()) {
-            entity.getElements().forEach(e -> chain.append(printName(entity) + ELEMENT_RELATIONSHIP + printName(e) + LINE_BREAK));
+            entity.getElements().forEach(e -> chain.append(printName(entity)).append(ELEMENT_RELATIONSHIP).append(printName(e)).append(LINE_BREAK));
         }
         return chain.toString();
     }
@@ -113,7 +113,7 @@ public class  ClassDiagram {
     public String printAssociates(Unit entity) {
         StringBuilder chain = new StringBuilder();
         if (!entity.getAssociates().isEmpty()) {
-            entity.getAssociates().forEach(a -> chain.append(printName(entity) + ASSOCIATION_RELATIONSHIP + printName(a) + LINE_BREAK));
+            entity.getAssociates().forEach(a -> chain.append(printName(entity)).append(ASSOCIATION_RELATIONSHIP).append(printName(a)).append(LINE_BREAK));
         }
         return chain.toString();
     }
@@ -121,7 +121,7 @@ public class  ClassDiagram {
     public String printUsed(Unit entity) {
         StringBuilder chain = new StringBuilder();
         if (!entity.getUsed().isEmpty()) {
-            entity.getUsed().forEach(u -> chain.append(printName(entity) + USE_RELATIONSHIP + printName(u) + LINE_BREAK));
+            entity.getUsed().forEach(u -> chain.append(printName(entity)).append(USE_RELATIONSHIP).append(printName(u)).append(LINE_BREAK));
         }
         return chain.toString();
     }
