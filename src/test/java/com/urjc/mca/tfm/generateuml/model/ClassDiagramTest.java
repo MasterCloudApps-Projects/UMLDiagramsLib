@@ -303,7 +303,7 @@ class ClassDiagramTest {
 
         String resultPrint = "class unit{\n" +
                             "+ attribute\n" +
-                            "}";
+                            "}\n";
         assertThat(classDiagram.print(), is(resultPrint));
 
     }
@@ -317,7 +317,7 @@ class ClassDiagramTest {
 
         String resultPrint = "class unit{\n" +
                             "- attribute\n" +
-                            "}";
+                            "}\n";
         assertThat(classDiagram.print(), is(resultPrint));
 
     }
@@ -331,7 +331,7 @@ class ClassDiagramTest {
 
         String resultPrint = "class unit{\n" +
                             "# attribute\n" +
-                            "}";
+                            "}\n";
         assertThat(classDiagram.print(), is(resultPrint));
 
     }
@@ -345,7 +345,7 @@ class ClassDiagramTest {
 
         String resultPrint = "class unit{\n" +
                             "~ attribute\n" +
-                            "}";
+                            "}\n";
         assertThat(classDiagram.print(), is(resultPrint));
 
     }
@@ -358,8 +358,8 @@ class ClassDiagramTest {
         classDiagram.addModel(model);
 
         String resultPrint = "class unit{\n" +
-                            " attribute\n" +
-                            "}";
+                            "attribute\n" +
+                            "}\n";
         assertThat(classDiagram.print(), is(resultPrint));
 
     }
@@ -386,22 +386,40 @@ class ClassDiagramTest {
 
         String resultPrint = "class \"my unit\"{\n" +
                 "# my attribute\n" +
-                "}";
+                "}\n";
         assertThat(classDiagram.print(), is(resultPrint));
 
     }
-//    @Test
-//    void test(){
-//        ClassDiagram classDiagram = new ClassDiagram();
-//        Package model1 = new Package("model1");
-//        Package model2 = new Package("model2");
-//
-//        model2.addEntity("entity2");
-//        model1.addEntity("entity1").addPart("Part1").addBase(model2.getEntity("entity2"));
-//
-////        classDiagram.addModel(model1).addModel(model2);
-//        classDiagram.addClasses(model1.getEntityList());
-//
-//        System.out.println(classDiagram.print());
-//    }
+
+    @Test
+    void shouldBeReturnUnitWithFunction(){
+        ClassDiagram classDiagram = new ClassDiagram();
+        Domain model = new Domain("model");
+        model.addUnit("unit").addFunction("function");
+
+        classDiagram.addModel(model);
+
+        System.out.println(classDiagram.print());
+    }
+    @Test
+    void shouldBeReturnUnitWithFunctionAndVisibility(){
+        ClassDiagram classDiagram = new ClassDiagram();
+        Domain model = new Domain("model");
+        model.addUnit("unit").addFunction("function", Visibility.PUBLIC);
+
+        classDiagram.addModel(model);
+
+        System.out.println(classDiagram.print());
+    }
+
+    @Test
+    void shouldBeReturnUnitWithFunctionAndVisibilityAndReturnType(){
+        ClassDiagram classDiagram = new ClassDiagram();
+        Domain model = new Domain("model");
+        model.addUnit("unit").addFunction("function", Visibility.PUBLIC, "String");
+
+        classDiagram.addModel(model);
+
+        System.out.println(classDiagram.print());
+    }
 }

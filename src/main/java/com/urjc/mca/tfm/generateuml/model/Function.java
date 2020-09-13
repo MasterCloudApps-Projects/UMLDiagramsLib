@@ -1,5 +1,8 @@
 package com.urjc.mca.tfm.generateuml.model;
 
+import org.springframework.util.StringUtils;
+
+import java.util.Arrays;
 import java.util.Objects;
 
 public class Function {
@@ -45,5 +48,38 @@ public class Function {
     @Override
     public int hashCode() {
         return Objects.hash(name);
+    }
+
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        if (this.visibility != Visibility.EMPTY_VISIBILITY) {
+            stringBuilder.append(this.visibility.getCharacter());
+            stringBuilder.append(" ");
+        }
+        if (this.staticFunction)
+            stringBuilder.append("{static} ");
+        stringBuilder.append(this.name);
+        if(this.parameters != null){
+            StringBuilder sb = new StringBuilder();
+            Arrays.stream(parameters).forEach(p -> {
+                sb.append(p);
+                sb.append(", ");
+            });
+            replaceIfOnlyOneParameter(sb);
+            stringBuilder.append(replaceIfOnlyOneParameter(sb));
+        }
+        if (!StringUtils.isEmpty(this.returnTypeName)) {
+            stringBuilder.append(": ");
+            stringBuilder.append(this.returnTypeName);
+        }
+        return stringBuilder.toString();
+    }
+
+    private String replaceIfOnlyOneParameter(StringBuilder sb){
+        if(sb.lastIndexOf(", ") == sb.indexOf(", ")){
+            int init = sb.indexOf(", ");
+            sb.replace(init, init +1, "");
+        }
+        return sb.toString();
     }
 }
