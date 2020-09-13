@@ -1,12 +1,13 @@
 package com.urjc.mca.tfm.generateuml.model;
 
+import org.springframework.util.StringUtils;
+
 import java.util.Objects;
 
 public class Attribute {
 
     public final String name;
     public final Visibility visibility;
-//    public final Type type;
     public final String type;
     public final boolean staticAttribute;
 
@@ -15,7 +16,6 @@ public class Attribute {
     }
 
     public Attribute(String name, Visibility visibility){
-//        this(name, visibility, Type.EMPTY_TYPE);
         this(name, visibility, "");
     }
 
@@ -41,5 +41,21 @@ public class Attribute {
     @Override
     public int hashCode() {
         return Objects.hash(name);
+    }
+
+    public String toString(){
+        StringBuilder stringBuilder = new StringBuilder();
+        if(this.visibility != Visibility.EMPTY_VISIBILITY){
+            stringBuilder.append(this.visibility.getCharacter());
+            stringBuilder.append( " ");
+        }
+        if(this.staticAttribute)
+            stringBuilder.append("{static} ");
+        stringBuilder.append(this.name);
+        if(!StringUtils.isEmpty(this.type)){
+            stringBuilder.append(": ");
+            stringBuilder.append(this.type);
+        }
+        return stringBuilder.toString();
     }
 }
