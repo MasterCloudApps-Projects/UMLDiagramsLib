@@ -20,12 +20,12 @@ public class GenerateumlApplication implements CommandLineRunner {
     }
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
         log.info("EXECUTING : command line runner");
 
         Unit entity = new Unit("Padre");
         entity.addBase(new Unit("Abuelo"));
         entity.addPart(new Unit("Hijo"));
-        entity.toString();
+        entity.toStringClassFormat();
     }
 }
