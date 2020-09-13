@@ -3,7 +3,7 @@ package com.urjc.mca.tfm.generateuml.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ClassDiagram {
+public class  ClassDiagram {
 
     private static final String LINE_BREAK = "\n";
     private static final String PART_RELATIONSHIP = " *--> ";
@@ -84,6 +84,7 @@ public class ClassDiagram {
         StringBuilder chain = new StringBuilder();
         if (!entity.getUsed().isEmpty()) {
             entity.getUsed().forEach(u -> chain.append(entity.printName() + USE_RELATIONSHIP + u.printName() + LINE_BREAK));
+
         }
         return chain.toString();
     }

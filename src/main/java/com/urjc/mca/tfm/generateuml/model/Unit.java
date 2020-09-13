@@ -128,5 +128,9 @@ public class Unit {
 
     private boolean containsAttributeOrFunction(){
         return !this.getFunctions().isEmpty() || !this.getAttributes().isEmpty();
+
+      public boolean containsWhiteSpacesInName(){
+        return (!StringUtils.isEmpty(myPackage) && myPackage.matches(".*\\s.*"))
+                || name.matches(".*\\s.*");
     }
 }

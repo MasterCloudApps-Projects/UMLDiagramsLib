@@ -395,4 +395,32 @@ class ClassDiagramTest {
 
         System.out.println(classDiagram.print());
     }
+
+    @Test
+    void shouldBeReturnNameWithSpaces(){
+        ClassDiagram classDiagram = new ClassDiagram();
+        Domain model = new Domain("model");
+        model.addUnit("my unit");
+
+        classDiagram.addModel(model);
+
+        String resultPrint = "class \"my unit\"\n";
+        assertThat(classDiagram.print(), is(resultPrint));
+    }
+
+    @Test
+    void shouldBeReturnAttributeWithProtectedVisibilityAndSpacesInName(){
+        ClassDiagram classDiagram = new ClassDiagram();
+        Domain model = new Domain("model");
+        model.addUnit("my unit").addAttribute("my attribute", Visibility.PROTECTED);
+
+        classDiagram.addModel(model);
+
+        String resultPrint = "class \"my unit\"{\n" +
+                "# my attribute\n" +
+                "}";
+        assertThat(classDiagram.print(), is(resultPrint));
+
+    }
+
 }
