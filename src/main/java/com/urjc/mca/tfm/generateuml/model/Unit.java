@@ -1,8 +1,14 @@
 package com.urjc.mca.tfm.generateuml.model;
 
+import org.springframework.util.StringUtils;
+
 import java.util.*;
 
 public class Unit {
+
+    private static final String LINE_BREAK = "\n";
+    private static final String DOT = ".";
+    private static final String CLASS_AND_SPACE = "class ";
 
     public final String name;
     private Set<Unit> partList = new HashSet<>();
@@ -100,5 +106,27 @@ public class Unit {
 
     public Set<Function> getFunctions(){
         return this.functions;
+    }
+
+    public String toStringClassFormat(){
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(CLASS_AND_SPACE);
+        stringBuilder.append(printName());
+        if(containsAttributeOrFunction()){
+            stringBuilder.append("{" + LINE_BREAK);
+            this.attributes.forEach(attribute -> stringBuilder.append(attribute.toString()));
+            this.functions.forEach(function -> stringBuilder.append(function.toString()));
+            stringBuilder.append("\n}");
+        }
+        stringBuilder.append(LINE_BREAK);
+        return stringBuilder.toString();
+    }
+
+    public String printName() {
+        return !StringUtils.isEmpty(this.myPackage) ? this.myPackage + DOT + this.name : this.name;
+    }
+
+    private boolean containsAttributeOrFunction(){
+        return !this.getFunctions().isEmpty() || !this.getAttributes().isEmpty();
     }
 }
