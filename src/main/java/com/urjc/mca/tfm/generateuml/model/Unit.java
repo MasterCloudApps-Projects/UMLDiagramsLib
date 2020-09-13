@@ -123,10 +123,23 @@ public class Unit {
     }
 
     public String printName() {
+        return containsWhiteSpacesInName() ? printNameWithSpaces() : printNameWithoutSpaces();
+    }
+
+    private String printNameWithSpaces() {
+        return !StringUtils.isEmpty(this.myPackage) ? "\"" + this.myPackage + DOT + this.name + "\"" : "\"" + this.name + "\"";
+    }
+
+    private String printNameWithoutSpaces() {
         return !StringUtils.isEmpty(this.myPackage) ? this.myPackage + DOT + this.name : this.name;
     }
 
     private boolean containsAttributeOrFunction(){
         return !this.getFunctions().isEmpty() || !this.getAttributes().isEmpty();
+    }
+
+    public boolean containsWhiteSpacesInName(){
+        return (!StringUtils.isEmpty(myPackage) && myPackage.matches(".*\\s.*"))
+                || name.matches(".*\\s.*");
     }
 }
