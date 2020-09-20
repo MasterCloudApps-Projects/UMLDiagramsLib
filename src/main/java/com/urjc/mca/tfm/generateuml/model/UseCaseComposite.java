@@ -17,6 +17,11 @@ public class UseCaseComposite implements UseCase{
         return this.name;
     }
 
+    @Override
+    public String printName(){
+        return "(" + this.name + ")";
+    }
+
     public Set<UseCase> getUseCases() {
         return this.useCases;
     }
