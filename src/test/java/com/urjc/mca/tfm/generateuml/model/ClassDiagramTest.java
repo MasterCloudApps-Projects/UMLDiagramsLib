@@ -399,7 +399,11 @@ class ClassDiagramTest {
 
         classDiagram.addModel(model);
 
-        System.out.println(classDiagram.print());
+        String resultPrint = "class unit{\n" +
+                "function\n" +
+                "}\n";
+
+        assertThat(classDiagram.print(), is(resultPrint));
     }
     @Test
     void shouldBeReturnUnitWithFunctionAndVisibility(){
@@ -409,7 +413,11 @@ class ClassDiagramTest {
 
         classDiagram.addModel(model);
 
-        System.out.println(classDiagram.print());
+        String resultPrint = "class unit{\n" +
+                "+ function\n" +
+                "}\n";
+
+        assertThat(classDiagram.print(), is(resultPrint));
     }
 
     @Test
@@ -420,6 +428,10 @@ class ClassDiagramTest {
 
         classDiagram.addModel(model);
 
-        System.out.println(classDiagram.print());
+        String resultPrint = "class unit{\n" +
+                "+ function: String\n" +
+                "}\n";
+
+        assertThat(classDiagram.print(), is(resultPrint));
     }
 }
