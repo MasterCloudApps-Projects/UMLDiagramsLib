@@ -10,7 +10,7 @@ import static org.hamcrest.core.Is.is;
 class DomainTest {
 
     @Test
-    void shouldBeReturnTheFirstUnitWhenAddClass(){
+    void shouldBeReturnTheFirstUnitWhenAddClass() {
 
         Domain model = new Domain("model");
         model.addUnit("unit").addUnit("unit");
@@ -20,7 +20,7 @@ class DomainTest {
     }
 
     @Test
-    void shouldBeReturnTheFirstBaseUnit(){
+    void shouldBeReturnTheFirstBaseUnit() {
 
         Domain model = new Domain("model");
         model.addUnit("unit").addBase("Base").addBase("Base");
@@ -32,7 +32,7 @@ class DomainTest {
     }
 
     @Test
-    void shouldBeReturnTheFirstBaseAndSecondBaseUnit(){
+    void shouldBeReturnTheFirstBaseAndSecondBaseUnit() {
 
         Domain model = new Domain("model");
         model.addUnit("unit").addBase("Base").addBase("Base2");
@@ -45,7 +45,7 @@ class DomainTest {
     }
 
     @Test
-    void shouldBeReturnTheFirstPartUnit(){
+    void shouldBeReturnTheFirstPartUnit() {
 
         Domain model = new Domain("model");
         model.addUnit("unit").addPart("Part").addPart("Part");
@@ -53,11 +53,11 @@ class DomainTest {
         Unit unitModel = model.getUnit("unit");
 
         assertThat(unitModel.getPartList().size(), is(1));
-        assertThat(unitModel.getPartList().contains(new Unit("Part")), is (true));
+        assertThat(unitModel.getPartList().contains(new Unit("Part")), is(true));
     }
 
     @Test
-    void shouldBeReturnTheFirstAndSecondPartUnit(){
+    void shouldBeReturnTheFirstAndSecondPartUnit() {
 
         Domain model = new Domain("model");
         model.addUnit("unit").addPart("Part").addPart("Part2");
@@ -65,12 +65,12 @@ class DomainTest {
         Unit unitModel = model.getUnit("unit");
 
         assertThat(unitModel.getPartList().size(), is(2));
-        assertThat(unitModel.getPartList().contains(new Unit("Part")), is (true));
-        assertThat(unitModel.getPartList().contains(new Unit("Part2")), is (true));
+        assertThat(unitModel.getPartList().contains(new Unit("Part")), is(true));
+        assertThat(unitModel.getPartList().contains(new Unit("Part2")), is(true));
     }
 
     @Test
-    void shouldBeReturnTheFirstElementUnit(){
+    void shouldBeReturnTheFirstElementUnit() {
 
         Domain model = new Domain("model");
         model.addUnit("unit").addPart("Element").addPart("Element");
@@ -78,11 +78,11 @@ class DomainTest {
         Unit unitModel = model.getUnit("unit");
 
         assertThat(unitModel.getPartList().size(), is(1));
-        assertThat(unitModel.getPartList().contains(new Unit("Element")), is (true));
+        assertThat(unitModel.getPartList().contains(new Unit("Element")), is(true));
     }
 
     @Test
-    void shouldBeReturnTheFirstAndSecondElementUnit(){
+    void shouldBeReturnTheFirstAndSecondElementUnit() {
 
         Domain model = new Domain("model");
         model.addUnit("unit").addPart("Element").addPart("Element2");
@@ -90,12 +90,12 @@ class DomainTest {
         Unit unitModel = model.getUnit("unit");
 
         assertThat(unitModel.getPartList().size(), is(2));
-        assertThat(unitModel.getPartList().contains(new Unit("Element")), is (true));
-        assertThat(unitModel.getPartList().contains(new Unit("Element2")), is (true));
+        assertThat(unitModel.getPartList().contains(new Unit("Element")), is(true));
+        assertThat(unitModel.getPartList().contains(new Unit("Element2")), is(true));
     }
 
     @Test
-    void shouldBeReturnTheFirstAssociateUnit(){
+    void shouldBeReturnTheFirstAssociateUnit() {
 
         Domain model = new Domain("model");
         model.addUnit("unit").addPart("Associate").addPart("Associate");
@@ -103,11 +103,11 @@ class DomainTest {
         Unit unitModel = model.getUnit("unit");
 
         assertThat(unitModel.getPartList().size(), is(1));
-        assertThat(unitModel.getPartList().contains(new Unit("Associate")), is (true));
+        assertThat(unitModel.getPartList().contains(new Unit("Associate")), is(true));
     }
 
     @Test
-    void shouldBeReturnTheFirstAndSecondAssociateUnit(){
+    void shouldBeReturnTheFirstAndSecondAssociateUnit() {
 
         Domain model = new Domain("model");
         model.addUnit("unit").addPart("Associate").addPart("Associate2");
@@ -115,12 +115,12 @@ class DomainTest {
         Unit unitModel = model.getUnit("unit");
 
         assertThat(unitModel.getPartList().size(), is(2));
-        assertThat(unitModel.getPartList().contains(new Unit("Associate")), is (true));
-        assertThat(unitModel.getPartList().contains(new Unit("Associate2")), is (true));
+        assertThat(unitModel.getPartList().contains(new Unit("Associate")), is(true));
+        assertThat(unitModel.getPartList().contains(new Unit("Associate2")), is(true));
     }
 
     @Test
-    void shouldBeReturnTheFirstUsedUnit(){
+    void shouldBeReturnTheFirstUsedUnit() {
 
         Domain model = new Domain("model");
         model.addUnit("unit").addPart("Used").addPart("Used");
@@ -128,11 +128,11 @@ class DomainTest {
         Unit unitModel = model.getUnit("unit");
 
         assertThat(unitModel.getPartList().size(), is(1));
-        assertThat(unitModel.getPartList().contains(new Unit("Used")), is (true));
+        assertThat(unitModel.getPartList().contains(new Unit("Used")), is(true));
     }
 
     @Test
-    void shouldBeReturnTheFirstAndSecondUsedUnit(){
+    void shouldBeReturnTheFirstAndSecondUsedUnit() {
 
         Domain model = new Domain("model");
         model.addUnit("unit").addPart("Used").addPart("Used2");
@@ -140,12 +140,12 @@ class DomainTest {
         Unit unitModel = model.getUnit("unit");
 
         assertThat(unitModel.getPartList().size(), is(2));
-        assertThat(unitModel.getPartList().contains(new Unit("Used")), is (true));
-        assertThat(unitModel.getPartList().contains(new Unit("Used2")), is (true));
+        assertThat(unitModel.getPartList().contains(new Unit("Used")), is(true));
+        assertThat(unitModel.getPartList().contains(new Unit("Used2")), is(true));
     }
 
     @Test
-    void shouldBeReturnBasePartElementAssociateUsedWithStringCreateMethod(){
+    void shouldBeReturnBasePartElementAssociateUsedWithStringCreateMethod() {
 
         Domain model = new Domain("model");
         model.addUnit("unit").addBase("Base").addAssociate("Associate").addElement("Element").addPart("Part")
@@ -153,36 +153,36 @@ class DomainTest {
 
         Unit unitModel = model.getUnit("unit");
 
-        assertThat(unitModel.getPartList().contains(new Unit("Part")), is (true));
-        assertThat(unitModel.getBase().contains(new Unit("Base")), is (true));
-        assertThat(unitModel.getElements().contains(new Unit("Element")), is (true));
-        assertThat(unitModel.getAssociates().contains(new Unit("Associate")), is (true));
-        assertThat(unitModel.getUsed().contains(new Unit("Used")), is (true));
+        assertThat(unitModel.getPartList().contains(new Unit("Part")), is(true));
+        assertThat(unitModel.getBase().contains(new Unit("Base")), is(true));
+        assertThat(unitModel.getElements().contains(new Unit("Element")), is(true));
+        assertThat(unitModel.getAssociates().contains(new Unit("Associate")), is(true));
+        assertThat(unitModel.getUsed().contains(new Unit("Used")), is(true));
     }
 
     @Test
-    void shouldBeReturnUnitWithPackage(){
+    void shouldBeReturnUnitWithPackage() {
         Domain model = new Domain("");
         model.addPackage("package").addUnit("unit");
 
         Unit unitModel = model.getUnit("unit");
-        assertThat(unitModel.getMyPackage(), is ("package"));
+        assertThat(unitModel.getMyPackage(), is("package"));
     }
 
     @Test
-    void shouldBeReturnUnitWithoutPackage(){
+    void shouldBeReturnUnitWithoutPackage() {
         Domain model = new Domain("");
         model.addPackage("package").addUnit("unit").nonPackage().addUnit("unit2");
 
         Unit unitModel = model.getUnit("unit");
         Unit unit2Model = model.getUnit("unit2");
 
-        assertThat(unitModel.getMyPackage(), is ("package"));
-        assertThat(unit2Model.getMyPackage(), is (""));
+        assertThat(unitModel.getMyPackage(), is("package"));
+        assertThat(unit2Model.getMyPackage(), is(""));
     }
 
     @Test
-    void shouldBeReturnAUnitWithAttribute(){
+    void shouldBeReturnAUnitWithAttribute() {
         Domain model = new Domain("model");
         model.addUnit("unit").addAttribute("attribute");
 
@@ -193,9 +193,9 @@ class DomainTest {
     }
 
     @Test
-    void shouldBeReturnAUnitWithAttributeAndVisibilityPublic(){
+    void shouldBeReturnAUnitWithAttributeAndVisibilityPublic() {
         Domain model = new Domain("model");
-        model.addUnit("unit").addAttribute("attribute",Visibility.PUBLIC);
+        model.addUnit("unit").addAttribute("attribute", Visibility.PUBLIC);
 
         Unit unitModel = model.getUnit("unit");
         Attribute attribute = unitModel.getAttributes().stream().filter(new Attribute("attribute")::equals).findAny().orElse(null);
@@ -204,9 +204,9 @@ class DomainTest {
     }
 
     @Test
-    void shouldBeReturnAUnitWithAttributeAndVisibilityPrivate(){
+    void shouldBeReturnAUnitWithAttributeAndVisibilityPrivate() {
         Domain model = new Domain("model");
-        model.addUnit("unit").addAttribute("attribute",Visibility.PRIVATE);
+        model.addUnit("unit").addAttribute("attribute", Visibility.PRIVATE);
 
         Unit unitModel = model.getUnit("unit");
         Attribute attribute = unitModel.getAttributes().stream().filter(new Attribute("attribute")::equals).findAny().orElse(null);
@@ -215,9 +215,9 @@ class DomainTest {
     }
 
     @Test
-    void shouldBeReturnAUnitWithAttributeAndVisibilityProtected(){
+    void shouldBeReturnAUnitWithAttributeAndVisibilityProtected() {
         Domain model = new Domain("model");
-        model.addUnit("unit").addAttribute("attribute",Visibility.PROTECTED);
+        model.addUnit("unit").addAttribute("attribute", Visibility.PROTECTED);
 
         Unit unitModel = model.getUnit("unit");
         Attribute attribute = unitModel.getAttributes().stream().filter(new Attribute("attribute")::equals).findAny().orElse(null);
@@ -226,9 +226,9 @@ class DomainTest {
     }
 
     @Test
-    void shouldBeReturnAUnitWithAttributeAndVisibilityPackage(){
+    void shouldBeReturnAUnitWithAttributeAndVisibilityPackage() {
         Domain model = new Domain("model");
-        model.addUnit("unit").addAttribute("attribute",Visibility.PACKAGE);
+        model.addUnit("unit").addAttribute("attribute", Visibility.PACKAGE);
 
         Unit unitModel = model.getUnit("unit");
         Attribute attribute = unitModel.getAttributes().stream().filter(new Attribute("attribute")::equals).findAny().orElse(null);
@@ -237,12 +237,12 @@ class DomainTest {
         assertThat(attribute.visibility, is(Visibility.PACKAGE));
     }
 
-//    @ParameterizedTest
+    //    @ParameterizedTest
 //    @EnumSource(Type.class)
     @Test
-    void shouldBeReturnStringTypeAttribute(){
+    void shouldBeReturnStringTypeAttribute() {
         Domain model = new Domain("model");
-        model.addUnit("unit").addAttribute("attribute",Visibility.PACKAGE, "String");
+        model.addUnit("unit").addAttribute("attribute", Visibility.PACKAGE, "String");
 
         Unit unitModel = model.getUnit("unit");
         Attribute attribute = unitModel.getAttributes().stream().filter(new Attribute("attribute")::equals).findAny().orElse(null);
@@ -252,9 +252,9 @@ class DomainTest {
     }
 
     @Test
-    void shouldBeReturnStaticAttribute(){
+    void shouldBeReturnStaticAttribute() {
         Domain model = new Domain("model");
-        model.addUnit("unit").addAttribute("attribute",Visibility.PACKAGE, "String", true);
+        model.addUnit("unit").addAttribute("attribute", Visibility.PACKAGE, "String", true);
 
         Unit unitModel = model.getUnit("unit");
         Attribute attribute = unitModel.getAttributes().stream().filter(new Attribute("attribute")::equals).findAny().orElse(null);
@@ -265,9 +265,9 @@ class DomainTest {
     }
 
     @Test
-    void shouldBeReturnNotStaticAttribute(){
+    void shouldBeReturnNotStaticAttribute() {
         Domain model = new Domain("model");
-        model.addUnit("unit").addAttribute("attribute",Visibility.PACKAGE, "String");
+        model.addUnit("unit").addAttribute("attribute", Visibility.PACKAGE, "String");
 
         Unit unitModel = model.getUnit("unit");
         Attribute attribute = unitModel.getAttributes().stream().filter(new Attribute("attribute")::equals).findAny().orElse(null);
@@ -278,7 +278,7 @@ class DomainTest {
     }
 
     @Test
-    void shouldBeReturnFunction(){
+    void shouldBeReturnFunction() {
         Domain domain = new Domain("domain");
         domain.addUnit("unit").addFunction("function");
 
@@ -289,7 +289,7 @@ class DomainTest {
 
     @ParameterizedTest
     @EnumSource(Visibility.class)
-    void shouldBeReturnFunctionWithVisibility(Visibility visibility){
+    void shouldBeReturnFunctionWithVisibility(Visibility visibility) {
         Domain domain = new Domain("domain");
         domain.addUnit("unit").addFunction("function", visibility);
 
@@ -301,7 +301,7 @@ class DomainTest {
     }
 
     @Test
-    void shouldBeReturnFunctionAndReturnType(){
+    void shouldBeReturnFunctionAndReturnType() {
         Domain domain = new Domain("domain");
         domain.addUnit("unit").addFunction("function", Visibility.PUBLIC, "String");
 
@@ -314,7 +314,7 @@ class DomainTest {
     }
 
     @Test
-    void shouldBeReturnFunctionWithParameters(){
+    void shouldBeReturnFunctionWithParameters() {
         Domain domain = new Domain("domain");
         String[] parameters = {"String", "int"};
         domain.addUnit("unit").addFunction("function", Visibility.PUBLIC, "String", parameters);
@@ -329,7 +329,7 @@ class DomainTest {
     }
 
     @Test
-    void shouldBeReturnStaticFunction(){
+    void shouldBeReturnStaticFunction() {
         Domain domain = new Domain("domain");
         String[] parameters = {"String", "int"};
         domain.addUnit("unit").addFunction("function", Visibility.PUBLIC, "String", parameters, true);
@@ -345,7 +345,7 @@ class DomainTest {
     }
 
     @Test
-    void shouldBeReturnNonStaticFunction(){
+    void shouldBeReturnNonStaticFunction() {
         Domain domain = new Domain("domain");
         String[] parameters = {"String", "int"};
         domain.addUnit("unit").addFunction("function", Visibility.PUBLIC, "String", parameters, false);
@@ -359,4 +359,100 @@ class DomainTest {
         assertThat(function.parameters, is(parameters));
         assertThat(function.staticFunction, is(false));
     }
+
+    @Test
+    void shouldBeReturnAnActor() {
+        Domain domain = new Domain("domain");
+        domain.addActor("Actor");
+
+        assertThat(domain.getActorList().size(), is(1));
+        assertThat(domain.getActorList().get(0).name, is("Actor"));
+    }
+
+    @Test
+    void shouldBeReturnATwoActors() {
+        Domain domain = new Domain("domain");
+        domain.addActor("Actor").addActor("Actor2");
+
+        assertThat(domain.getActorList().size(), is(2));
+        assertThat(domain.getActorList().get(0).name, is("Actor"));
+        assertThat(domain.getActorList().get(1).name, is("Actor2"));
+    }
+
+    @Test
+    void shouldBeReturnAUseCase() {
+        Domain domain = new Domain("domain");
+        domain.addActor("actor").addUseCase("useCase");
+
+        assertThat(domain.getActorList().size(), is(1));
+        assertThat(domain.getActorList().get(0).name, is("actor"));
+        assertThat(domain.getActor("actor").getUseCases().contains(new UseCaseLeaf("useCase")), is(true));
+    }
+
+    @Test
+    void shouldBeReturnATwoUseCases() {
+        Domain domain = new Domain("domain");
+        domain.addActor("actor").addUseCase("useCase").addUseCase("useCase2");
+
+        assertThat(domain.getActorList().size(), is(1));
+        assertThat(domain.getActorList().get(0).name, is("actor"));
+        assertThat(domain.getActor("actor").getUseCases().contains(new UseCaseLeaf("useCase")), is(true));
+        assertThat(domain.getActor("actor").getUseCases().contains(new UseCaseLeaf("useCase2")), is(true));
+    }
+
+    @Test
+    void shouldBeReturnATreeUseCasesAndTwoActors() {
+        Domain domain = new Domain("domain");
+        domain.addActor("actor").addUseCase("useCase").addUseCase("useCase2").addActor("actor2").addUseCase("useCase3");
+
+        assertThat(domain.getActorList().size(), is(2));
+        assertThat(domain.getActorList().get(0).name, is("actor"));
+        assertThat(domain.getActorList().get(1).name, is("actor2"));
+        assertThat(domain.getActor("actor").getUseCases().contains(new UseCaseLeaf("useCase")), is(true));
+        assertThat(domain.getActor("actor").getUseCases().contains(new UseCaseLeaf("useCase2")), is(true));
+        assertThat(domain.getActor("actor2").getUseCases().contains(new UseCaseLeaf("useCase3")), is(true));
+    }
+
+    @Test
+    void shouldBeReturnATwoUseCasesAndTwoActors() {
+        Domain domain = new Domain("domain");
+        domain.addActor("actor").addUseCase("useCase").addUseCase("useCase2").addActor("actor2").addUseCase("useCase2");
+
+        assertThat(domain.getActorList().size(), is(2));
+        assertThat(domain.getActorList().get(0).name, is("actor"));
+        assertThat(domain.getActorList().get(1).name, is("actor2"));
+        assertThat(domain.getActor("actor").getUseCases().contains(new UseCaseLeaf("useCase")), is(true));
+        assertThat(domain.getActor("actor").getUseCases().contains(new UseCaseLeaf("useCase2")), is(true));
+        assertThat(domain.getActor("actor2").getUseCases().contains(new UseCaseLeaf("useCase2")), is(true));
+        assertThat(domain.getActor("actor").getUseCases().size(), is(2));
+        assertThat(domain.getActor("actor2").getUseCases().size(), is(1));
+
+    }
+
+    @Test
+    void shouldBeReturnTwoUseCase() {
+        Domain domain = new Domain("domain");
+        domain.addActor("actor").addUseCase("case1").addUseCaseComposite("case1").addUseCase("case2");
+
+        assertThat(domain.getActorList().size(), is(1));
+        assertThat(domain.getActorList().get(0).name, is("actor"));
+        assertThat(domain.getActor("actor").getUseCases().size(), is(2));
+        assertThat(domain.getActor("actor").getUseCases().contains(new UseCaseLeaf("case1")), is(true));
+        assertThat(domain.getActor("actor").getUseCases().contains(new UseCaseLeaf("case2")), is(true));
+
+    }
+
+    @Test
+    void shouldBeReturnTwoUseCaseLeafAndComposite() {
+        Domain domain = new Domain("domain");
+        domain.addActor("actor").addUseCaseComposite("case1").addUseCase("case2");
+
+        assertThat(domain.getActorList().size(), is(1));
+        assertThat(domain.getActorList().get(0).name, is("actor"));
+        assertThat(domain.getActor("actor").getUseCases().size(), is(2));
+        assertThat(domain.getActor("actor").getUseCases().contains(new UseCaseComposite("case1")), is(true));
+        assertThat(domain.getActor("actor").getUseCases().contains(new UseCaseLeaf("case2")), is(true));
+
+    }
+
 }

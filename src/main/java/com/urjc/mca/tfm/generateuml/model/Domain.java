@@ -11,6 +11,9 @@ public class Domain {
     private List<Unit> unitList = new ArrayList<>();
     private Unit activeEntity;
     private String activePackage;
+    //UsedCase
+    private List<Actor> actorList = new ArrayList<>();
+    private Actor activeActor;
 
     public Domain(String name){
         this.name = name;
@@ -155,5 +158,46 @@ public class Domain {
         });
 
         return afferent;
+    }
+
+    private Domain addActor(Actor actor){
+        this.activeActor = this.getActor(actor);
+        return this;
+    }
+
+    public Domain addActor(String actor){
+        return addActor(new Actor(actor));
+    }
+
+    private Actor getActor(Actor actor) {
+        Actor aux = getActor(actor.name);
+        if(aux == null){
+//            if(StringUtils.isEmpty(ac.getMyPackage()))
+//                unit.setMyPackage(this.activePackage);
+            actorList.add(actor);
+            aux = actor;
+        }
+        return aux;
+    }
+
+    public Actor getActor(String name){
+        return actorList.stream().filter(a -> a.name.equals(name)).findFirst().orElse(null);
+    }
+
+    public List<Actor> getActorList(){
+        return this.actorList;
+    }
+
+    public Domain addUseCase(String useCase){
+        return addUseCase(new UseCaseLeaf(useCase));
+    }
+
+    private Domain addUseCase(UseCase useCase){
+        this.activeActor.addUseCase(useCase);
+        return this;
+    }
+
+    public Domain addUseCaseComposite(String useCase){
+        return addUseCase(new UseCaseComposite(useCase));
     }
 }
