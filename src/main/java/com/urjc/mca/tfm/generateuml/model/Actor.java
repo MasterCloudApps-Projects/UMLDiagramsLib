@@ -24,8 +24,4 @@ public class Actor {
         return this.useCases;
     }
 
-//    public void addUsedCaseComposie(UseCase useCase){
-//
-//    }
-
 }
