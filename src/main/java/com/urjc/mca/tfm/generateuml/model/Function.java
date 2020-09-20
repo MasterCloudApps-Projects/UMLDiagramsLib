@@ -61,12 +61,13 @@ public class Function {
         stringBuilder.append(this.name);
         if(this.parameters != null){
             StringBuilder sb = new StringBuilder();
+            sb.append("(");
             Arrays.stream(parameters).forEach(p -> {
                 sb.append(p);
                 sb.append(", ");
             });
-            replaceIfOnlyOneParameter(sb);
-            stringBuilder.append(replaceIfOnlyOneParameter(sb));
+            stringBuilder.append(replaceLastComma(sb));
+            stringBuilder.append(")");
         }
         if (!StringUtils.isEmpty(this.returnTypeName)) {
             stringBuilder.append(": ");
@@ -75,11 +76,9 @@ public class Function {
         return stringBuilder.toString();
     }
 
-    private String replaceIfOnlyOneParameter(StringBuilder sb){
-        if(sb.lastIndexOf(", ") == sb.indexOf(", ")){
-            int init = sb.indexOf(", ");
-            sb.replace(init, init +1, "");
-        }
+    private String replaceLastComma(StringBuilder sb){
+            int init = sb.lastIndexOf(", ");
+            sb.replace(init, init +2, "");
         return sb.toString();
     }
 }

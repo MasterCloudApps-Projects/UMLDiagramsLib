@@ -434,4 +434,36 @@ class ClassDiagramTest {
 
         assertThat(classDiagram.print(), is(resultPrint));
     }
+
+    @Test
+    void shouldBeReturnUnitWithFunctionAndVisibilityAndReturnTypeAndParameters(){
+        ClassDiagram classDiagram = new ClassDiagram();
+        Domain model = new Domain("model");
+        String[] parameters = {"String", "int"};
+        model.addUnit("unit").addFunction("function", Visibility.PUBLIC, "String", parameters);
+
+        classDiagram.addModel(model);
+
+        String resultPrint = "class unit{\n" +
+                "+ function(String, int): String\n" +
+                "}\n";
+
+        assertThat(classDiagram.print(), is(resultPrint));
+    }
+
+    @Test
+    void shouldBeReturnUnitStaticWithFunctionAndVisibilityAndReturnTypeAndParameters(){
+        ClassDiagram classDiagram = new ClassDiagram();
+        Domain model = new Domain("model");
+        String[] parameters = {"String", "int"};
+        model.addUnit("unit").addFunction("function", Visibility.PUBLIC, "String", parameters, true);
+
+        classDiagram.addModel(model);
+
+        String resultPrint = "class unit{\n" +
+                "+ {static} function(String, int): String\n" +
+                "}\n";
+
+        assertThat(classDiagram.print(), is(resultPrint));
+    }
 }
