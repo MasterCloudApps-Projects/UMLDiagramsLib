@@ -172,8 +172,6 @@ public class Domain {
     private Actor getActor(Actor actor) {
         Actor aux = getActor(actor.name);
         if(aux == null){
-//            if(StringUtils.isEmpty(ac.getMyPackage()))
-//                unit.setMyPackage(this.activePackage);
             actorList.add(actor);
             aux = actor;
         }
