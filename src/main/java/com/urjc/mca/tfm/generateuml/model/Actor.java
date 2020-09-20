@@ -24,4 +24,7 @@ public class Actor {
         return this.useCases;
     }
 
+    public String printName(){
+        return ":" + this.name + ":\n" ;
+    }
 }

@@ -28,4 +28,7 @@ public class UseCaseLeaf implements UseCase{
         return Objects.hash(name);
     }
 
+    public String printName(){
+        return "(" + this.name + ")";
+    }
 }
