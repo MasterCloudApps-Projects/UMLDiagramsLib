@@ -1,6 +1,8 @@
 package com.urjc.mca.tfm.generateuml.model;
 
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 public class UseCaseLeaf implements UseCase{
 
@@ -30,5 +32,15 @@ public class UseCaseLeaf implements UseCase{
 
     public String printName(){
         return "(" + this.name + ")";
+    }
+
+    @Override
+    public void addUseCase(UseCase useCase) {
+
+    }
+
+    @Override
+    public Set<UseCase> getUseCases() {
+        return new HashSet<>();
     }
 }

@@ -15,7 +15,7 @@ class UseCaseDiagramTest {
         UseCaseDiagram useCaseDiagram = new UseCaseDiagram();
         useCaseDiagram.addActor(domain.getActor("actor"));
 
-        String result = ":actor:";
+        String result = ":actor:\n";
         assertThat(useCaseDiagram.print(), is(result));
     }
 
@@ -27,7 +27,7 @@ class UseCaseDiagramTest {
         UseCaseDiagram useCaseDiagram = new UseCaseDiagram();
         useCaseDiagram.addActor(domain.getActor("actor one"));
 
-        String result = ":actor one:";
+        String result = ":actor one:\n";
         assertThat(useCaseDiagram.print(), is(result));
     }
 
@@ -40,7 +40,8 @@ class UseCaseDiagramTest {
         useCaseDiagram.addActor(domain.getActor("actor"));
 
         String result = ":actor:\n" +
-                "(use case)";
+                "(use case)\n" +
+                ":actor: --> (use case)\n";
         assertThat(useCaseDiagram.print(), is(result));
     }
 
@@ -53,8 +54,10 @@ class UseCaseDiagramTest {
         useCaseDiagram.addActor(domain.getActor("actor"));
 
         String result = ":actor:\n" +
-                "(use case2)" +
-                "(use case)";
+                "(use case2)\n" +
+                "(use case)\n" +
+                ":actor: --> (use case2)\n" +
+                ":actor: --> (use case)\n";
         assertThat(useCaseDiagram.print(), is(result));
     }
 
@@ -67,21 +70,44 @@ class UseCaseDiagramTest {
         useCaseDiagram.addActor(domain.getActor("actor"));
 
         String result = ":actor:\n" +
-                "(use case)";
+                "(use case)\n" +
+                ":actor: --> (use case)\n";
         assertThat(useCaseDiagram.print(), is(result));
     }
 
     @Test
     void shouldBeReturnActorWithUseCaseCompositeAndUseCase(){
         Domain domain = new Domain("domain");
-        domain.addActor("actor").addUseCaseComposite("use case").addUseCase("use case composite");
+        domain.addActor("actor").addUseCaseComposite("use case").addUseCaseToComposite("use case composite");
 
         UseCaseDiagram useCaseDiagram = new UseCaseDiagram();
         useCaseDiagram.addActor(domain.getActor("actor"));
 
         String result = ":actor:\n" +
-                "(use case composite)" +
-                "(use case)";
+                "(use case)\n" +
+                "(use case composite)\n" +
+                ":actor: --> (use case)\n" +
+                "(use case) --> (use case composite)\n";
+
+        assertThat(useCaseDiagram.print(), is(result));
+    }
+
+    @Test
+    void shouldBeReturnActorWithUseCaseCompositeAndUseCaseCompositeAndUseCase(){
+        Domain domain = new Domain("domain");
+        domain.addActor("actor").addUseCaseComposite("use case").addUseCaseCompositeToComposite("use case2").addUseCaseToComposite("use case composite");
+
+        UseCaseDiagram useCaseDiagram = new UseCaseDiagram();
+        useCaseDiagram.addActor(domain.getActor("actor"));
+
+        String result = ":actor:\n" +
+                "(use case)\n" +
+                "(use case2)\n" +
+                "(use case composite)\n" +
+                ":actor: --> (use case)\n" +
+                "(use case) --> (use case2)\n" +
+                "(use case2) --> (use case composite)\n";
+
         assertThat(useCaseDiagram.print(), is(result));
     }
 
