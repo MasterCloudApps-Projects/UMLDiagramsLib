@@ -11,10 +11,8 @@ public class Domain {
     private List<Unit> unitList = new ArrayList<>();
     private Unit activeEntity;
     private String activePackage;
-    //UsedCase
     private List<Actor> actorList = new ArrayList<>();
     private Actor activeActor;
-    private UseCase activeUseCaseComposite;
 
     public Domain(String name){
         this.name = name;
