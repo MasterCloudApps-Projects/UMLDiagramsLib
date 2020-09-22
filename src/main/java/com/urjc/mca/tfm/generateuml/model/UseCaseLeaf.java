@@ -36,7 +36,7 @@ public class UseCaseLeaf implements UseCase{
 
     @Override
     public void addUseCase(UseCase useCase) {
-
+        //Do nothing
     }
 
     @Override
