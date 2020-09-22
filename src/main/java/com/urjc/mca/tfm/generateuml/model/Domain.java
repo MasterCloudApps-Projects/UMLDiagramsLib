@@ -14,6 +14,7 @@ public class Domain {
     //UsedCase
     private List<Actor> actorList = new ArrayList<>();
     private Actor activeActor;
+    private UseCase activeUseCaseComposite;
 
     public Domain(String name){
         this.name = name;
@@ -196,6 +197,19 @@ public class Domain {
     }
 
     public Domain addUseCaseComposite(String useCase){
-        return addUseCase(new UseCaseComposite(useCase));
+        UseCaseComposite usc = new UseCaseComposite(useCase);
+        this.activeActor.addUseCaseComposite(usc);
+        return this;
     }
+
+    public Domain addUseCaseToComposite(String useCase){
+        this.activeActor.addUseCaseToComposite(new UseCaseLeaf(useCase));
+        return this;
+    }
+
+    public Domain addUseCaseCompositeToComposite(String useCase){
+        this.activeActor.addUseCaseCompositeToComposite(new UseCaseComposite(useCase));
+        return this;
+    }
+
 }

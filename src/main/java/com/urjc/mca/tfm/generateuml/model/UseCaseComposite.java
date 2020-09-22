@@ -1,12 +1,13 @@
 package com.urjc.mca.tfm.generateuml.model;
 
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
 public class UseCaseComposite implements UseCase{
 
     private String name;
-    private Set<UseCase> useCases;
+    private Set<UseCase> useCases = new HashSet<>();
 
     public UseCaseComposite(String name){
         this.name = name;
@@ -20,6 +21,12 @@ public class UseCaseComposite implements UseCase{
     @Override
     public String printName(){
         return "(" + this.name + ")";
+    }
+
+    public String printUseCases(){
+        StringBuilder sb = new StringBuilder();
+        useCases.forEach(useCase -> sb.append(useCase.printName()));
+        return sb.toString();
     }
 
     public Set<UseCase> getUseCases() {

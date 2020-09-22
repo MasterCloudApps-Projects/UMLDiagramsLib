@@ -7,6 +7,7 @@ public class Actor {
 
     public final String name;
     private Set<UseCase> useCases = new HashSet<>();
+    private UseCase activeUseCase;
 
     public Actor(String name){
         this.name = name;
@@ -17,6 +18,22 @@ public class Actor {
             useCases.add(useCase);
     }
 
+    public void addUseCaseComposite(UseCase useCase){
+        if(!exitsUseCase(useCase))
+            useCases.add(useCase);
+        activeUseCase = useCase;
+    }
+
+    public void addUseCaseToComposite(UseCase useCase){
+        if(!exitsUseCase(useCase))
+            activeUseCase.addUseCase(useCase);
+    }
+
+    public void addUseCaseCompositeToComposite(UseCase useCase){
+        if(!exitsUseCase(useCase))
+            activeUseCase.addUseCase(useCase);
+        activeUseCase = useCase;
+    }
     private boolean exitsUseCase(UseCase useCase){
         return this.useCases.stream().anyMatch(us -> us.getName().equals(useCase.getName()));
     }
@@ -25,6 +42,10 @@ public class Actor {
     }
 
     public String printName(){
-        return ":" + this.name + ":\n" ;
+        return printNameWithoutSpaces() + "\n";
+    }
+
+    public String printNameWithoutSpaces(){
+        return ":" + this.name + ":" ;
     }
 }
