@@ -24,24 +24,24 @@ public class Unit {
         this.name = name;
     }
 
-    public void addPart(Unit entity) {
-        partList.add(entity);
+    public void addPart(Unit unit) {
+        partList.add(unit);
     }
 
-    public void addElement(Unit entity){
-        elements.add(entity);
+    public void addElement(Unit unit){
+        elements.add(unit);
     }
 
-    public void addAssociate(Unit entity){
-        associates.add(entity);
+    public void addAssociate(Unit unit){
+        associates.add(unit);
     }
 
-    public void addBase(Unit entity) {
-        base.add(entity);
+    public void addBase(Unit unit) {
+        base.add(unit);
     }
 
-    public void addUsed(Unit entity){
-        used.add(entity);
+    public void addUsed(Unit unit){
+        used.add(unit);
     }
 
     public String getMyPackage() {
@@ -83,8 +83,8 @@ public class Unit {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Unit entity = (Unit) o;
-        return Objects.equals(name, entity.name);
+        Unit unit = (Unit) o;
+        return Objects.equals(name, unit.name);
     }
 
     @Override
