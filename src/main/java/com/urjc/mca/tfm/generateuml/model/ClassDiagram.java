@@ -12,10 +12,10 @@ public class ClassDiagram {
     private static final String ASSOCIATION_RELATIONSHIP = " --> ";
     private static final String USE_RELATIONSHIP = " ..> ";
 
-    List<Unit> classes = new ArrayList<>();
+    List<Unit> units = new ArrayList<>();
 
     public ClassDiagram addClass(Unit entity) {
-        classes.add(entity);
+        units.add(entity);
         return this;
     }
 
@@ -33,7 +33,7 @@ public class ClassDiagram {
         StringBuilder className = new StringBuilder();
         StringBuilder relations = new StringBuilder();
 
-        classes.forEach(e -> {
+        units.forEach(e -> {
             className.append(printClass(e));
             relations.append(printBase(e));
             relations.append(printPart(e));
