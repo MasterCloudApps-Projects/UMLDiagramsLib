@@ -9,7 +9,7 @@ public class Domain {
 
     public final String name;
     private List<Unit> unitList = new ArrayList<>();
-    private Unit activeEntity;
+    private Unit activeUnit;
     private String activePackage;
     private List<Actor> actorList = new ArrayList<>();
     private Actor activeActor;
@@ -19,12 +19,13 @@ public class Domain {
     }
 
     private Domain addUnit(Unit unit){
-        this.activeEntity = this.getUnit(unit);
+        this.activeUnit = this.getUnit(unit);
         return this;
     }
 
-    public Domain addUnit(String entity){
-        return addUnit(new Unit(entity));
+    public Domain addUnit(String unit){
+        //LOG.DEBUG("add unit:" + unit)
+        return addUnit(new Unit(unit));
     }
 
     public Domain addPackage(String myPackage){
@@ -53,7 +54,7 @@ public class Domain {
     }
 
     private Domain addBase(Unit unit){
-        this.activeEntity.addBase(getUnit(unit));
+        this.activeUnit.addBase(getUnit(unit));
         return this;
     }
 
@@ -62,7 +63,7 @@ public class Domain {
     }
 
     private Domain addPart(Unit unit){
-        this.activeEntity.addPart(getUnit(unit));
+        this.activeUnit.addPart(getUnit(unit));
         return this;
     }
 
@@ -71,7 +72,7 @@ public class Domain {
     }
 
     private Domain addElement(Unit unit){
-        this.activeEntity.addElement(getUnit(unit));
+        this.activeUnit.addElement(getUnit(unit));
         return this;
     }
 
@@ -80,7 +81,7 @@ public class Domain {
     }
 
     private Domain addAssociate(Unit unit){
-        this.activeEntity.addAssociate(getUnit(unit));
+        this.activeUnit.addAssociate(getUnit(unit));
         return this;
     }
 
@@ -89,7 +90,7 @@ public class Domain {
     }
 
     private Domain addUsed(Unit unit){
-        this.activeEntity.addUsed(getUnit(unit));
+        this.activeUnit.addUsed(getUnit(unit));
         return this;
     }
 
@@ -115,7 +116,7 @@ public class Domain {
     }
 
     public Domain addAttribute(String name, Visibility visibility, String type, boolean staticAttribute){
-        this.activeEntity.addAttribute(new Attribute(name, visibility, type, staticAttribute));
+        this.activeUnit.addAttribute(new Attribute(name, visibility, type, staticAttribute));
         return this;
     }
 
@@ -136,7 +137,7 @@ public class Domain {
     }
 
     public Domain addFunction(String name, Visibility visibility, String returnType, String[] parameters, boolean staticFunction){
-        this.activeEntity.addFunction(new Function(name, visibility, returnType, parameters, staticFunction));
+        this.activeUnit.addFunction(new Function(name, visibility, returnType, parameters, staticFunction));
         return this;
     }
 

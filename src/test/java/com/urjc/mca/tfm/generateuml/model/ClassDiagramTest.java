@@ -10,105 +10,105 @@ class ClassDiagramTest {
 
     @Test
     void printClassName(){
-        Domain model = new Domain("model");
-        model.addPackage("package")
-                .addUnit("Entity1")
-                .addUnit("Entity2");
+        Domain domain = new Domain("domain");
+        domain.addPackage("package")
+                .addUnit("Unit1")
+                .addUnit("Unit2");
         ClassDiagram classDiagram = new ClassDiagram();
 
-        classDiagram.addClasses(model.getUnitList()).print();
+        classDiagram.addUnits(domain.getUnitList()).print();
 
-        String result = "class package.Entity1\n" +
-                        "class package.Entity2\n";
+        String result = "class package.Unit1\n" +
+                        "class package.Unit2\n";
         assertThat(classDiagram.print(), is(result));
 
     }
 
     @Test
     void printBase(){
-        Domain model = new Domain("model");
-        model.addPackage("package")
-                .addUnit("Entity1")
+        Domain domain = new Domain("domain");
+        domain.addPackage("package")
+                .addUnit("Unit1")
                 .addBase("Base");
         ClassDiagram classDiagram = new ClassDiagram();
 
-        classDiagram.addClasses(model.getUnitList()).print();
+        classDiagram.addUnits(domain.getUnitList()).print();
 
-        String result = "class package.Entity1\n" +
+        String result = "class package.Unit1\n" +
                         "class package.Base\n" +
-                        "package.Base <|-- package.Entity1\n";
+                        "package.Base <|-- package.Unit1\n";
         assertThat(classDiagram.print(), is(result));
     }
 
     @Test
     void printPart(){
         ClassDiagram classDiagram = new ClassDiagram();
-        Domain model = new Domain("model");
-        model.addPackage("package")
-                .addUnit("Entity1")
+        Domain domain = new Domain("domain");
+        domain.addPackage("package")
+                .addUnit("Unit1")
                 .addPart("Part");
 
-        classDiagram.addClasses(model.getUnitList()).print();
+        classDiagram.addUnits(domain.getUnitList()).print();
 
-        String result = "class package.Entity1\n" +
+        String result = "class package.Unit1\n" +
                         "class package.Part\n" +
-                        "package.Entity1 *--> package.Part\n";
+                        "package.Unit1 *--> package.Part\n";
         assertThat(classDiagram.print(), is(result));
     }
 
     @Test
     void printElement(){
         ClassDiagram classDiagram = new ClassDiagram();
-        Domain model = new Domain("model");
-        model.addPackage("package")
-                .addUnit("Entity1")
+        Domain domain = new Domain("domain");
+        domain.addPackage("package")
+                .addUnit("Unit1")
                 .addElement("Element");
 
-        classDiagram.addClasses(model.getUnitList()).print();
+        classDiagram.addUnits(domain.getUnitList()).print();
 
-        String result = "class package.Entity1\n" +
+        String result = "class package.Unit1\n" +
                         "class package.Element\n" +
-                        "package.Entity1 o--> package.Element\n";
+                        "package.Unit1 o--> package.Element\n";
         assertThat(classDiagram.print(), is(result));
     }
 
     @Test
     void printAssociates(){
         ClassDiagram classDiagram = new ClassDiagram();
-        Domain model = new Domain("model");
-        model.addPackage("package")
-                .addUnit("Entity1")
+        Domain domain = new Domain("domain");
+        domain.addPackage("package")
+                .addUnit("Unit1")
                 .addAssociate("Associate");
 
-        classDiagram.addClasses(model.getUnitList()).print();
+        classDiagram.addUnits(domain.getUnitList()).print();
 
-        String result = "class package.Entity1\n" +
+        String result = "class package.Unit1\n" +
                         "class package.Associate\n" +
-                        "package.Entity1 --> package.Associate\n";
+                        "package.Unit1 --> package.Associate\n";
         assertThat(classDiagram.print(), is(result));
     }
 
     @Test
     void printUsed(){
         ClassDiagram classDiagram = new ClassDiagram();
-        Domain model = new Domain("model");
-        model.addPackage("package")
-                .addUnit("Entity1")
+        Domain domain = new Domain("domain");
+        domain.addPackage("package")
+                .addUnit("Unit1")
                 .addUsed("Used");
 
-        classDiagram.addClasses(model.getUnitList()).print();
+        classDiagram.addUnits(domain.getUnitList()).print();
 
-        String result = "class package.Entity1\n" +
+        String result = "class package.Unit1\n" +
                         "class package.Used\n" +
-                        "package.Entity1 ..> package.Used\n";
+                        "package.Unit1 ..> package.Used\n";
         assertThat(classDiagram.print(), is(result));
     }
 
     @Test
     void shouldBeReturnDiagramClassPractice1Design(){
         ClassDiagram classDiagram = new ClassDiagram();
-        Domain model = new Domain("mastermind");
-        model.addPackage("mastermind")
+        Domain domain = new Domain("mastermind");
+        domain.addPackage("mastermind")
                 .addUnit("Mastermind").addBase("WithConsoleModel").addPart("SecretCombination").addPart("ProposedCombination")
                 .addPart("Result").addUsed("Message")
                 .addUnit("Combination").addBase("WithConsoleModel").addPart("Color").addPart("SecretCombination")
@@ -117,7 +117,7 @@ class ClassDiagramTest {
                 .addUnit("ProposedCombination").addBase("Combination").addUsed("Error").addUsed("Message");
 
 
-        classDiagram.addClasses(model.getUnitList()).print();
+        classDiagram.addUnits(domain.getUnitList()).print();
 
         String resultPrint = "class mastermind.Mastermind\n" +
                 "class mastermind.WithConsoleModel\n" +
@@ -149,8 +149,8 @@ class ClassDiagramTest {
     @Test
     void shouldBeReturnSecretCombinationInDiagramClassPractice1Design(){
         ClassDiagram classDiagram = new ClassDiagram();
-        Domain model = new Domain("mastermind");
-        model.addPackage("mastermind")
+        Domain domain = new Domain("mastermind");
+        domain.addPackage("mastermind")
                 .addUnit("Mastermind").addBase("WithConsoleModel").addPart("SecretCombination").addPart("ProposedCombination")
                 .addPart("Result").addUsed("Message")
                 .addUnit("Combination").addBase("WithConsoleModel").addPart("Color")
@@ -161,7 +161,7 @@ class ClassDiagramTest {
                 .addUnit("ProposedCombination")
                 .addBase("Combination").addUsed("Error").addUsed("Message");
 
-        classDiagram.addClasses(model.getUnit("SecretCombination").getEfferent());
+        classDiagram.addUnits(domain.getUnit("SecretCombination").getEfferent());
 
         String resultPrint = "class mastermind.SecretCombination\n" +
                 "mastermind.Combination <|-- mastermind.SecretCombination\n" +
@@ -174,8 +174,8 @@ class ClassDiagramTest {
     @Test
     void shouldBeReturnAfferentUnit(){
         ClassDiagram classDiagram = new ClassDiagram();
-        Domain model = new Domain("mastermind");
-        model.addUnit("X")
+        Domain domain = new Domain("mastermind");
+        domain.addUnit("X")
                 .addBase("Base_de_X")
                 .addPart("Parte_de_X")
                 .addAssociate("Asociada_de_X")
@@ -189,7 +189,7 @@ class ClassDiagramTest {
                 .addUnit("Descendiente_de_X")
                 .addBase("X");
 
-        classDiagram.addClasses(model.getAfferent("X"));
+        classDiagram.addUnits(domain.getAfferent("X"));
         String resultPrint = "class Todo_de_X\n" +
                 "class Usa_X\n" +
                 "class Asociado_a_X\n" +
@@ -205,18 +205,36 @@ class ClassDiagramTest {
     @Test
     void shouldBeReturnDiagramClassPractice1DesignWithTwoModels(){
         ClassDiagram classDiagram = new ClassDiagram();
-        Domain model = new Domain("mastermind");
-        Domain modelUtils = new Domain("mastermind.utils");
-        modelUtils.addUnit("WithConsoleModel");
-        model.addPackage("mastermind")
-                .addUnit("Mastermind").addPackage("mastermind.utils").addBase("WithConsoleModel").addPackage("mastermind").addPart("SecretCombination").addPart("ProposedCombination")
-                .addPart("Result").addUsed("Message")
-                .addUnit("Combination").addBase("WithConsoleModel").addPart("Color").addPart("SecretCombination")
-                .addUnit("SecretCombination").addBase("Combination").addUsed("ProposedCombination")
-                .addUsed("Message").addUsed("Result")
-                .addUnit("ProposedCombination").addBase("Combination").addUsed("Error").addUsed("Message");
+        Domain domain = new Domain("mastermind");
+        Domain domainUtils = new Domain("mastermind.utils");
+        domainUtils.addUnit("WithConsoleModel");
+        domain
+                .addPackage("mastermind.utils")
+                    .addUnit("WithConsoleModel")
+                .addPackage("mastermind")
+                    .addUnit("Mastermind")
+//                    .addBase("WithConsoleModel").fromPackage("X")
+//                    .addBase("WithConsoleModel","package")
+                    .addBase("WithConsoleModel")
+                    .addPart("SecretCombination")
+                    .addPart("ProposedCombination")
+                    .addPart("Result")
+                    .addUsed("Message")
+                    .addUnit("Combination")
+                    .addBase("WithConsoleModel")
+                    .addPart("Color")
+                    .addPart("SecretCombination")
+                    .addUnit("SecretCombination")
+                    .addBase("Combination")
+                    .addUsed("ProposedCombination")
+                    .addUsed("Message")
+                    .addUsed("Result")
+                    .addUnit("ProposedCombination")
+                    .addBase("Combination")
+                    .addUsed("Error")
+                    .addUsed("Message");
 
-        classDiagram.addClasses(model.getUnitList()).print();
+        classDiagram.addUnits(domain.getUnitList()).print();
 
         String resultPrint = "class mastermind.Mastermind\n" +
                 "class mastermind.utils.WithConsoleModel\n" +
@@ -247,8 +265,8 @@ class ClassDiagramTest {
     @Test
     void shouldBeReturnDiagramClassPractice1DesignWithTwoModelsWhenAddModel(){
         ClassDiagram classDiagram = new ClassDiagram();
-        Domain model = new Domain("mastermind");
-        model.addPackage("mastermind")
+        Domain domain = new Domain("mastermind");
+        domain.addPackage("mastermind")
                 .addUnit("Mastermind")
                 .addPackage("mastermind.utils")
                 .addBase("WithConsoleModel")
@@ -286,9 +304,7 @@ class ClassDiagramTest {
                 "mastermind.Combination *--> mastermind.Color\n" +
                 "mastermind.Combination *--> mastermind.SecretCombination\n";
 
-
-        //modelUtils.addPackage("mastermind.utils").addEntity("WithConsoleModel");
-        classDiagram.addModel(model).print();
+        classDiagram.addModel(domain).print();
 
         assertThat(classDiagram.print(), is(resultPrint));
     }
@@ -296,10 +312,10 @@ class ClassDiagramTest {
     @Test
     void shouldBeReturnAttributeWithPublicVisibility(){
         ClassDiagram classDiagram = new ClassDiagram();
-        Domain model = new Domain("model");
-        model.addUnit("unit").addAttribute("attribute", Visibility.PUBLIC);
+        Domain domain = new Domain("domain");
+        domain.addUnit("unit").addAttribute("attribute", Visibility.PUBLIC);
 
-        classDiagram.addModel(model);
+        classDiagram.addModel(domain);
 
         String resultPrint = "class unit{\n" +
                             "+ attribute\n" +
@@ -310,10 +326,10 @@ class ClassDiagramTest {
     @Test
     void shouldBeReturnAttributeWithPrivateVisibility(){
         ClassDiagram classDiagram = new ClassDiagram();
-        Domain model = new Domain("model");
-        model.addUnit("unit").addAttribute("attribute", Visibility.PRIVATE);
+        Domain domain = new Domain("domain");
+        domain.addUnit("unit").addAttribute("attribute", Visibility.PRIVATE);
 
-        classDiagram.addModel(model);
+        classDiagram.addModel(domain);
 
         String resultPrint = "class unit{\n" +
                             "- attribute\n" +
@@ -324,10 +340,10 @@ class ClassDiagramTest {
     @Test
     void shouldBeReturnAttributeWithProtectedVisibility(){
         ClassDiagram classDiagram = new ClassDiagram();
-        Domain model = new Domain("model");
-        model.addUnit("unit").addAttribute("attribute", Visibility.PROTECTED);
+        Domain domain = new Domain("domain");
+        domain.addUnit("unit").addAttribute("attribute", Visibility.PROTECTED);
 
-        classDiagram.addModel(model);
+        classDiagram.addModel(domain);
 
         String resultPrint = "class unit{\n" +
                             "# attribute\n" +
@@ -338,10 +354,10 @@ class ClassDiagramTest {
     @Test
     void shouldBeReturnAttributeWithPackageVisibility(){
         ClassDiagram classDiagram = new ClassDiagram();
-        Domain model = new Domain("model");
-        model.addUnit("unit").addAttribute("attribute", Visibility.PACKAGE);
+        Domain domain = new Domain("domain");
+        domain.addUnit("unit").addAttribute("attribute", Visibility.PACKAGE);
 
-        classDiagram.addModel(model);
+        classDiagram.addModel(domain);
 
         String resultPrint = "class unit{\n" +
                             "~ attribute\n" +
@@ -352,10 +368,10 @@ class ClassDiagramTest {
     @Test
     void shouldBeReturnAttributeWithoutVisibility(){
         ClassDiagram classDiagram = new ClassDiagram();
-        Domain model = new Domain("model");
-        model.addUnit("unit").addAttribute("attribute", Visibility.EMPTY_VISIBILITY);
+        Domain domain = new Domain("domain");
+        domain.addUnit("unit").addAttribute("attribute", Visibility.EMPTY_VISIBILITY);
 
-        classDiagram.addModel(model);
+        classDiagram.addModel(domain);
 
         String resultPrint = "class unit{\n" +
                             "attribute\n" +
@@ -367,10 +383,10 @@ class ClassDiagramTest {
     @Test
     void shouldBeReturnNameWithSpaces(){
         ClassDiagram classDiagram = new ClassDiagram();
-        Domain model = new Domain("model");
-        model.addUnit("my unit");
+        Domain domain = new Domain("domain");
+        domain.addUnit("my unit");
 
-        classDiagram.addModel(model);
+        classDiagram.addModel(domain);
 
         String resultPrint = "class \"my unit\"\n";
         assertThat(classDiagram.print(), is(resultPrint));
@@ -379,10 +395,10 @@ class ClassDiagramTest {
     @Test
     void shouldBeReturnAttributeWithProtectedVisibilityAndSpacesInName(){
         ClassDiagram classDiagram = new ClassDiagram();
-        Domain model = new Domain("model");
-        model.addUnit("my unit").addAttribute("my attribute", Visibility.PROTECTED);
+        Domain domain = new Domain("domain");
+        domain.addUnit("my unit").addAttribute("my attribute", Visibility.PROTECTED);
 
-        classDiagram.addModel(model);
+        classDiagram.addModel(domain);
 
         String resultPrint = "class \"my unit\"{\n" +
                 "# my attribute\n" +
@@ -394,10 +410,10 @@ class ClassDiagramTest {
     @Test
     void shouldBeReturnUnitWithFunction(){
         ClassDiagram classDiagram = new ClassDiagram();
-        Domain model = new Domain("model");
-        model.addUnit("unit").addFunction("function");
+        Domain domain = new Domain("domain");
+        domain.addUnit("unit").addFunction("function");
 
-        classDiagram.addModel(model);
+        classDiagram.addModel(domain);
 
         String resultPrint = "class unit{\n" +
                 "function\n" +
@@ -408,10 +424,10 @@ class ClassDiagramTest {
     @Test
     void shouldBeReturnUnitWithFunctionAndVisibility(){
         ClassDiagram classDiagram = new ClassDiagram();
-        Domain model = new Domain("model");
-        model.addUnit("unit").addFunction("function", Visibility.PUBLIC);
+        Domain domain = new Domain("domain");
+        domain.addUnit("unit").addFunction("function", Visibility.PUBLIC);
 
-        classDiagram.addModel(model);
+        classDiagram.addModel(domain);
 
         String resultPrint = "class unit{\n" +
                 "+ function\n" +
@@ -423,10 +439,10 @@ class ClassDiagramTest {
     @Test
     void shouldBeReturnUnitWithFunctionAndVisibilityAndReturnType(){
         ClassDiagram classDiagram = new ClassDiagram();
-        Domain model = new Domain("model");
-        model.addUnit("unit").addFunction("function", Visibility.PUBLIC, "String");
+        Domain domain = new Domain("domain");
+        domain.addUnit("unit").addFunction("function", Visibility.PUBLIC, "String");
 
-        classDiagram.addModel(model);
+        classDiagram.addModel(domain);
 
         String resultPrint = "class unit{\n" +
                 "+ function: String\n" +
@@ -438,11 +454,11 @@ class ClassDiagramTest {
     @Test
     void shouldBeReturnUnitWithFunctionAndVisibilityAndReturnTypeAndParameters(){
         ClassDiagram classDiagram = new ClassDiagram();
-        Domain model = new Domain("model");
+        Domain domain = new Domain("domain");
         String[] parameters = {"String", "int"};
-        model.addUnit("unit").addFunction("function", Visibility.PUBLIC, "String", parameters);
+        domain.addUnit("unit").addFunction("function", Visibility.PUBLIC, "String", parameters);
 
-        classDiagram.addModel(model);
+        classDiagram.addModel(domain);
 
         String resultPrint = "class unit{\n" +
                 "+ function(String, int): String\n" +
@@ -454,11 +470,11 @@ class ClassDiagramTest {
     @Test
     void shouldBeReturnUnitStaticWithFunctionAndVisibilityAndReturnTypeAndParameters(){
         ClassDiagram classDiagram = new ClassDiagram();
-        Domain model = new Domain("model");
+        Domain domain = new Domain("domain");
         String[] parameters = {"String", "int"};
-        model.addUnit("unit").addFunction("function", Visibility.PUBLIC, "String", parameters, true);
+        domain.addUnit("unit").addFunction("function", Visibility.PUBLIC, "String", parameters, true);
 
-        classDiagram.addModel(model);
+        classDiagram.addModel(domain);
 
         String resultPrint = "class unit{\n" +
                 "+ {static} function(String, int): String\n" +
