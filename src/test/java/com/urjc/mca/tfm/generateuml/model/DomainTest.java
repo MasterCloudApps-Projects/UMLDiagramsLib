@@ -303,7 +303,19 @@ class DomainTest {
     @Test
     void shouldBeReturnFunctionAndReturnType() {
         Domain domain = new Domain("domain");
-        domain.addUnit("unit").addFunction("function", Visibility.PUBLIC, "String");
+        domain.addUnit("unit").addFunction("function").addReturnType("String");
+
+        Unit unitModel = domain.getUnit("unit");
+        Function function = unitModel.getFunctions().stream().filter(new Function("function")::equals).findAny().orElse(null);
+
+        assertThat(unitModel.getFunctions().contains(new Function("function")), is(true));
+        assertThat(function.returnTypeName, is("String"));
+    }
+
+    @Test
+    void shouldBeReturnFunctionPublicVisibilityAndReturnType() {
+        Domain domain = new Domain("domain");
+        domain.addUnit("unit").addFunction("function").addVisibility(Visibility.PUBLIC).addReturnType("String");
 
         Unit unitModel = domain.getUnit("unit");
         Function function = unitModel.getFunctions().stream().filter(new Function("function")::equals).findAny().orElse(null);

@@ -86,4 +86,8 @@ public class Function {
             sb.replace(init, init +2, "");
         return sb.toString();
     }
+
+    public void setReturnTypeName(String returnTypeName) {
+        this.returnTypeName = returnTypeName;
+    }
 }

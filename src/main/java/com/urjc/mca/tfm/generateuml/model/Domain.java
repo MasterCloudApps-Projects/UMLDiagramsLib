@@ -133,15 +133,18 @@ public class Domain {
     }
 
     public Domain addFunction(String name){
-//        return addFunction(name, Visibility.EMPTY_VISIBILITY);
-        Function function = new Function(name);
-        this.activeUnit.addFunction(function);
-        activeFunction = function;
+        activeFunction = new Function(name);
+        this.activeUnit.addFunction(activeFunction);
         return this;
     }
 
     public Domain addVisibility(Visibility visibility){
         this.activeFunction.setVisibility(visibility);
+        return this;
+    }
+
+    public Domain addReturnType(String returnType){
+        this.activeFunction.setReturnTypeName(returnType);
         return this;
     }
 
