@@ -210,9 +210,9 @@ class ClassDiagramTest {
         domainUtils.addUnit("WithConsoleModel");
         domain
                 .addPackage("mastermind.utils")
-                    .addUnit("WithConsoleModel")
+                .addUnit("WithConsoleModel")
                 .addPackage("mastermind")
-                    .addUnit("Mastermind")
+                .addUnit("Mastermind")
 //                    .addBase("WithConsoleModel").fromPackage("X")
 //                    .addBase("WithConsoleModel","package")
                     .addBase("WithConsoleModel")
@@ -236,8 +236,8 @@ class ClassDiagramTest {
 
         classDiagram.addUnits(domain.getUnitList()).print();
 
-        String resultPrint = "class mastermind.Mastermind\n" +
-                "class mastermind.utils.WithConsoleModel\n" +
+        String resultPrint = "class mastermind.utils.WithConsoleModel\n" +
+                "class mastermind.Mastermind\n" +
                 "class mastermind.SecretCombination\n" +
                 "class mastermind.ProposedCombination\n" +
                 "class mastermind.Result\n" +
