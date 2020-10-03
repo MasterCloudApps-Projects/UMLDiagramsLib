@@ -1,11 +1,15 @@
 package com.urjc.mca.tfm.generateuml.model;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Domain {
+
+    private static final Logger LOG = LoggerFactory.getLogger(Domain.class);
 
     public final String name;
     private List<Unit> unitList = new ArrayList<>();
@@ -24,16 +28,18 @@ public class Domain {
     }
 
     public Domain addUnit(String unit){
-        //LOG.DEBUG("add unit:" + unit)
+        LOG.debug("add unit:" + unit);
         return addUnit(new Unit(unit));
     }
 
     public Domain addPackage(String myPackage){
+        LOG.debug("add package:" + myPackage);
         this.activePackage = myPackage;
         return this;
     }
 
     public Domain nonPackage(){
+        LOG.debug("remove package");
         this.activePackage = "";
         return this;
     }
@@ -59,6 +65,7 @@ public class Domain {
     }
 
     public Domain addBase(String unit){
+        LOG.debug("add base:" + unit);
         return addBase(new Unit(unit));
     }
 
@@ -68,6 +75,7 @@ public class Domain {
     }
 
     public Domain addPart(String unit){
+        LOG.debug("add part:" + unit);
         return addPart(new Unit(unit));
     }
 
@@ -77,6 +85,7 @@ public class Domain {
     }
 
     public Domain addElement(String unit){
+        LOG.debug("add element:" + unit);
         return addElement(new Unit(unit));
     }
 
@@ -86,6 +95,7 @@ public class Domain {
     }
 
     public Domain addAssociate(String unit){
+        LOG.debug("add associate:" + unit);
         return addAssociate(new Unit(unit));
     }
 
@@ -95,6 +105,7 @@ public class Domain {
     }
 
     public Domain addUsed(String unit){
+        LOG.debug("add used:" + unit);
         return addUsed(new Unit(unit));
     }
 
@@ -166,6 +177,7 @@ public class Domain {
     }
 
     public Domain addActor(String actor){
+        LOG.debug("add actor:" + actor);
         return addActor(new Actor(actor));
     }
 
