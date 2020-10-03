@@ -148,6 +148,11 @@ public class Domain {
         return this;
     }
 
+    public Domain addParameters(String[] parameters){
+        this.activeFunction.setParameters(parameters);
+        return this;
+    }
+
 
     public Domain addFunction(String name, Visibility visibility){
         return addFunction(name, visibility, "");

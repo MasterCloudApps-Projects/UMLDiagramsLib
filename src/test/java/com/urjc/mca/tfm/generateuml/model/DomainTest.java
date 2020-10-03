@@ -329,7 +329,20 @@ class DomainTest {
     void shouldBeReturnFunctionWithParameters() {
         Domain domain = new Domain("domain");
         String[] parameters = {"String", "int"};
-        domain.addUnit("unit").addFunction("function", Visibility.PUBLIC, "String", parameters);
+        domain.addUnit("unit").addFunction("function").addParameters(parameters);
+
+        Unit unitModel = domain.getUnit("unit");
+        Function function = unitModel.getFunctions().stream().filter(new Function("function")::equals).findAny().orElse(null);
+
+        assertThat(unitModel.getFunctions().contains(new Function("function")), is(true));
+        assertThat(function.parameters, is(parameters));
+    }
+
+    @Test
+    void shouldBeReturnFunctionPublicVisibilityReturnTypeStringWithParameters() {
+        Domain domain = new Domain("domain");
+        String[] parameters = {"String", "int"};
+        domain.addUnit("unit").addFunction("function").addVisibility(Visibility.PUBLIC).addReturnType("String").addParameters(parameters);
 
         Unit unitModel = domain.getUnit("unit");
         Function function = unitModel.getFunctions().stream().filter(new Function("function")::equals).findAny().orElse(null);

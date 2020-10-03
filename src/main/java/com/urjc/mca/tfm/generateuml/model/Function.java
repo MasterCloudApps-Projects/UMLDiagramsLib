@@ -90,4 +90,8 @@ public class Function {
     public void setReturnTypeName(String returnTypeName) {
         this.returnTypeName = returnTypeName;
     }
+
+    public void setParameters(String[] parameters) {
+        this.parameters = parameters;
+    }
 }
