@@ -17,6 +17,7 @@ public class Domain {
     private String activePackage;
     private List<Actor> actorList = new ArrayList<>();
     private Actor activeActor;
+    private Function activeFunction;
 
     public Domain(String name){
         this.name = name;
@@ -132,8 +133,18 @@ public class Domain {
     }
 
     public Domain addFunction(String name){
-        return addFunction(name, Visibility.EMPTY_VISIBILITY);
+//        return addFunction(name, Visibility.EMPTY_VISIBILITY);
+        Function function = new Function(name);
+        this.activeUnit.addFunction(function);
+        activeFunction = function;
+        return this;
     }
+
+    public Domain addVisibility(Visibility visibility){
+        this.activeFunction.setVisibility(visibility);
+        return this;
+    }
+
 
     public Domain addFunction(String name, Visibility visibility){
         return addFunction(name, visibility, "");

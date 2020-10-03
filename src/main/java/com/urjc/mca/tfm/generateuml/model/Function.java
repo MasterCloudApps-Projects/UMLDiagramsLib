@@ -7,14 +7,15 @@ import java.util.Objects;
 
 public class Function {
 
-    public final boolean staticFunction;
-    public final Visibility visibility;
-    public final String name;
-    public final String[] parameters;
-    public final String returnTypeName;
+    public boolean staticFunction;
+    public  Visibility visibility;
+    public  String name;
+    public  String[] parameters;
+    public  String returnTypeName;
 
     public Function(String name) {
-        this(name, Visibility.EMPTY_VISIBILITY);
+//        this(name, Visibility.EMPTY_VISIBILITY);
+        this.name = name;
     }
 
     public Function(String name, Visibility visibility) {
@@ -35,6 +36,10 @@ public class Function {
         this.returnTypeName = returnType;
         this.staticFunction = staticFunction;
         this.parameters = parameters;
+    }
+
+    public void setVisibility(Visibility visibility) {
+        this.visibility = visibility;
     }
 
     @Override

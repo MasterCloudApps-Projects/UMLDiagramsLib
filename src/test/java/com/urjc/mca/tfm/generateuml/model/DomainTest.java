@@ -291,7 +291,7 @@ class DomainTest {
     @EnumSource(Visibility.class)
     void shouldBeReturnFunctionWithVisibility(Visibility visibility) {
         Domain domain = new Domain("domain");
-        domain.addUnit("unit").addFunction("function", visibility);
+        domain.addUnit("unit").addFunction("function").addVisibility(visibility);
 
         Unit unitModel = domain.getUnit("unit");
         Function function = unitModel.getFunctions().stream().filter(new Function("function")::equals).findAny().orElse(null);
@@ -349,6 +349,10 @@ class DomainTest {
         Domain domain = new Domain("domain");
         String[] parameters = {"String", "int"};
         domain.addUnit("unit").addFunction("function", Visibility.PUBLIC, "String", parameters, false);
+//        domain.addUnit("unit2")
+//                .addFunction(nombre).static().return("int")
+//                .addUnit("x").parameters("a,v")
+//                .addFunction(nombre).static().parameters("a","b").visibility(Visibility.PUBLIC)
 
         Unit unitModel = domain.getUnit("unit");
         Function function = unitModel.getFunctions().stream().filter(new Function("function")::equals).findAny().orElse(null);
