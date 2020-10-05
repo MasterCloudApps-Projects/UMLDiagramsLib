@@ -356,8 +356,21 @@ class DomainTest {
     @Test
     void shouldBeReturnStaticFunction() {
         Domain domain = new Domain("domain");
+        domain.addUnit("unit").addFunction("function").setStaticFunction(true);
+
+        Unit unitModel = domain.getUnit("unit");
+        Function function = unitModel.getFunctions().stream().filter(new Function("function")::equals).findAny().orElse(null);
+
+        assertThat(unitModel.getFunctions().contains(new Function("function")), is(true));
+        assertThat(function.staticFunction, is(true));
+    }
+
+    @Test
+    void shouldBeReturnStaticFunctionParametersPublicVisibilityAndStringReturnType() {
+        Domain domain = new Domain("domain");
         String[] parameters = {"String", "int"};
-        domain.addUnit("unit").addFunction("function", Visibility.PUBLIC, "String", parameters, true);
+        domain.addUnit("unit").addFunction("function").addVisibility(Visibility.PUBLIC).addReturnType("String")
+                .addParameters(parameters).setStaticFunction(true);
 
         Unit unitModel = domain.getUnit("unit");
         Function function = unitModel.getFunctions().stream().filter(new Function("function")::equals).findAny().orElse(null);
@@ -373,7 +386,8 @@ class DomainTest {
     void shouldBeReturnNonStaticFunction() {
         Domain domain = new Domain("domain");
         String[] parameters = {"String", "int"};
-        domain.addUnit("unit").addFunction("function", Visibility.PUBLIC, "String", parameters, false);
+        domain.addUnit("unit").addFunction("function").addVisibility(Visibility.PUBLIC).addReturnType("String")
+                .addParameters(parameters).setStaticFunction(false);
 //        domain.addUnit("unit2")
 //                .addFunction(nombre).static().return("int")
 //                .addUnit("x").parameters("a,v")

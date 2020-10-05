@@ -153,6 +153,10 @@ public class Domain {
         return this;
     }
 
+    public Domain setStaticFunction(boolean staticValue){
+        this.activeFunction.setStaticFunction(staticValue);
+        return this;
+    }
 
     public Domain addFunction(String name, Visibility visibility){
         return addFunction(name, visibility, "");

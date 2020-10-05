@@ -94,4 +94,8 @@ public class Function {
     public void setParameters(String[] parameters) {
         this.parameters = parameters;
     }
+
+    public void setStaticFunction(boolean staticFunction) {
+        this.staticFunction = staticFunction;
+    }
 }
