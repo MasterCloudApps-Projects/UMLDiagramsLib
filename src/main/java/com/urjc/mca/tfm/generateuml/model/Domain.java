@@ -25,6 +25,7 @@ public class Domain {
 
     private Domain addUnit(Unit unit){
         this.activeUnit = this.getUnit(unit);
+        this.activeFunction = null;
         return this;
     }
 
@@ -133,7 +134,7 @@ public class Domain {
     }
 
     public Domain addFunction(String name){
-        activeFunction = new Function(name);
+        this.activeFunction = new Function(name);
         this.activeUnit.addFunction(activeFunction);
         return this;
     }

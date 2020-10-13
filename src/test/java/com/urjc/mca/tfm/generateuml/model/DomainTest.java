@@ -1,11 +1,13 @@
 package com.urjc.mca.tfm.generateuml.model;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class DomainTest {
 
@@ -403,6 +405,15 @@ class DomainTest {
         assertThat(function.staticFunction, is(false));
     }
 
+    @Test
+    @DisplayName("should be return null pointer exception")
+    void shouldBeReturnNullPointerException() {
+        Domain domain = new Domain("domain");
+        assertThrows(NullPointerException.class, () ->{
+            domain.addUnit("unit").addFunction("function").addUnit("unit 2").setStaticFunction(true);
+                });
+    }
+    
     @Test
     void shouldBeReturnAnActor() {
         Domain domain = new Domain("domain");
