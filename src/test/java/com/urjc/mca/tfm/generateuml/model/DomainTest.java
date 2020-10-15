@@ -197,7 +197,7 @@ class DomainTest {
     @Test
     void shouldBeReturnAUnitWithAttributeAndVisibilityPublic() {
         Domain model = new Domain("model");
-        model.addUnit("unit").addAttribute("attribute", Visibility.PUBLIC);
+        model.addUnit("unit").addAttribute("attribute").addVisibility(Visibility.PUBLIC);
 
         Unit unitModel = model.getUnit("unit");
         Attribute attribute = unitModel.getAttributes().stream().filter(new Attribute("attribute")::equals).findAny().orElse(null);
@@ -208,7 +208,7 @@ class DomainTest {
     @Test
     void shouldBeReturnAUnitWithAttributeAndVisibilityPrivate() {
         Domain model = new Domain("model");
-        model.addUnit("unit").addAttribute("attribute", Visibility.PRIVATE);
+        model.addUnit("unit").addAttribute("attribute").addVisibility(Visibility.PRIVATE);
 
         Unit unitModel = model.getUnit("unit");
         Attribute attribute = unitModel.getAttributes().stream().filter(new Attribute("attribute")::equals).findAny().orElse(null);
@@ -219,7 +219,7 @@ class DomainTest {
     @Test
     void shouldBeReturnAUnitWithAttributeAndVisibilityProtected() {
         Domain model = new Domain("model");
-        model.addUnit("unit").addAttribute("attribute", Visibility.PROTECTED);
+        model.addUnit("unit").addAttribute("attribute").addVisibility(Visibility.PROTECTED);
 
         Unit unitModel = model.getUnit("unit");
         Attribute attribute = unitModel.getAttributes().stream().filter(new Attribute("attribute")::equals).findAny().orElse(null);
@@ -230,7 +230,7 @@ class DomainTest {
     @Test
     void shouldBeReturnAUnitWithAttributeAndVisibilityPackage() {
         Domain model = new Domain("model");
-        model.addUnit("unit").addAttribute("attribute", Visibility.PACKAGE);
+        model.addUnit("unit").addAttribute("attribute").addVisibility(Visibility.PACKAGE);
 
         Unit unitModel = model.getUnit("unit");
         Attribute attribute = unitModel.getAttributes().stream().filter(new Attribute("attribute")::equals).findAny().orElse(null);
@@ -244,7 +244,7 @@ class DomainTest {
     @Test
     void shouldBeReturnStringTypeAttribute() {
         Domain model = new Domain("model");
-        model.addUnit("unit").addAttribute("attribute", Visibility.PACKAGE, "String");
+        model.addUnit("unit").addAttribute("attribute").addVisibility(Visibility.PACKAGE).setType("String");
 
         Unit unitModel = model.getUnit("unit");
         Attribute attribute = unitModel.getAttributes().stream().filter(new Attribute("attribute")::equals).findAny().orElse(null);
@@ -256,7 +256,7 @@ class DomainTest {
     @Test
     void shouldBeReturnStaticAttribute() {
         Domain model = new Domain("model");
-        model.addUnit("unit").addAttribute("attribute", Visibility.PACKAGE, "String", true);
+        model.addUnit("unit").addAttribute("attribute").addVisibility(Visibility.PACKAGE).setType("String").setStatic(true);
 
         Unit unitModel = model.getUnit("unit");
         Attribute attribute = unitModel.getAttributes().stream().filter(new Attribute("attribute")::equals).findAny().orElse(null);
@@ -269,7 +269,7 @@ class DomainTest {
     @Test
     void shouldBeReturnNotStaticAttribute() {
         Domain model = new Domain("model");
-        model.addUnit("unit").addAttribute("attribute", Visibility.PACKAGE, "String");
+        model.addUnit("unit").addAttribute("attribute").addVisibility(Visibility.PACKAGE).setType("String");
 
         Unit unitModel = model.getUnit("unit");
         Attribute attribute = unitModel.getAttributes().stream().filter(new Attribute("attribute")::equals).findAny().orElse(null);
@@ -358,7 +358,7 @@ class DomainTest {
     @Test
     void shouldBeReturnStaticFunction() {
         Domain domain = new Domain("domain");
-        domain.addUnit("unit").addFunction("function").setStaticFunction(true);
+        domain.addUnit("unit").addFunction("function").setStatic(true);
 
         Unit unitModel = domain.getUnit("unit");
         Function function = unitModel.getFunctions().stream().filter(new Function("function")::equals).findAny().orElse(null);
@@ -372,7 +372,7 @@ class DomainTest {
         Domain domain = new Domain("domain");
         String[] parameters = {"String", "int"};
         domain.addUnit("unit").addFunction("function").addVisibility(Visibility.PUBLIC).addReturnType("String")
-                .addParameters(parameters).setStaticFunction(true);
+                .addParameters(parameters).setStatic(true);
 
         Unit unitModel = domain.getUnit("unit");
         Function function = unitModel.getFunctions().stream().filter(new Function("function")::equals).findAny().orElse(null);
@@ -389,7 +389,7 @@ class DomainTest {
         Domain domain = new Domain("domain");
         String[] parameters = {"String", "int"};
         domain.addUnit("unit").addFunction("function").addVisibility(Visibility.PUBLIC).addReturnType("String")
-                .addParameters(parameters).setStaticFunction(false);
+                .addParameters(parameters).setStatic(false);
 //        domain.addUnit("unit2")
 //                .addFunction(nombre).static().return("int")
 //                .addUnit("x").parameters("a,v")
@@ -410,7 +410,7 @@ class DomainTest {
     void shouldBeReturnNullPointerException() {
         Domain domain = new Domain("domain");
         assertThrows(NullPointerException.class, () ->{
-            domain.addUnit("unit").addFunction("function").addUnit("unit 2").setStaticFunction(true);
+            domain.addUnit("unit").addFunction("function").addUnit("unit 2").setStatic(true);
                 });
     }
     
