@@ -14,28 +14,8 @@ public class Function {
     public  String returnTypeName;
 
     public Function(String name) {
-//        this(name, Visibility.EMPTY_VISIBILITY);
+        this.visibility = Visibility.EMPTY_VISIBILITY;
         this.name = name;
-    }
-
-    public Function(String name, Visibility visibility) {
-        this(name, visibility, "");
-    }
-
-    public Function(String name, Visibility visibility, String returnType) {
-        this(name, visibility, returnType, null);
-    }
-
-    public Function(String name, Visibility visibility, String returnType, String[] parameters) {
-        this(name, visibility, returnType, parameters, false);
-    }
-
-    public Function(String name, Visibility visibility, String returnType, String[] parameters, boolean staticFunction) {
-        this.name = name;
-        this.visibility = visibility;
-        this.returnTypeName = returnType;
-        this.staticFunction = staticFunction;
-        this.parameters = parameters;
     }
 
     public void setVisibility(Visibility visibility) {
