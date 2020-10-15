@@ -313,7 +313,7 @@ class ClassDiagramTest {
     void shouldBeReturnAttributeWithPublicVisibility(){
         ClassDiagram classDiagram = new ClassDiagram();
         Domain domain = new Domain("domain");
-        domain.addUnit("unit").addAttribute("attribute", Visibility.PUBLIC);
+        domain.addUnit("unit").addAttribute("attribute").addVisibility(Visibility.PUBLIC);
 
         classDiagram.addModel(domain);
 
@@ -327,7 +327,7 @@ class ClassDiagramTest {
     void shouldBeReturnAttributeWithPrivateVisibility(){
         ClassDiagram classDiagram = new ClassDiagram();
         Domain domain = new Domain("domain");
-        domain.addUnit("unit").addAttribute("attribute", Visibility.PRIVATE);
+        domain.addUnit("unit").addAttribute("attribute").addVisibility(Visibility.PRIVATE);
 
         classDiagram.addModel(domain);
 
@@ -341,7 +341,7 @@ class ClassDiagramTest {
     void shouldBeReturnAttributeWithProtectedVisibility(){
         ClassDiagram classDiagram = new ClassDiagram();
         Domain domain = new Domain("domain");
-        domain.addUnit("unit").addAttribute("attribute", Visibility.PROTECTED);
+        domain.addUnit("unit").addAttribute("attribute").addVisibility(Visibility.PROTECTED);
 
         classDiagram.addModel(domain);
 
@@ -355,7 +355,7 @@ class ClassDiagramTest {
     void shouldBeReturnAttributeWithPackageVisibility(){
         ClassDiagram classDiagram = new ClassDiagram();
         Domain domain = new Domain("domain");
-        domain.addUnit("unit").addAttribute("attribute", Visibility.PACKAGE);
+        domain.addUnit("unit").addAttribute("attribute").addVisibility(Visibility.PACKAGE);
 
         classDiagram.addModel(domain);
 
@@ -369,7 +369,7 @@ class ClassDiagramTest {
     void shouldBeReturnAttributeWithoutVisibility(){
         ClassDiagram classDiagram = new ClassDiagram();
         Domain domain = new Domain("domain");
-        domain.addUnit("unit").addAttribute("attribute", Visibility.EMPTY_VISIBILITY);
+        domain.addUnit("unit").addAttribute("attribute").addVisibility(Visibility.EMPTY_VISIBILITY);
 
         classDiagram.addModel(domain);
 
@@ -396,7 +396,7 @@ class ClassDiagramTest {
     void shouldBeReturnAttributeWithProtectedVisibilityAndSpacesInName(){
         ClassDiagram classDiagram = new ClassDiagram();
         Domain domain = new Domain("domain");
-        domain.addUnit("my unit").addAttribute("my attribute", Visibility.PROTECTED);
+        domain.addUnit("my unit").addAttribute("my attribute").addVisibility(Visibility.PROTECTED);
 
         classDiagram.addModel(domain);
 
@@ -425,7 +425,7 @@ class ClassDiagramTest {
     void shouldBeReturnUnitWithFunctionAndVisibility(){
         ClassDiagram classDiagram = new ClassDiagram();
         Domain domain = new Domain("domain");
-        domain.addUnit("unit").addFunction("function", Visibility.PUBLIC);
+        domain.addUnit("unit").addFunction("function").addVisibility(Visibility.PUBLIC);
 
         classDiagram.addModel(domain);
 
@@ -440,7 +440,7 @@ class ClassDiagramTest {
     void shouldBeReturnUnitWithFunctionAndVisibilityAndReturnType(){
         ClassDiagram classDiagram = new ClassDiagram();
         Domain domain = new Domain("domain");
-        domain.addUnit("unit").addFunction("function", Visibility.PUBLIC, "String");
+        domain.addUnit("unit").addFunction("function").addVisibility(Visibility.PUBLIC).addReturnType( "String");
 
         classDiagram.addModel(domain);
 
@@ -456,7 +456,8 @@ class ClassDiagramTest {
         ClassDiagram classDiagram = new ClassDiagram();
         Domain domain = new Domain("domain");
         String[] parameters = {"String", "int"};
-        domain.addUnit("unit").addFunction("function", Visibility.PUBLIC, "String", parameters);
+        domain.addUnit("unit").addFunction("function").addVisibility(Visibility.PUBLIC).addReturnType("String")
+                .addParameters(parameters);
 
         classDiagram.addModel(domain);
 
@@ -472,7 +473,8 @@ class ClassDiagramTest {
         ClassDiagram classDiagram = new ClassDiagram();
         Domain domain = new Domain("domain");
         String[] parameters = {"String", "int"};
-        domain.addUnit("unit").addFunction("function", Visibility.PUBLIC, "String", parameters, true);
+        domain.addUnit("unit").addFunction("function").addVisibility(Visibility.PUBLIC).addReturnType("String")
+                .addParameters(parameters).setStatic(true);
 
         classDiagram.addModel(domain);
 
