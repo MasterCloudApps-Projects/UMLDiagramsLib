@@ -7,27 +7,13 @@ import java.util.Objects;
 public class Attribute {
 
     public final String name;
-    public final Visibility visibility;
-    public final String type;
-    public final boolean staticAttribute;
+    public Visibility visibility;
+    public String type;
+    public boolean staticAttribute;
 
     public Attribute(String name){
-        this(name, Visibility.EMPTY_VISIBILITY);
-    }
-
-    public Attribute(String name, Visibility visibility){
-        this(name, visibility, "");
-    }
-
-    public Attribute(String name, Visibility visibility, String type){
-        this(name, visibility, type, false);
-    }
-
-    public Attribute(String name, Visibility visibility, String type, boolean staticAttribute){
         this.name = name;
-        this.visibility = visibility;
-        this.type = type;
-        this.staticAttribute = staticAttribute;
+        this.visibility = Visibility.EMPTY_VISIBILITY;
     }
 
     @Override
