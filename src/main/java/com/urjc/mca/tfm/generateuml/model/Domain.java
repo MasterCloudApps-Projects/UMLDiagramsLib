@@ -18,6 +18,7 @@ public class Domain {
     private List<Actor> actorList = new ArrayList<>();
     private Actor activeActor;
     private Function activeFunction;
+    private Attribute activeAttribute;
 
     public Domain(String name){
         this.name = name;
@@ -26,6 +27,7 @@ public class Domain {
     private Domain addUnit(Unit unit){
         this.activeUnit = this.getUnit(unit);
         this.activeFunction = null;
+        this.activeAttribute = null;
         return this;
     }
 
@@ -116,31 +118,29 @@ public class Domain {
         return this.unitList;
     }
 
+    public Domain setType(String type){
+        this.activeAttribute.type = type;
+        return this;
+    }
     public Domain addAttribute(String name){
-        return addAttribute(name, Visibility.EMPTY_VISIBILITY);
-    }
-
-    public Domain addAttribute(String name, Visibility visibility){
-        return addAttribute(name, visibility, "");
-    }
-
-    public Domain addAttribute(String name, Visibility visibility, String type){
-        return addAttribute(name, visibility, type, false);
-    }
-
-    public Domain addAttribute(String name, Visibility visibility, String type, boolean staticAttribute){
-        this.activeUnit.addAttribute(new Attribute(name, visibility, type, staticAttribute));
+        this.activeAttribute = new Attribute(name);
+        this.activeFunction = null;
+        this.activeUnit.addAttribute(this.activeAttribute);
         return this;
     }
 
     public Domain addFunction(String name){
+        this.activeAttribute=null;
         this.activeFunction = new Function(name);
         this.activeUnit.addFunction(activeFunction);
         return this;
     }
 
     public Domain addVisibility(Visibility visibility){
-        this.activeFunction.setVisibility(visibility);
+        if(activeFunction != null)
+            this.activeFunction.setVisibility(visibility);
+        else
+            this.activeAttribute.visibility = visibility;
         return this;
     }
 
@@ -154,27 +154,30 @@ public class Domain {
         return this;
     }
 
-    public Domain setStaticFunction(boolean staticValue){
-        this.activeFunction.setStaticFunction(staticValue);
+    public Domain setStatic(boolean staticValue){
+        if(activeFunction != null)
+            this.activeFunction.setStaticFunction(staticValue);
+        else
+            this.activeAttribute.staticAttribute = staticValue;
         return this;
     }
 
-    public Domain addFunction(String name, Visibility visibility){
-        return addFunction(name, visibility, "");
-    }
-
-    public Domain addFunction(String name, Visibility visibility, String returnType){
-        return addFunction(name, visibility, returnType, null);
-    }
-
-    public Domain addFunction(String name, Visibility visibility, String returnType, String[] parameters){
-        return addFunction(name, visibility, returnType, parameters, false);
-    }
-
-    public Domain addFunction(String name, Visibility visibility, String returnType, String[] parameters, boolean staticFunction){
-        this.activeUnit.addFunction(new Function(name, visibility, returnType, parameters, staticFunction));
-        return this;
-    }
+//    public Domain addFunction(String name, Visibility visibility){
+//        return addFunction(name, visibility, "");
+//    }
+//
+//    public Domain addFunction(String name, Visibility visibility, String returnType){
+//        return addFunction(name, visibility, returnType, null);
+//    }
+//
+//    public Domain addFunction(String name, Visibility visibility, String returnType, String[] parameters){
+//        return addFunction(name, visibility, returnType, parameters, false);
+//    }
+//
+//    public Domain addFunction(String name, Visibility visibility, String returnType, String[] parameters, boolean staticFunction){
+//        this.activeUnit.addFunction(new Function(name, visibility, returnType, parameters, staticFunction));
+//        return this;
+//    }
 
     public List<Unit> getAfferent(String unit){
         List<Unit> afferent = new ArrayList<>();
