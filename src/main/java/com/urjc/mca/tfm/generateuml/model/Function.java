@@ -7,14 +7,14 @@ import java.util.Objects;
 
 public class Function {
 
-    public boolean staticFunction;
-    public  Visibility visibility;
-    public  String name;
-    public  String[] parameters;
-    public  String returnTypeName;
+    private boolean staticFunction;
+    private Visibility visibility;
+    private String name;
+    private String[] parameters;
+    private String returnTypeName;
 
     public Function(String name) {
-        this.visibility = Visibility.EMPTY_VISIBILITY;
+        this.setVisibility(Visibility.EMPTY_VISIBILITY);
         this.name = name;
     }
 
@@ -37,26 +37,26 @@ public class Function {
 
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
-        if (this.visibility != Visibility.EMPTY_VISIBILITY) {
-            stringBuilder.append(this.visibility.getCharacter());
+        if (this.getVisibility() != Visibility.EMPTY_VISIBILITY) {
+            stringBuilder.append(this.getVisibility().getCharacter());
             stringBuilder.append(" ");
         }
-        if (this.staticFunction)
+        if (this.isStaticFunction())
             stringBuilder.append("{static} ");
         stringBuilder.append(this.name);
-        if(this.parameters != null){
+        if(this.getParameters() != null){
             StringBuilder sb = new StringBuilder();
             sb.append("(");
-            Arrays.stream(parameters).forEach(p -> {
+            Arrays.stream(getParameters()).forEach(p -> {
                 sb.append(p);
                 sb.append(", ");
             });
             stringBuilder.append(replaceLastComma(sb));
             stringBuilder.append(")");
         }
-        if (!StringUtils.isEmpty(this.returnTypeName)) {
+        if (!StringUtils.isEmpty(this.getReturnTypeName())) {
             stringBuilder.append(": ");
-            stringBuilder.append(this.returnTypeName);
+            stringBuilder.append(this.getReturnTypeName());
         }
         return stringBuilder.toString();
     }
@@ -77,5 +77,21 @@ public class Function {
 
     public void setStaticFunction(boolean staticFunction) {
         this.staticFunction = staticFunction;
+    }
+
+    public boolean isStaticFunction() {
+        return staticFunction;
+    }
+
+    public Visibility getVisibility() {
+        return visibility;
+    }
+
+    public String[] getParameters() {
+        return parameters;
+    }
+
+    public String getReturnTypeName() {
+        return returnTypeName;
     }
 }

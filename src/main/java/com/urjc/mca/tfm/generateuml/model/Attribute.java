@@ -7,13 +7,13 @@ import java.util.Objects;
 public class Attribute {
 
     public final String name;
-    public Visibility visibility;
-    public String type;
-    public boolean staticAttribute;
+    private Visibility visibility;
+    private String type;
+    private boolean staticAttribute;
 
     public Attribute(String name){
         this.name = name;
-        this.visibility = Visibility.EMPTY_VISIBILITY;
+        this.setVisibility(Visibility.EMPTY_VISIBILITY);
     }
 
     @Override
@@ -31,17 +31,41 @@ public class Attribute {
 
     public String toString(){
         StringBuilder stringBuilder = new StringBuilder();
-        if(this.visibility != Visibility.EMPTY_VISIBILITY){
-            stringBuilder.append(this.visibility.getCharacter());
+        if(this.getVisibility() != Visibility.EMPTY_VISIBILITY){
+            stringBuilder.append(this.getVisibility().getCharacter());
             stringBuilder.append( " ");
         }
-        if(this.staticAttribute)
+        if(this.isStaticAttribute())
             stringBuilder.append("{static} ");
         stringBuilder.append(this.name);
-        if(!StringUtils.isEmpty(this.type)){
+        if(!StringUtils.isEmpty(this.getType())){
             stringBuilder.append(": ");
-            stringBuilder.append(this.type);
+            stringBuilder.append(this.getType());
         }
         return stringBuilder.toString();
+    }
+
+    public Visibility getVisibility() {
+        return visibility;
+    }
+
+    public void setVisibility(Visibility visibility) {
+        this.visibility = visibility;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public boolean isStaticAttribute() {
+        return staticAttribute;
+    }
+
+    public void setStaticAttribute(boolean staticAttribute) {
+        this.staticAttribute = staticAttribute;
     }
 }
