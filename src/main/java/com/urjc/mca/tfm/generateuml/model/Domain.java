@@ -32,12 +32,12 @@ public class Domain {
     }
 
     public Domain addUnit(String unit){
-        LOG.debug("add unit:" + unit);
+        LOG.debug("add unit: {}", unit);
         return addUnit(new Unit(unit));
     }
 
     public Domain addPackage(String myPackage){
-        LOG.debug("add package:" + myPackage);
+        LOG.debug("add package: {}", myPackage);
         this.activePackage = myPackage;
         return this;
     }
@@ -69,7 +69,7 @@ public class Domain {
     }
 
     public Domain addBase(String unit){
-        LOG.debug("add base:" + unit);
+        LOG.debug("add base:{}", unit);
         return addBase(new Unit(unit));
     }
 
@@ -79,7 +79,7 @@ public class Domain {
     }
 
     public Domain addPart(String unit){
-        LOG.debug("add part:" + unit);
+        LOG.debug("add part:{}", unit);
         return addPart(new Unit(unit));
     }
 
@@ -89,7 +89,7 @@ public class Domain {
     }
 
     public Domain addElement(String unit){
-        LOG.debug("add element:" + unit);
+        LOG.debug("add element:{}", unit);
         return addElement(new Unit(unit));
     }
 
@@ -99,7 +99,7 @@ public class Domain {
     }
 
     public Domain addAssociate(String unit){
-        LOG.debug("add associate:" + unit);
+        LOG.debug("add associate:{}", unit);
         return addAssociate(new Unit(unit));
     }
 
@@ -109,7 +109,7 @@ public class Domain {
     }
 
     public Domain addUsed(String unit){
-        LOG.debug("add used:" + unit);
+        LOG.debug("add used:{}", unit);
         return addUsed(new Unit(unit));
     }
 
@@ -119,7 +119,7 @@ public class Domain {
     }
 
     public Domain setType(String type){
-        this.activeAttribute.type = type;
+        this.activeAttribute.setType(type);
         return this;
     }
     public Domain addAttribute(String name){
@@ -140,7 +140,7 @@ public class Domain {
         if(activeFunction != null)
             this.activeFunction.setVisibility(visibility);
         else
-            this.activeAttribute.visibility = visibility;
+            this.activeAttribute.setVisibility(visibility);
         return this;
     }
 
@@ -158,26 +158,9 @@ public class Domain {
         if(activeFunction != null)
             this.activeFunction.setStaticFunction(staticValue);
         else
-            this.activeAttribute.staticAttribute = staticValue;
+            this.activeAttribute.setStaticAttribute(staticValue);
         return this;
     }
-
-//    public Domain addFunction(String name, Visibility visibility){
-//        return addFunction(name, visibility, "");
-//    }
-//
-//    public Domain addFunction(String name, Visibility visibility, String returnType){
-//        return addFunction(name, visibility, returnType, null);
-//    }
-//
-//    public Domain addFunction(String name, Visibility visibility, String returnType, String[] parameters){
-//        return addFunction(name, visibility, returnType, parameters, false);
-//    }
-//
-//    public Domain addFunction(String name, Visibility visibility, String returnType, String[] parameters, boolean staticFunction){
-//        this.activeUnit.addFunction(new Function(name, visibility, returnType, parameters, staticFunction));
-//        return this;
-//    }
 
     public List<Unit> getAfferent(String unit){
         List<Unit> afferent = new ArrayList<>();
@@ -204,7 +187,7 @@ public class Domain {
     }
 
     public Domain addActor(String actor){
-        LOG.debug("add actor:" + actor);
+        LOG.debug("add actor:{}", actor);
         return addActor(new Actor(actor));
     }
 

@@ -202,7 +202,7 @@ class DomainTest {
         Unit unitModel = model.getUnit("unit");
         Attribute attribute = unitModel.getAttributes().stream().filter(new Attribute("attribute")::equals).findAny().orElse(null);
         assertThat(unitModel.getAttributes().contains(new Attribute("attribute")), is(true));
-        assertThat(attribute.visibility, is(Visibility.PUBLIC));
+        assertThat(attribute.getVisibility(), is(Visibility.PUBLIC));
     }
 
     @Test
@@ -213,7 +213,7 @@ class DomainTest {
         Unit unitModel = model.getUnit("unit");
         Attribute attribute = unitModel.getAttributes().stream().filter(new Attribute("attribute")::equals).findAny().orElse(null);
         assertThat(unitModel.getAttributes().contains(new Attribute("attribute")), is(true));
-        assertThat(attribute.visibility, is(Visibility.PRIVATE));
+        assertThat(attribute.getVisibility(), is(Visibility.PRIVATE));
     }
 
     @Test
@@ -224,7 +224,7 @@ class DomainTest {
         Unit unitModel = model.getUnit("unit");
         Attribute attribute = unitModel.getAttributes().stream().filter(new Attribute("attribute")::equals).findAny().orElse(null);
         assertThat(unitModel.getAttributes().contains(new Attribute("attribute")), is(true));
-        assertThat(attribute.visibility, is(Visibility.PROTECTED));
+        assertThat(attribute.getVisibility(), is(Visibility.PROTECTED));
     }
 
     @Test
@@ -236,7 +236,7 @@ class DomainTest {
         Attribute attribute = unitModel.getAttributes().stream().filter(new Attribute("attribute")::equals).findAny().orElse(null);
 
         assertThat(unitModel.getAttributes().contains(new Attribute("attribute")), is(true));
-        assertThat(attribute.visibility, is(Visibility.PACKAGE));
+        assertThat(attribute.getVisibility(), is(Visibility.PACKAGE));
     }
 
     //    @ParameterizedTest
@@ -250,7 +250,7 @@ class DomainTest {
         Attribute attribute = unitModel.getAttributes().stream().filter(new Attribute("attribute")::equals).findAny().orElse(null);
 
         assertThat(unitModel.getAttributes().contains(new Attribute("attribute")), is(true));
-        assertThat(attribute.type, is("String"));
+        assertThat(attribute.getType(), is("String"));
     }
 
     @Test
@@ -262,8 +262,8 @@ class DomainTest {
         Attribute attribute = unitModel.getAttributes().stream().filter(new Attribute("attribute")::equals).findAny().orElse(null);
 
         assertThat(unitModel.getAttributes().contains(new Attribute("attribute")), is(true));
-        assertThat(attribute.type, is("String"));
-        assertThat(attribute.staticAttribute, is(true));
+        assertThat(attribute.getType(), is("String"));
+        assertThat(attribute.isStaticAttribute(), is(true));
     }
 
     @Test
@@ -275,8 +275,8 @@ class DomainTest {
         Attribute attribute = unitModel.getAttributes().stream().filter(new Attribute("attribute")::equals).findAny().orElse(null);
 
         assertThat(unitModel.getAttributes().contains(new Attribute("attribute")), is(true));
-        assertThat(attribute.type, is("String"));
-        assertThat(attribute.staticAttribute, is(false));
+        assertThat(attribute.getType(), is("String"));
+        assertThat(attribute.isStaticAttribute(), is(false));
     }
 
     @Test
@@ -299,7 +299,7 @@ class DomainTest {
         Function function = unitModel.getFunctions().stream().filter(new Function("function")::equals).findAny().orElse(null);
 
         assertThat(unitModel.getFunctions().contains(new Function("function")), is(true));
-        assertThat(function.visibility, is(visibility));
+        assertThat(function.getVisibility(), is(visibility));
     }
 
     @Test
@@ -311,7 +311,7 @@ class DomainTest {
         Function function = unitModel.getFunctions().stream().filter(new Function("function")::equals).findAny().orElse(null);
 
         assertThat(unitModel.getFunctions().contains(new Function("function")), is(true));
-        assertThat(function.returnTypeName, is("String"));
+        assertThat(function.getReturnTypeName(), is("String"));
     }
 
     @Test
@@ -323,8 +323,8 @@ class DomainTest {
         Function function = unitModel.getFunctions().stream().filter(new Function("function")::equals).findAny().orElse(null);
 
         assertThat(unitModel.getFunctions().contains(new Function("function")), is(true));
-        assertThat(function.visibility, is(Visibility.PUBLIC));
-        assertThat(function.returnTypeName, is("String"));
+        assertThat(function.getVisibility(), is(Visibility.PUBLIC));
+        assertThat(function.getReturnTypeName(), is("String"));
     }
 
     @Test
@@ -337,7 +337,7 @@ class DomainTest {
         Function function = unitModel.getFunctions().stream().filter(new Function("function")::equals).findAny().orElse(null);
 
         assertThat(unitModel.getFunctions().contains(new Function("function")), is(true));
-        assertThat(function.parameters, is(parameters));
+        assertThat(function.getParameters(), is(parameters));
     }
 
     @Test
@@ -350,9 +350,9 @@ class DomainTest {
         Function function = unitModel.getFunctions().stream().filter(new Function("function")::equals).findAny().orElse(null);
 
         assertThat(unitModel.getFunctions().contains(new Function("function")), is(true));
-        assertThat(function.visibility, is(Visibility.PUBLIC));
-        assertThat(function.returnTypeName, is("String"));
-        assertThat(function.parameters, is(parameters));
+        assertThat(function.getVisibility(), is(Visibility.PUBLIC));
+        assertThat(function.getReturnTypeName(), is("String"));
+        assertThat(function.getParameters(), is(parameters));
     }
 
     @Test
@@ -364,7 +364,7 @@ class DomainTest {
         Function function = unitModel.getFunctions().stream().filter(new Function("function")::equals).findAny().orElse(null);
 
         assertThat(unitModel.getFunctions().contains(new Function("function")), is(true));
-        assertThat(function.staticFunction, is(true));
+        assertThat(function.isStaticFunction(), is(true));
     }
 
     @Test
@@ -378,10 +378,10 @@ class DomainTest {
         Function function = unitModel.getFunctions().stream().filter(new Function("function")::equals).findAny().orElse(null);
 
         assertThat(unitModel.getFunctions().contains(new Function("function")), is(true));
-        assertThat(function.visibility, is(Visibility.PUBLIC));
-        assertThat(function.returnTypeName, is("String"));
-        assertThat(function.parameters, is(parameters));
-        assertThat(function.staticFunction, is(true));
+        assertThat(function.getVisibility(), is(Visibility.PUBLIC));
+        assertThat(function.getReturnTypeName(), is("String"));
+        assertThat(function.getParameters(), is(parameters));
+        assertThat(function.isStaticFunction(), is(true));
     }
 
     @Test
@@ -399,19 +399,18 @@ class DomainTest {
         Function function = unitModel.getFunctions().stream().filter(new Function("function")::equals).findAny().orElse(null);
 
         assertThat(unitModel.getFunctions().contains(new Function("function")), is(true));
-        assertThat(function.visibility, is(Visibility.PUBLIC));
-        assertThat(function.returnTypeName, is("String"));
-        assertThat(function.parameters, is(parameters));
-        assertThat(function.staticFunction, is(false));
+        assertThat(function.getVisibility(), is(Visibility.PUBLIC));
+        assertThat(function.getReturnTypeName(), is("String"));
+        assertThat(function.getParameters(), is(parameters));
+        assertThat(function.isStaticFunction(), is(false));
     }
 
     @Test
     @DisplayName("should be return null pointer exception")
     void shouldBeReturnNullPointerException() {
         Domain domain = new Domain("domain");
-        assertThrows(NullPointerException.class, () ->{
-            domain.addUnit("unit").addFunction("function").addUnit("unit 2").setStatic(true);
-                });
+        domain.addUnit("unit").addFunction("function").addUnit("unit 2");
+        assertThrows(NullPointerException.class, () -> domain.setStatic(true));
     }
     
     @Test
