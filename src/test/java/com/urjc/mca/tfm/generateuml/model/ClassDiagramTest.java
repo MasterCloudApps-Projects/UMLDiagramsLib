@@ -1,5 +1,6 @@
 package com.urjc.mca.tfm.generateuml.model;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -22,6 +23,21 @@ class ClassDiagramTest {
                         "class package.Unit2\n";
         assertThat(classDiagram.print(), is(result));
 
+    }
+
+    @Test
+    @DisplayName("should be return abstract unit")
+    void shouldBeReturnAbstractUnit() {
+        Domain domain = new Domain("domain");
+        domain.addPackage("package")
+                .addUnit("Unit1")
+                .setAbstractUnit();
+        ClassDiagram classDiagram = new ClassDiagram();
+
+        classDiagram.addDomain(domain);
+
+        String result = "abstract class package.Unit1\n";
+        assertThat(classDiagram.print(), is(result));
     }
 
     @Test
@@ -335,7 +351,7 @@ class ClassDiagramTest {
                 "mastermind.Combination *--> mastermind.Color\n" +
                 "mastermind.Combination *--> mastermind.SecretCombination\n";
 
-        classDiagram.addModel(domain).print();
+        classDiagram.addDomain(domain).print();
 
         assertThat(classDiagram.print(), is(resultPrint));
     }
@@ -346,7 +362,7 @@ class ClassDiagramTest {
         Domain domain = new Domain("domain");
         domain.addUnit("unit").addAttribute("attribute").addVisibility(Visibility.PUBLIC);
 
-        classDiagram.addModel(domain);
+        classDiagram.addDomain(domain);
 
         String resultPrint = "class unit{\n" +
                             "+ attribute\n" +
@@ -360,7 +376,7 @@ class ClassDiagramTest {
         Domain domain = new Domain("domain");
         domain.addUnit("unit").addAttribute("attribute").addVisibility(Visibility.PRIVATE);
 
-        classDiagram.addModel(domain);
+        classDiagram.addDomain(domain);
 
         String resultPrint = "class unit{\n" +
                             "- attribute\n" +
@@ -374,7 +390,7 @@ class ClassDiagramTest {
         Domain domain = new Domain("domain");
         domain.addUnit("unit").addAttribute("attribute").addVisibility(Visibility.PROTECTED);
 
-        classDiagram.addModel(domain);
+        classDiagram.addDomain(domain);
 
         String resultPrint = "class unit{\n" +
                             "# attribute\n" +
@@ -388,7 +404,7 @@ class ClassDiagramTest {
         Domain domain = new Domain("domain");
         domain.addUnit("unit").addAttribute("attribute").addVisibility(Visibility.PACKAGE);
 
-        classDiagram.addModel(domain);
+        classDiagram.addDomain(domain);
 
         String resultPrint = "class unit{\n" +
                             "~ attribute\n" +
@@ -402,7 +418,7 @@ class ClassDiagramTest {
         Domain domain = new Domain("domain");
         domain.addUnit("unit").addAttribute("attribute").addVisibility(Visibility.EMPTY_VISIBILITY);
 
-        classDiagram.addModel(domain);
+        classDiagram.addDomain(domain);
 
         String resultPrint = "class unit{\n" +
                             "attribute\n" +
@@ -417,7 +433,7 @@ class ClassDiagramTest {
         Domain domain = new Domain("domain");
         domain.addUnit("my unit");
 
-        classDiagram.addModel(domain);
+        classDiagram.addDomain(domain);
 
         String resultPrint = "class \"my unit\"\n";
         assertThat(classDiagram.print(), is(resultPrint));
@@ -429,7 +445,7 @@ class ClassDiagramTest {
         Domain domain = new Domain("domain");
         domain.addUnit("my unit").addAttribute("my attribute").addVisibility(Visibility.PROTECTED);
 
-        classDiagram.addModel(domain);
+        classDiagram.addDomain(domain);
 
         String resultPrint = "class \"my unit\"{\n" +
                 "# my attribute\n" +
@@ -444,7 +460,7 @@ class ClassDiagramTest {
         Domain domain = new Domain("domain");
         domain.addUnit("unit").addFunction("function");
 
-        classDiagram.addModel(domain);
+        classDiagram.addDomain(domain);
 
         String resultPrint = "class unit{\n" +
                 "function\n" +
@@ -458,7 +474,7 @@ class ClassDiagramTest {
         Domain domain = new Domain("domain");
         domain.addUnit("unit").addFunction("function").addVisibility(Visibility.PUBLIC);
 
-        classDiagram.addModel(domain);
+        classDiagram.addDomain(domain);
 
         String resultPrint = "class unit{\n" +
                 "+ function\n" +
@@ -473,7 +489,7 @@ class ClassDiagramTest {
         Domain domain = new Domain("domain");
         domain.addUnit("unit").addFunction("function").addVisibility(Visibility.PUBLIC).addReturnType( "String");
 
-        classDiagram.addModel(domain);
+        classDiagram.addDomain(domain);
 
         String resultPrint = "class unit{\n" +
                 "+ function: String\n" +
@@ -490,7 +506,7 @@ class ClassDiagramTest {
         domain.addUnit("unit").addFunction("function").addVisibility(Visibility.PUBLIC).addReturnType("String")
                 .addParameters(parameters);
 
-        classDiagram.addModel(domain);
+        classDiagram.addDomain(domain);
 
         String resultPrint = "class unit{\n" +
                 "+ function(String, int): String\n" +
@@ -507,7 +523,7 @@ class ClassDiagramTest {
         domain.addUnit("unit").addFunction("function").addVisibility(Visibility.PUBLIC).addReturnType("String")
                 .addParameters(parameters).setStatic(true);
 
-        classDiagram.addModel(domain);
+        classDiagram.addDomain(domain);
 
         String resultPrint = "class unit{\n" +
                 "+ {static} function(String, int): String\n" +

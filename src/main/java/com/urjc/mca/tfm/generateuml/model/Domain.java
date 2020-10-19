@@ -37,6 +37,12 @@ public class Domain {
         return addUnit(new Unit(unit));
     }
 
+    public Domain setAbstractUnit(){
+        LOG.debug("set abstract {}", this.activeUnit.name);
+        this.activeUnit.setAbstractUnit();
+        return this;
+    }
+
     public Domain addPackage(String myPackage) {
         LOG.debug("add package: {}", myPackage);
         this.activePackage = myPackage;

@@ -11,6 +11,7 @@ public class Unit {
     private static final String LINE_BREAK = "\n";
     private static final String DOT = ".";
     private static final String CLASS_AND_SPACE = "class ";
+    private static final String ABSTRACT_AND_SPACE = "abstract ";
 
     public final String name;
     private Set<Unit> partList = new HashSet<>();
@@ -21,6 +22,7 @@ public class Unit {
     private String myPackage;
     private Set<Attribute> attributes = new HashSet<>();
     private Set<Function> functions = new HashSet<>();
+    private boolean abstractUnit = false;
 
     public Unit(String name) {
         this.name = name;
@@ -74,6 +76,13 @@ public class Unit {
         return this.used;
     }
 
+    public void setAbstractUnit(){
+        this.abstractUnit = true;
+    }
+
+    public boolean getAbstractUnit(){
+        return this.abstractUnit;
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -105,6 +114,8 @@ public class Unit {
 
     public String toStringClassFormat(){
         StringBuilder stringBuilder = new StringBuilder();
+        if(abstractUnit)
+            stringBuilder.append(ABSTRACT_AND_SPACE);
         stringBuilder.append(CLASS_AND_SPACE);
         stringBuilder.append(printName());
         if(containsAttributeOrFunction()){
