@@ -2,7 +2,9 @@ package com.urjc.mca.tfm.generateuml.model;
 
 import org.springframework.util.StringUtils;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 public class Unit {
 
@@ -71,13 +73,6 @@ public class Unit {
     public Set<Unit> getUsed(){
         return this.used;
     }
-
-    public List<Unit> getEfferent(){
-        List<Unit> efferents = new ArrayList<>();
-        efferents.add(this);
-        return efferents;
-    }
-
 
     @Override
     public boolean equals(Object o) {
