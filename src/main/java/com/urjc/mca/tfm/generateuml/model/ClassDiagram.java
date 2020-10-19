@@ -24,8 +24,8 @@ public class ClassDiagram {
         return this;
     }
 
-    public ClassDiagram addModel(Domain model) {
-        this.addUnits(model.getUnitList());
+    public ClassDiagram addDomain(Domain domain) {
+        this.addUnits(domain.getUnitList());
         return this;
     }
 

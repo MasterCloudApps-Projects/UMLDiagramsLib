@@ -14,203 +14,212 @@ class DomainTest {
     @Test
     void shouldBeReturnTheFirstUnitWhenAddClass() {
 
-        Domain model = new Domain("model");
-        model.addUnit("unit").addUnit("unit");
+        Domain domain = new Domain("domain");
+        domain.addUnit("unit").addUnit("unit");
 
-        assertThat(model.getUnitList().size(), is(1));
-        assertThat(model.getUnitList().get(0).name, is("unit"));
+        assertThat(domain.getUnitList().size(), is(1));
+        assertThat(domain.getUnitList().get(0).name, is("unit"));
+    }
+
+    @Test
+    @DisplayName("should be return unit abstract")
+    void shouldBeReturnUnitAbstract() {
+        Domain domain = new Domain("domain");
+        domain.addUnit("unit").addUnit("unit").setAbstractUnit();
+
+        assertThat(domain.getUnit("unit").getAbstractUnit(), is(true));
     }
 
     @Test
     void shouldBeReturnTheFirstBaseUnit() {
 
-        Domain model = new Domain("model");
-        model.addUnit("unit").addBase("Base").addBase("Base");
+        Domain domain = new Domain("domain");
+        domain.addUnit("unit").addBase("Base").addBase("Base");
 
-        Unit unitModel = model.getUnit("unit");
+        Unit unitDomain = domain.getUnit("unit");
 
-        assertThat(unitModel.getBase().size(), is(1));
-        assertThat(unitModel.getBase().contains(new Unit("Base")), is(true));
+        assertThat(unitDomain.getBase().size(), is(1));
+        assertThat(unitDomain.getBase().contains(new Unit("Base")), is(true));
     }
 
     @Test
     void shouldBeReturnTheFirstBaseAndSecondBaseUnit() {
 
-        Domain model = new Domain("model");
-        model.addUnit("unit").addBase("Base").addBase("Base2");
+        Domain domain = new Domain("domain");
+        domain.addUnit("unit").addBase("Base").addBase("Base2");
 
-        Unit unitModel = model.getUnit("unit");
+        Unit unitDomain = domain.getUnit("unit");
 
-        assertThat(unitModel.getBase().size(), is(2));
-        assertThat(unitModel.getBase().contains(new Unit("Base")), is(true));
-        assertThat(unitModel.getBase().contains(new Unit("Base2")), is(true));
+        assertThat(unitDomain.getBase().size(), is(2));
+        assertThat(unitDomain.getBase().contains(new Unit("Base")), is(true));
+        assertThat(unitDomain.getBase().contains(new Unit("Base2")), is(true));
     }
 
     @Test
     void shouldBeReturnTheFirstPartUnit() {
 
-        Domain model = new Domain("model");
-        model.addUnit("unit").addPart("Part").addPart("Part");
+        Domain domain = new Domain("domain");
+        domain.addUnit("unit").addPart("Part").addPart("Part");
 
-        Unit unitModel = model.getUnit("unit");
+        Unit unitDomain = domain.getUnit("unit");
 
-        assertThat(unitModel.getPartList().size(), is(1));
-        assertThat(unitModel.getPartList().contains(new Unit("Part")), is(true));
+        assertThat(unitDomain.getPartList().size(), is(1));
+        assertThat(unitDomain.getPartList().contains(new Unit("Part")), is(true));
     }
 
     @Test
     void shouldBeReturnTheFirstAndSecondPartUnit() {
 
-        Domain model = new Domain("model");
-        model.addUnit("unit").addPart("Part").addPart("Part2");
+        Domain domain = new Domain("domain");
+        domain.addUnit("unit").addPart("Part").addPart("Part2");
 
-        Unit unitModel = model.getUnit("unit");
+        Unit unitDomain = domain.getUnit("unit");
 
-        assertThat(unitModel.getPartList().size(), is(2));
-        assertThat(unitModel.getPartList().contains(new Unit("Part")), is(true));
-        assertThat(unitModel.getPartList().contains(new Unit("Part2")), is(true));
+        assertThat(unitDomain.getPartList().size(), is(2));
+        assertThat(unitDomain.getPartList().contains(new Unit("Part")), is(true));
+        assertThat(unitDomain.getPartList().contains(new Unit("Part2")), is(true));
     }
 
     @Test
     void shouldBeReturnTheFirstElementUnit() {
 
-        Domain model = new Domain("model");
-        model.addUnit("unit").addPart("Element").addPart("Element");
+        Domain domain = new Domain("domain");
+        domain.addUnit("unit").addPart("Element").addPart("Element");
 
-        Unit unitModel = model.getUnit("unit");
+        Unit unitDomain = domain.getUnit("unit");
 
-        assertThat(unitModel.getPartList().size(), is(1));
-        assertThat(unitModel.getPartList().contains(new Unit("Element")), is(true));
+        assertThat(unitDomain.getPartList().size(), is(1));
+        assertThat(unitDomain.getPartList().contains(new Unit("Element")), is(true));
     }
 
     @Test
     void shouldBeReturnTheFirstAndSecondElementUnit() {
 
-        Domain model = new Domain("model");
-        model.addUnit("unit").addPart("Element").addPart("Element2");
+        Domain domain = new Domain("domain");
+        domain.addUnit("unit").addPart("Element").addPart("Element2");
 
-        Unit unitModel = model.getUnit("unit");
+        Unit unitDomain = domain.getUnit("unit");
 
-        assertThat(unitModel.getPartList().size(), is(2));
-        assertThat(unitModel.getPartList().contains(new Unit("Element")), is(true));
-        assertThat(unitModel.getPartList().contains(new Unit("Element2")), is(true));
+        assertThat(unitDomain.getPartList().size(), is(2));
+        assertThat(unitDomain.getPartList().contains(new Unit("Element")), is(true));
+        assertThat(unitDomain.getPartList().contains(new Unit("Element2")), is(true));
     }
 
     @Test
     void shouldBeReturnTheFirstAssociateUnit() {
 
-        Domain model = new Domain("model");
-        model.addUnit("unit").addPart("Associate").addPart("Associate");
+        Domain domain = new Domain("domain");
+        domain.addUnit("unit").addPart("Associate").addPart("Associate");
 
-        Unit unitModel = model.getUnit("unit");
+        Unit unitDomain = domain.getUnit("unit");
 
-        assertThat(unitModel.getPartList().size(), is(1));
-        assertThat(unitModel.getPartList().contains(new Unit("Associate")), is(true));
+        assertThat(unitDomain.getPartList().size(), is(1));
+        assertThat(unitDomain.getPartList().contains(new Unit("Associate")), is(true));
     }
 
     @Test
     void shouldBeReturnTheFirstAndSecondAssociateUnit() {
 
-        Domain model = new Domain("model");
-        model.addUnit("unit").addPart("Associate").addPart("Associate2");
+        Domain domain = new Domain("domain");
+        domain.addUnit("unit").addPart("Associate").addPart("Associate2");
 
-        Unit unitModel = model.getUnit("unit");
+        Unit unitDomain = domain.getUnit("unit");
 
-        assertThat(unitModel.getPartList().size(), is(2));
-        assertThat(unitModel.getPartList().contains(new Unit("Associate")), is(true));
-        assertThat(unitModel.getPartList().contains(new Unit("Associate2")), is(true));
+        assertThat(unitDomain.getPartList().size(), is(2));
+        assertThat(unitDomain.getPartList().contains(new Unit("Associate")), is(true));
+        assertThat(unitDomain.getPartList().contains(new Unit("Associate2")), is(true));
     }
 
     @Test
     void shouldBeReturnTheFirstUsedUnit() {
 
-        Domain model = new Domain("model");
-        model.addUnit("unit").addPart("Used").addPart("Used");
+        Domain domain = new Domain("domain");
+        domain.addUnit("unit").addPart("Used").addPart("Used");
 
-        Unit unitModel = model.getUnit("unit");
+        Unit unitDomain = domain.getUnit("unit");
 
-        assertThat(unitModel.getPartList().size(), is(1));
-        assertThat(unitModel.getPartList().contains(new Unit("Used")), is(true));
+        assertThat(unitDomain.getPartList().size(), is(1));
+        assertThat(unitDomain.getPartList().contains(new Unit("Used")), is(true));
     }
 
     @Test
     void shouldBeReturnTheFirstAndSecondUsedUnit() {
 
-        Domain model = new Domain("model");
-        model.addUnit("unit").addPart("Used").addPart("Used2");
+        Domain domain = new Domain("domain");
+        domain.addUnit("unit").addPart("Used").addPart("Used2");
 
-        Unit unitModel = model.getUnit("unit");
+        Unit unitDomain = domain.getUnit("unit");
 
-        assertThat(unitModel.getPartList().size(), is(2));
-        assertThat(unitModel.getPartList().contains(new Unit("Used")), is(true));
-        assertThat(unitModel.getPartList().contains(new Unit("Used2")), is(true));
+        assertThat(unitDomain.getPartList().size(), is(2));
+        assertThat(unitDomain.getPartList().contains(new Unit("Used")), is(true));
+        assertThat(unitDomain.getPartList().contains(new Unit("Used2")), is(true));
     }
 
     @Test
     void shouldBeReturnBasePartElementAssociateUsedWithStringCreateMethod() {
 
-        Domain model = new Domain("model");
-        model.addUnit("unit").addBase("Base").addAssociate("Associate").addElement("Element").addPart("Part")
+        Domain domain = new Domain("domain");
+        domain.addUnit("unit").addBase("Base").addAssociate("Associate").addElement("Element").addPart("Part")
                 .addUsed("Used");
 
-        Unit unitModel = model.getUnit("unit");
+        Unit unitDomain = domain.getUnit("unit");
 
-        assertThat(unitModel.getPartList().contains(new Unit("Part")), is(true));
-        assertThat(unitModel.getBase().contains(new Unit("Base")), is(true));
-        assertThat(unitModel.getElements().contains(new Unit("Element")), is(true));
-        assertThat(unitModel.getAssociates().contains(new Unit("Associate")), is(true));
-        assertThat(unitModel.getUsed().contains(new Unit("Used")), is(true));
+        assertThat(unitDomain.getPartList().contains(new Unit("Part")), is(true));
+        assertThat(unitDomain.getBase().contains(new Unit("Base")), is(true));
+        assertThat(unitDomain.getElements().contains(new Unit("Element")), is(true));
+        assertThat(unitDomain.getAssociates().contains(new Unit("Associate")), is(true));
+        assertThat(unitDomain.getUsed().contains(new Unit("Used")), is(true));
     }
 
     @Test
     void shouldBeReturnUnitWithPackage() {
-        Domain model = new Domain("");
-        model.addPackage("package").addUnit("unit");
+        Domain domain = new Domain("");
+        domain.addPackage("package").addUnit("unit");
 
-        Unit unitModel = model.getUnit("unit");
-        assertThat(unitModel.getMyPackage(), is("package"));
+        Unit unitDomain = domain.getUnit("unit");
+        assertThat(unitDomain.getMyPackage(), is("package"));
     }
 
     @Test
     void shouldBeReturnUnitWithoutPackage() {
-        Domain model = new Domain("");
-        model.addPackage("package").addUnit("unit").nonPackage().addUnit("unit2");
+        Domain domain = new Domain("");
+        domain.addPackage("package").addUnit("unit").nonPackage().addUnit("unit2");
 
-        Unit unitModel = model.getUnit("unit");
-        Unit unit2Model = model.getUnit("unit2");
+        Unit unitDomain = domain.getUnit("unit");
+        Unit unit2Domain = domain.getUnit("unit2");
 
-        assertThat(unitModel.getMyPackage(), is("package"));
-        assertThat(unit2Model.getMyPackage(), is(""));
+        assertThat(unitDomain.getMyPackage(), is("package"));
+        assertThat(unit2Domain.getMyPackage(), is(""));
     }
 
     @Test
     void shouldBeReturnAUnitWithAttribute() {
-        Domain model = new Domain("model");
-        model.addUnit("unit").addAttribute("attribute");
+        Domain domain = new Domain("domain");
+        domain.addUnit("unit").addAttribute("attribute");
 
-        Unit unitModel = model.getUnit("unit");
+        Unit unitDomain = domain.getUnit("unit");
 
-        assertThat(unitModel.getAttributes().contains(new Attribute("attribute")), is(true));
+        assertThat(unitDomain.getAttributes().contains(new Attribute("attribute")), is(true));
 
     }
 
     @Test
     void shouldBeReturnAUnitWithAttributeAndVisibilityPublic() {
-        Domain model = new Domain("model");
-        model.addUnit("unit").addAttribute("attribute").addVisibility(Visibility.PUBLIC);
+        Domain domain = new Domain("domain");
+        domain.addUnit("unit").addAttribute("attribute").addVisibility(Visibility.PUBLIC);
 
-        Unit unitModel = model.getUnit("unit");
-        Attribute attribute = unitModel.getAttributes().stream().filter(new Attribute("attribute")::equals).findAny().orElse(null);
-        assertThat(unitModel.getAttributes().contains(new Attribute("attribute")), is(true));
+        Unit unitDomain = domain.getUnit("unit");
+        Attribute attribute = unitDomain.getAttributes().stream().filter(new Attribute("attribute")::equals).findAny().orElse(null);
+        assertThat(unitDomain.getAttributes().contains(new Attribute("attribute")), is(true));
         assertThat(attribute.getVisibility(), is(Visibility.PUBLIC));
     }
 
     @Test
     void shouldBeReturnAUnitWithAttributeAndVisibilityPrivate() {
-        Domain model = new Domain("model");
-        model.addUnit("unit").addAttribute("attribute").addVisibility(Visibility.PRIVATE);
+        Domain domain = new Domain("domain");
+        domain.addUnit("unit").addAttribute("attribute").addVisibility(Visibility.PRIVATE);
 
-        Unit unitModel = model.getUnit("unit");
+        Unit unitModel = domain.getUnit("unit");
         Attribute attribute = unitModel.getAttributes().stream().filter(new Attribute("attribute")::equals).findAny().orElse(null);
         assertThat(unitModel.getAttributes().contains(new Attribute("attribute")), is(true));
         assertThat(attribute.getVisibility(), is(Visibility.PRIVATE));
@@ -218,10 +227,10 @@ class DomainTest {
 
     @Test
     void shouldBeReturnAUnitWithAttributeAndVisibilityProtected() {
-        Domain model = new Domain("model");
-        model.addUnit("unit").addAttribute("attribute").addVisibility(Visibility.PROTECTED);
+        Domain domain = new Domain("domain");
+        domain.addUnit("unit").addAttribute("attribute").addVisibility(Visibility.PROTECTED);
 
-        Unit unitModel = model.getUnit("unit");
+        Unit unitModel = domain.getUnit("unit");
         Attribute attribute = unitModel.getAttributes().stream().filter(new Attribute("attribute")::equals).findAny().orElse(null);
         assertThat(unitModel.getAttributes().contains(new Attribute("attribute")), is(true));
         assertThat(attribute.getVisibility(), is(Visibility.PROTECTED));
@@ -229,10 +238,10 @@ class DomainTest {
 
     @Test
     void shouldBeReturnAUnitWithAttributeAndVisibilityPackage() {
-        Domain model = new Domain("model");
-        model.addUnit("unit").addAttribute("attribute").addVisibility(Visibility.PACKAGE);
+        Domain domain = new Domain("domain");
+        domain.addUnit("unit").addAttribute("attribute").addVisibility(Visibility.PACKAGE);
 
-        Unit unitModel = model.getUnit("unit");
+        Unit unitModel = domain.getUnit("unit");
         Attribute attribute = unitModel.getAttributes().stream().filter(new Attribute("attribute")::equals).findAny().orElse(null);
 
         assertThat(unitModel.getAttributes().contains(new Attribute("attribute")), is(true));
@@ -243,10 +252,10 @@ class DomainTest {
 //    @EnumSource(Type.class)
     @Test
     void shouldBeReturnStringTypeAttribute() {
-        Domain model = new Domain("model");
-        model.addUnit("unit").addAttribute("attribute").addVisibility(Visibility.PACKAGE).setType("String");
+        Domain domain = new Domain("domain");
+        domain.addUnit("unit").addAttribute("attribute").addVisibility(Visibility.PACKAGE).setType("String");
 
-        Unit unitModel = model.getUnit("unit");
+        Unit unitModel = domain.getUnit("unit");
         Attribute attribute = unitModel.getAttributes().stream().filter(new Attribute("attribute")::equals).findAny().orElse(null);
 
         assertThat(unitModel.getAttributes().contains(new Attribute("attribute")), is(true));
