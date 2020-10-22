@@ -2,11 +2,12 @@ package com.urjc.mca.tfm.generateuml.model;
 
 import org.springframework.util.StringUtils;
 
+import java.io.*;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-public class Unit {
+public class Unit implements Serializable {
 
     private static final String LINE_BREAK = "\n";
     private static final String DOT = ".";
@@ -148,4 +149,15 @@ public class Unit {
         return (!StringUtils.isEmpty(myPackage) && myPackage.matches(".*\\s.*"))
                 || name.matches(".*\\s.*");
     }
+
+   public Unit makeClone() throws IOException, ClassNotFoundException {
+       ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+       ObjectOutputStream out = new ObjectOutputStream(outputStream);
+       out.writeObject(this);
+
+       ByteArrayInputStream inputStream = new ByteArrayInputStream(outputStream.toByteArray());
+       ObjectInputStream in = new ObjectInputStream(inputStream);
+       Unit copied = (Unit) in.readObject();
+       return copied;
+   }
 }
