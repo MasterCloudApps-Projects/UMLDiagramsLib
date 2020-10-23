@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
 
+import java.util.List;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -248,8 +250,6 @@ class DomainTest {
         assertThat(attribute.getVisibility(), is(Visibility.PACKAGE));
     }
 
-    //    @ParameterizedTest
-//    @EnumSource(Type.class)
     @Test
     void shouldBeReturnStringTypeAttribute() {
         Domain domain = new Domain("domain");
@@ -515,6 +515,18 @@ class DomainTest {
         assertThat(domain.getActor("actor").getUseCases().contains(new UseCaseComposite("case1")), is(true));
         assertThat(domain.getActor("actor").getUseCases().contains(new UseCaseLeaf("case2")), is(true));
 
+    }
+
+    @Test
+    @DisplayName("should be return efferent and name for unit in package")
+    void shouldBeReturnEfferentAndNameForUnitInPackage() {
+        Domain domain = new Domain("domain");
+        domain.addUnit("unit").addBase("base").addUnit("base").addUsed("used");
+
+        List<Unit> list = domain.getAllEfferents();
+        assertThat(list.get(0).getMyPackage(), is ("efferent unit"));
+        assertThat(list.get(1).getMyPackage(), is ("efferent base"));
+        assertThat(list.get(2).getMyPackage(), is ("efferent used"));
     }
 
 }
