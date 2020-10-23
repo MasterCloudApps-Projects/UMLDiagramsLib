@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -179,6 +180,31 @@ public class Domain {
     public List<Unit> getEfferent(String unit) {
         LOG.debug("get efferent:{}", unit);
         return Collections.singletonList(this.getUnit(unit));
+    }
+
+    public List<Unit> getAllEfferents(){
+        LOG.debug("get all efferents");
+        List<Unit> list = new ArrayList<>();
+        unitList.forEach(unit -> {
+            try {
+                list.add(clone(unit));
+            } catch (IOException |ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+
+        });
+        return list;
+    }
+
+    private Unit clone(Unit unit) throws IOException, ClassNotFoundException {
+        Unit newUnit = unit.makeClone();
+        newUnit.getBase().forEach( b -> b.setMyPackage("efferent " + newUnit.name));
+        newUnit.getPartList().forEach( p -> p.setMyPackage("efferent " + newUnit.name));
+        newUnit.getElements().forEach(e -> e.setMyPackage("efferent " + newUnit.name));
+        newUnit.getAssociates().forEach(a -> a.setMyPackage("efferent " + newUnit.name));
+        newUnit.getUsed().forEach(u -> u.setMyPackage("efferent " + newUnit.name));
+        newUnit.setMyPackage("efferent " + newUnit.name);
+        return newUnit;
     }
 
     public List<Unit> getAfferent(String unit) {
