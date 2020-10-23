@@ -531,4 +531,47 @@ class ClassDiagramTest {
 
         assertThat(classDiagram.print(), is(resultPrint));
     }
+
+
+    @Test
+    void shouldBeReturnAllEfferentUnits(){
+        ClassDiagram classDiagram = new ClassDiagram();
+        Domain domain = new Domain("mastermind");
+        domain.addUnit("X")
+                .addBase("Base_de_X")
+                .addPart("Parte_de_X")
+                .addAssociate("Asociada_de_X")
+                .addUsed("Usada_por_X")
+                .addUnit("Todo_de_X")
+                .addPart("X")
+                .addUnit("Usa_X")
+                .addUsed("X")
+                .addUnit("Asociado_a_X")
+                .addAssociate("X")
+                .addUnit("Descendiente_de_X")
+                .addBase("X");
+
+        classDiagram.addUnits(domain.getAllEfferents());
+        System.out.println(classDiagram.print());
+
+        String resultPrint = "class \"efferent X.X\"\n" +
+                "class \"efferent Base_de_X.Base_de_X\"\n" +
+                "class \"efferent Parte_de_X.Parte_de_X\"\n" +
+                "class \"efferent Asociada_de_X.Asociada_de_X\"\n" +
+                "class \"efferent Usada_por_X.Usada_por_X\"\n" +
+                "class \"efferent Todo_de_X.Todo_de_X\"\n" +
+                "class \"efferent Usa_X.Usa_X\"\n" +
+                "class \"efferent Asociado_a_X.Asociado_a_X\"\n" +
+                "class \"efferent Descendiente_de_X.Descendiente_de_X\"\n" +
+                "\"efferent X.Base_de_X\" <|-- \"efferent X.X\"\n" +
+                "\"efferent X.X\" *--> \"efferent X.Parte_de_X\"\n" +
+                "\"efferent X.X\" --> \"efferent X.Asociada_de_X\"\n" +
+                "\"efferent X.X\" ..> \"efferent X.Usada_por_X\"\n" +
+                "\"efferent Todo_de_X.Todo_de_X\" *--> \"efferent Todo_de_X.X\"\n" +
+                "\"efferent Usa_X.Usa_X\" ..> \"efferent Usa_X.X\"\n" +
+                "\"efferent Asociado_a_X.Asociado_a_X\" --> \"efferent Asociado_a_X.X\"\n" +
+                "\"efferent Descendiente_de_X.X\" <|-- \"efferent Descendiente_de_X.Descendiente_de_X\"\n";
+
+        assertThat(classDiagram.print(), is(resultPrint));
+    }
 }
