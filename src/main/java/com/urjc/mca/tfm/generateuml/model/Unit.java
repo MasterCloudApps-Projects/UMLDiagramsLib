@@ -29,6 +29,11 @@ public class Unit implements Serializable {
         this.name = name;
     }
 
+    public Unit(String unitName, String packageDescription) {
+        this.name = unitName;
+        this.myPackage = packageDescription;
+    }
+
     public void addPart(Unit unit) {
         partList.add(unit);
     }
