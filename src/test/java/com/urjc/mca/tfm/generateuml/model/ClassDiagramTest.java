@@ -188,7 +188,7 @@ class ClassDiagramTest {
     }
 
     @Test
-    void shouldBeReturnAfferentUnit(){
+    void shouldBeReturnAfferentUnitForX(){
         ClassDiagram classDiagram = new ClassDiagram();
         Domain domain = new Domain("mastermind");
         domain.addUnit("X")
@@ -206,7 +206,6 @@ class ClassDiagramTest {
                 .addBase("X");
 
         classDiagram.addUnits(domain.getAfferent("X"));
-        System.out.println(classDiagram.print());
 
         String resultPrint = "class Todo_de_X\n" +
                 "class Usa_X\n" +
@@ -216,6 +215,70 @@ class ClassDiagramTest {
                 "Usa_X ..> X\n" +
                 "Asociado_a_X --> X\n" +
                 "X <|-- Descendiente_de_X\n";
+        assertThat(classDiagram.print(), is(resultPrint));
+    }
+
+    @Test
+    void shouldBeReturnAllAfferent(){
+        ClassDiagram classDiagram = new ClassDiagram();
+        Domain domain = new Domain("mastermind");
+        domain.addUnit("X")
+                .addBase("Base_de_X")
+                .addPart("Parte_de_X")
+                .addAssociate("Asociada_de_X")
+                .addUsed("Usada_por_X")
+                .addUnit("Todo_de_X")
+                .addPart("X")
+                .addUnit("Usa_X")
+                .addUsed("X")
+                .addUnit("Asociado_a_X")
+                .addAssociate("X")
+                .addUnit("Descendiente_de_X")
+                .addBase("X");
+
+        classDiagram.addUnits(domain.getAllAfferent());
+
+        String resultPrint = "class \"afferent X.Todo_de_X\"\n" +
+                "class \"afferent X.Usa_X\"\n" +
+                "class \"afferent X.Asociado_a_X\"\n" +
+                "class \"afferent X.Descendiente_de_X\"\n" +
+                "class \"afferent Base_de_X.X\"\n" +
+                "class \"afferent Parte_de_X.X\"\n" +
+                "class \"afferent Asociada_de_X.X\"\n" +
+                "class \"afferent Usada_por_X.X\"\n" +
+                "\"afferent X.Todo_de_X\" *--> \"afferent X.X\"\n" +
+                "\"afferent X.Usa_X\" ..> \"afferent X.X\"\n" +
+                "\"afferent X.Asociado_a_X\" --> \"afferent X.X\"\n" +
+                "\"afferent X.X\" <|-- \"afferent X.Descendiente_de_X\"\n" +
+                "\"afferent Base_de_X.Base_de_X\" <|-- \"afferent Base_de_X.X\"\n" +
+                "\"afferent Parte_de_X.X\" *--> \"afferent Parte_de_X.Parte_de_X\"\n" +
+                "\"afferent Asociada_de_X.X\" --> \"afferent Asociada_de_X.Asociada_de_X\"\n" +
+                "\"afferent Usada_por_X.X\" ..> \"afferent Usada_por_X.Usada_por_X\"\n";
+        assertThat(classDiagram.print(), is(resultPrint));
+    }
+
+    @Test
+    void shouldBeReturnAfferentUnitForBase_de_X(){
+        ClassDiagram classDiagram = new ClassDiagram();
+        Domain domain = new Domain("mastermind");
+        domain.addUnit("X")
+                .addBase("Base_de_X")
+                .addPart("Parte_de_X")
+                .addAssociate("Asociada_de_X")
+                .addUsed("Usada_por_X")
+                .addUnit("Todo_de_X")
+                .addPart("X")
+                .addUnit("Usa_X")
+                .addUsed("X")
+                .addUnit("Asociado_a_X")
+                .addAssociate("X")
+                .addUnit("Descendiente_de_X")
+                .addBase("X");
+
+        classDiagram.addUnits(domain.getAfferent("Base_de_X"));
+
+        String resultPrint = "class X\n" +
+                "Base_de_X <|-- X\n";
         assertThat(classDiagram.print(), is(resultPrint));
 
     }
