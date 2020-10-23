@@ -540,4 +540,29 @@ class DomainTest {
         assertThat(list.get(1).getMyPackage(), is ("afferent used"));
     }
 
+    @Test
+    @DisplayName("should be return unit with package at create unit")
+    void shouldBeReturnUnitWithPackageAtCreateUnit() {
+        Domain domain = new Domain("domain");
+        domain.addUnit("unit", "mypackage");
+
+        Unit unit = domain.getUnit("unit");
+
+        assertThat(unit.getMyPackage(), is("mypackage"));
+        assertThat(unit.name, is("unit"));
+    }
+
+    @Test
+    @DisplayName("should be return two units with the same name and different package")
+    void shouldBeReturnTwoUnitsWithTheSameNameAndDifferentPackage() {
+        Domain domain = new Domain("domain");
+        domain.addUnit("unit", "mypackage").addUnit("unit", "secondpackage");
+
+        List<Unit> unitList = domain.getUnitList();
+
+        assertThat(unitList.get(0).getMyPackage(), is("mypackage"));
+        assertThat(unitList.get(0).name, is("unit"));
+        assertThat(unitList.get(1).getMyPackage(), is("secondpackage"));
+        assertThat(unitList.get(1).name, is("unit"));
+    }
 }

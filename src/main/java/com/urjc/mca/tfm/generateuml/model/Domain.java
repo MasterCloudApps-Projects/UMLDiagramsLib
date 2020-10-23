@@ -1,8 +1,8 @@
 package com.urjc.mca.tfm.generateuml.model;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.util.StringUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -38,6 +38,11 @@ public class Domain {
         return addUnit(new Unit(unit));
     }
 
+    public Domain addUnit(String unit, String packageDescription){
+        LOG.debug("add unit {} in this package {}");
+        return addUnit(new Unit(unit, packageDescription));
+    }
+
     public Domain setAbstractUnit() {
         LOG.debug("set abstract {}", this.activeUnit.name);
         this.activeUnit.setAbstractUnit();
@@ -57,7 +62,7 @@ public class Domain {
     }
 
     private Unit getUnit(Unit unit) {
-        Unit aux = getUnit(unit.name);
+        Unit aux = getUnit(unit.name, unit.getMyPackage());
         if (aux == null) {
             if (StringUtils.isEmpty(unit.getMyPackage()))
                 unit.setMyPackage(this.activePackage);
@@ -67,9 +72,15 @@ public class Domain {
         return aux;
     }
 
-    public Unit getUnit(String name) {
+    public Unit getUnit(String name, String packageDescription) {
         LOG.debug("get unit:{}", name);
-        return unitList.stream().filter(e -> e.name.equals(name)).findFirst().orElse(null);
+        Unit aux = unitList.stream().filter(e -> e.name.equals(name)
+                                && StringUtils.equals(e.getMyPackage(),packageDescription)).findFirst().orElse(null);
+        return aux != null ? aux : unitList.stream().filter(e -> e.name.equals(name)).findFirst().orElse(null);
+    }
+
+    public Unit getUnit(String name){
+        return getUnit(name, null);
     }
 
     private Domain addBase(Unit unit) {
