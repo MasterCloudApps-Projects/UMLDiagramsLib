@@ -38,7 +38,7 @@ public class Domain {
         return addUnit(new Unit(unit));
     }
 
-    public Domain setAbstractUnit(){
+    public Domain setAbstractUnit() {
         LOG.debug("set abstract {}", this.activeUnit.name);
         this.activeUnit.setAbstractUnit();
         return this;
@@ -149,7 +149,7 @@ public class Domain {
     }
 
     public Domain addVisibility(Visibility visibility) {
-        LOG.debug("add visibility {} {}", visibility.name(), activeFunction!= null?"into function":"into attribute");
+        LOG.debug("add visibility {} {}", visibility.name(), activeFunction != null ? "into function" : "into attribute");
         if (activeFunction != null)
             this.activeFunction.setVisibility(visibility);
         else
@@ -182,13 +182,13 @@ public class Domain {
         return Collections.singletonList(this.getUnit(unit));
     }
 
-    public List<Unit> getAllEfferents(){
+    public List<Unit> getAllEfferents() {
         LOG.debug("get all efferents");
         List<Unit> list = new ArrayList<>();
         unitList.forEach(unit -> {
             try {
-                list.add(clone(unit));
-            } catch (IOException |ClassNotFoundException e) {
+                list.add(cloneForEfferent(unit, "efferent " + unit.name));
+            } catch (IOException | ClassNotFoundException e) {
                 e.printStackTrace();
             }
 
@@ -196,36 +196,70 @@ public class Domain {
         return list;
     }
 
-    private Unit clone(Unit unit) throws IOException, ClassNotFoundException {
+    private Unit cloneForEfferent(Unit unit, String packageDescription) throws IOException, ClassNotFoundException {
         Unit newUnit = unit.makeClone();
-        newUnit.getBase().forEach( b -> b.setMyPackage("efferent " + newUnit.name));
-        newUnit.getPartList().forEach( p -> p.setMyPackage("efferent " + newUnit.name));
-        newUnit.getElements().forEach(e -> e.setMyPackage("efferent " + newUnit.name));
-        newUnit.getAssociates().forEach(a -> a.setMyPackage("efferent " + newUnit.name));
-        newUnit.getUsed().forEach(u -> u.setMyPackage("efferent " + newUnit.name));
-        newUnit.setMyPackage("efferent " + newUnit.name);
+        newUnit.getBase().forEach(b -> b.setMyPackage(packageDescription));
+        newUnit.getPartList().forEach(p -> p.setMyPackage(packageDescription));
+        newUnit.getElements().forEach(e -> e.setMyPackage(packageDescription));
+        newUnit.getAssociates().forEach(a -> a.setMyPackage(packageDescription));
+        newUnit.getUsed().forEach(u -> u.setMyPackage(packageDescription));
+        newUnit.setMyPackage(packageDescription);
         return newUnit;
+    }
+
+    public List<Unit> getAllAfferent() {
+        List<Unit> allAfferent = new ArrayList<>();
+        unitList.forEach(u -> {
+            allAfferent.addAll(getAfferent(u.name, "afferent " + u.name));
+        });
+        return allAfferent;
+    }
+
+    private List<Unit> getAfferent(String unitName, String packageDescription) {
+        LOG.debug("get afferent with package:{}-{}", unitName, packageDescription);
+        return findAfferent(new Unit(unitName, packageDescription), true);
+    }
+
+    private List<Unit> findAfferent(Unit unit, boolean clone) {
+        List<Unit> afferent = new ArrayList<>();
+        unitList.forEach(u -> {
+            Unit afferentUnit = createUnit(unit, clone, u);
+            boolean find = false;
+            if (u.getBase().contains(unit)) {
+                afferentUnit.addBase(unit);
+                find = true;
+            }
+            if (u.getPartList().contains(unit)) {
+                afferentUnit.addPart(unit);
+                find = true;
+            }
+            if (u.getAssociates().contains(unit)) {
+                afferentUnit.addAssociate(unit);
+                find = true;
+            }
+            if (u.getElements().contains(unit)) {
+                afferentUnit.addElement(unit);
+                find = true;
+            }
+            if (u.getUsed().contains(unit)) {
+                afferentUnit.addUsed(unit);
+                find = true;
+            }
+            if (find)
+                afferent.add(afferentUnit);
+        });
+        return afferent;
+    }
+
+    private Unit createUnit(Unit unit, boolean clone, Unit u) {
+        return clone ? new Unit(u.name, unit.getMyPackage()):new Unit(u.name);
     }
 
     public List<Unit> getAfferent(String unit) {
         LOG.debug("get afferent:{}", unit);
-        List<Unit> afferent = new ArrayList<>();
-
-        unitList.forEach(u -> {
-            if (u.getBase().contains(new Unit(unit)))
-                afferent.add(u);
-            if (u.getPartList().contains(new Unit(unit)))
-                afferent.add(u);
-            if (u.getAssociates().contains(new Unit(unit)))
-                afferent.add(u);
-            if (u.getElements().contains(new Unit(unit)))
-                afferent.add(u);
-            if (u.getUsed().contains(new Unit(unit)))
-                afferent.add(u);
-        });
-
-        return afferent;
+        return findAfferent(new Unit(unit), false);
     }
+
 
     private Domain addActor(Actor actor) {
         this.activeActor = this.getActor(actor);

@@ -529,4 +529,15 @@ class DomainTest {
         assertThat(list.get(2).getMyPackage(), is ("efferent used"));
     }
 
+    @Test
+    @DisplayName("should be return afferent and name for unit in package")
+    void shouldBeReturnAfferentAndNameForUnitInPackage() {
+        Domain domain = new Domain("domain");
+        domain.addUnit("unit").addBase("base").addUnit("base").addUsed("used");
+
+        List<Unit> list = domain.getAllAfferent();
+        assertThat(list.get(0).getMyPackage(), is ("afferent base"));
+        assertThat(list.get(1).getMyPackage(), is ("afferent used"));
+    }
+
 }
