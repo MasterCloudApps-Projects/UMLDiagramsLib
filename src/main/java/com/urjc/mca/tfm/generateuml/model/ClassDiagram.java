@@ -1,7 +1,11 @@
 package com.urjc.mca.tfm.generateuml.model;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 public class ClassDiagram {
 
@@ -42,6 +46,52 @@ public class ClassDiagram {
             relations.append(printUsed(e));
         });
         return className.toString() + relations.toString();
+    }
+
+    public String printPackage(){
+        StringBuilder sb = new StringBuilder();
+        Set<String> packageDescription = new HashSet<>();
+        units.forEach( e -> {
+            sb.append(printPackage1(e, packageDescription));
+            sb.append(printRelationships(e, packageDescription));
+        });
+        return sb.toString();
+    }
+
+    private String printRelationships(Unit unit, Set<String> packageDescription) {
+        StringBuilder sb = new StringBuilder();
+        Predicate<Unit> ff = p -> !unit.getMyPackage().equals(p.getMyPackage());
+        Predicate<Unit> f =  p -> !packageDescription.contains(unit.getMyPackage() + USE_RELATIONSHIP + p.getMyPackage());
+        Consumer<Unit> c = p ->{
+            sb.append(unit.getMyPackage() + USE_RELATIONSHIP + p.getMyPackage() + LINE_BREAK);
+            packageDescription.add(unit.getMyPackage() + USE_RELATIONSHIP + p.getMyPackage());
+        };
+
+        if(!unit.getPartList().isEmpty())
+            unit.getPartList().stream().filter(ff).filter(f).forEach(c);
+
+        if(!unit.getUsed().isEmpty())
+            unit.getUsed().stream().filter(ff).filter(f).forEach(c);
+
+        if(!unit.getAssociates().isEmpty())
+            unit.getAssociates().stream().filter(ff).filter(f).forEach(c);
+
+        if(!unit.getElements().isEmpty())
+            unit.getElements().stream().filter(ff).filter(f).forEach(c);
+
+        if(!unit.getBase().isEmpty())
+            unit.getBase().stream().filter(ff).filter(f).forEach(c);
+
+        return sb.toString();
+    }
+
+    private String printPackage1(Unit e, Set<String> packageDescription) {
+        StringBuilder sb = new StringBuilder();
+        if(!packageDescription.contains(e.getMyPackage())){
+            sb.append("package " + e.getMyPackage() + " {} " + LINE_BREAK);
+            packageDescription.add(e.getMyPackage());
+        }
+        return sb.toString();
     }
 
     private String printClass(Unit unit) {

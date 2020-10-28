@@ -637,4 +637,21 @@ class ClassDiagramTest {
 
         assertThat(classDiagram.print(), is(resultPrint));
     }
+
+    @Test
+    @DisplayName("should be return only packages")
+    void shouldBeReturnOnlyPackages() {
+        ClassDiagram classDiagram = new ClassDiagram();
+        Domain domain = new Domain("mastermind");
+        domain.addPackage("package1").addUnit("unit1").addUnit("unit2").addUsed("used").addPackage("package2").addUnit("unit3")
+                .addPackage("package3").addUnit("unit4").addUsed("unit1");
+
+        classDiagram.addDomain(domain);
+
+        String resultPrint ="package package1 {} \n" +
+                "package package2 {} \n" +
+                "package package3 {} \n" +
+                "package3 ..> package1\n";
+        assertThat(classDiagram.printPackage(), is(resultPrint));
+    }
 }
