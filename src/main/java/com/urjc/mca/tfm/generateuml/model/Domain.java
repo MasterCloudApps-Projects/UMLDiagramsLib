@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class Domain {
 
@@ -73,10 +74,14 @@ public class Domain {
     }
 
     public Unit getUnit(String name, String packageDescription) {
-        LOG.debug("get unit:{}", name);
-        Unit aux = unitList.stream().filter(e -> e.name.equals(name)
-                                && StringUtils.equals(e.getMyPackage(),packageDescription)).findFirst().orElse(null);
-        return aux != null ? aux : unitList.stream().filter(e -> e.name.equals(name)).findFirst().orElse(null);
+        LOG.debug("get unit {} with package {}", name, packageDescription);
+        Stream<Unit> stream = unitList.stream().filter(e -> e.name.equals(name));
+        if(packageDescription != null){
+            return stream.filter(e -> StringUtils.equals(e.getMyPackage(),packageDescription))
+                    .findFirst().orElse(null);
+        }
+        else
+            return stream.findFirst().orElse(null);
     }
 
     public Unit getUnit(String name){
