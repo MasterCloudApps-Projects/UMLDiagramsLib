@@ -98,6 +98,11 @@ public class Domain {
         return addBase(new Unit(unit));
     }
 
+    public Domain addBase(String unit, String packageDescription) {
+        LOG.debug("add base:{} with package", unit, packageDescription);
+        return addBase(new Unit(unit, packageDescription));
+    }
+
     private Domain addPart(Unit unit) {
         this.activeUnit.addPart(getUnit(unit));
         return this;
@@ -106,6 +111,11 @@ public class Domain {
     public Domain addPart(String unit) {
         LOG.debug("add part:{}", unit);
         return addPart(new Unit(unit));
+    }
+
+    public Domain addPart(String unit, String packageDescription) {
+        LOG.debug("add part:{} with package {}", unit, packageDescription);
+        return addPart(new Unit(unit, packageDescription));
     }
 
     private Domain addElement(Unit unit) {
@@ -118,6 +128,11 @@ public class Domain {
         return addElement(new Unit(unit));
     }
 
+    public Domain addElement(String unit, String packageDescription) {
+        LOG.debug("add element:{} with package {}", unit, packageDescription);
+        return addElement(new Unit(unit, packageDescription));
+    }
+
     private Domain addAssociate(Unit unit) {
         this.activeUnit.addAssociate(getUnit(unit));
         return this;
@@ -128,6 +143,11 @@ public class Domain {
         return addAssociate(new Unit(unit));
     }
 
+    public Domain addAssociate(String unit, String packageDescription) {
+        LOG.debug("add associate:{} with package {}", unit, packageDescription);
+        return addAssociate(new Unit(unit, packageDescription));
+    }
+
     private Domain addUsed(Unit unit) {
         this.activeUnit.addUsed(getUnit(unit));
         return this;
@@ -136,6 +156,11 @@ public class Domain {
     public Domain addUsed(String unit) {
         LOG.debug("add used:{}", unit);
         return addUsed(new Unit(unit));
+    }
+
+    public Domain addUsed(String unit, String packageDescription) {
+        LOG.debug("add used:{} with package {}", unit, packageDescription);
+        return addUsed(new Unit(unit, packageDescription));
     }
 
 

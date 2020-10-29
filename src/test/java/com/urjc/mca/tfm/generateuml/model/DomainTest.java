@@ -565,4 +565,74 @@ class DomainTest {
         assertThat(unitList.get(1).getMyPackage(), is("secondpackage"));
         assertThat(unitList.get(1).name, is("unit"));
     }
+
+    @Test
+    @DisplayName("should be return one unit and base with the same name and different package")
+    void shouldBeReturnOneUnitAndBaseWithTheSameNameAndDifferentPackage() {
+        Domain domain = new Domain("domain");
+        domain.addUnit("unit", "mypackage").addBase("unit", "secondpackage");
+
+        List<Unit> unitList = domain.getUnitList();
+
+        assertThat(unitList.get(0).getMyPackage(), is("mypackage"));
+        assertThat(unitList.get(0).name, is("unit"));
+        assertThat(unitList.get(1).getMyPackage(), is("secondpackage"));
+        assertThat(unitList.get(1).name, is("unit"));
+    }
+
+    @Test
+    @DisplayName("should be return one unit and part with the same name and different package")
+    void shouldBeReturnOneUnitAndPartWithTheSameNameAndDifferentPackage() {
+        Domain domain = new Domain("domain");
+        domain.addUnit("unit", "mypackage").addPart("unit", "secondpackage");
+
+        List<Unit> unitList = domain.getUnitList();
+
+        assertThat(unitList.get(0).getMyPackage(), is("mypackage"));
+        assertThat(unitList.get(0).name, is("unit"));
+        assertThat(unitList.get(1).getMyPackage(), is("secondpackage"));
+        assertThat(unitList.get(1).name, is("unit"));
+    }
+
+    @Test
+    @DisplayName("should be return one unit and element with the same name and different package")
+    void shouldBeReturnOneUnitAndElementWithTheSameNameAndDifferentPackage() {
+        Domain domain = new Domain("domain");
+        domain.addUnit("unit", "mypackage").addElement("unit", "secondpackage");
+
+        List<Unit> unitList = domain.getUnitList();
+
+        assertThat(unitList.get(0).getMyPackage(), is("mypackage"));
+        assertThat(unitList.get(0).name, is("unit"));
+        assertThat(unitList.get(1).getMyPackage(), is("secondpackage"));
+        assertThat(unitList.get(1).name, is("unit"));
+    }
+
+    @Test
+    @DisplayName("should be return one unit and associate with the same name and different package")
+    void shouldBeReturnOneUnitAndAssociateWithTheSameNameAndDifferentPackage() {
+        Domain domain = new Domain("domain");
+        domain.addUnit("unit", "mypackage").addAssociate("unit", "secondpackage");
+
+        List<Unit> unitList = domain.getUnitList();
+
+        assertThat(unitList.get(0).getMyPackage(), is("mypackage"));
+        assertThat(unitList.get(0).name, is("unit"));
+        assertThat(unitList.get(1).getMyPackage(), is("secondpackage"));
+        assertThat(unitList.get(1).name, is("unit"));
+    }
+
+    @Test
+    @DisplayName("should be return one unit and used with the same name and different package")
+    void shouldBeReturnOneUnitAndUsedWithTheSameNameAndDifferentPackage() {
+        Domain domain = new Domain("domain");
+        domain.addUnit("unit", "mypackage").addUsed("unit", "secondpackage");
+
+        List<Unit> unitList = domain.getUnitList();
+
+        assertThat(unitList.get(0).getMyPackage(), is("mypackage"));
+        assertThat(unitList.get(0).name, is("unit"));
+        assertThat(unitList.get(1).getMyPackage(), is("secondpackage"));
+        assertThat(unitList.get(1).name, is("unit"));
+    }
 }
