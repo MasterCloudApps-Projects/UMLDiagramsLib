@@ -684,4 +684,82 @@ class ClassDiagramTest {
 
         assertThat(classDiagram.print("mastermind"), is(result));
     }
+    
+    @Test
+    @DisplayName("should be return one unit and base with the same name and different package")
+    void shouldBeReturnOneUnitAndBaseWithTheSameNameAndDifferentPackage() {
+        ClassDiagram classDiagram = new ClassDiagram();
+        Domain domain = new Domain("domain");
+        domain.addUnit("unit", "mypackage").addBase("unit", "secondpackage");
+        classDiagram.addDomain(domain);
+
+        String result = "class mypackage.unit\n" +
+                "class secondpackage.unit\n" +
+                "secondpackage.unit <|-- mypackage.unit\n";
+
+        assertThat(classDiagram.print(), is(result));
+    }
+
+    @Test
+    @DisplayName("should be return one unit and part with the same name and different package")
+    void shouldBeReturnOneUnitAndPartWithTheSameNameAndDifferentPackage() {
+        ClassDiagram classDiagram = new ClassDiagram();
+        Domain domain = new Domain("domain");
+        domain.addUnit("unit", "mypackage").addPart("unit", "secondpackage");
+
+        classDiagram.addDomain(domain);
+
+        String result = "class mypackage.unit\n" +
+                "class secondpackage.unit\n" +
+                "mypackage.unit *--> secondpackage.unit\n";
+
+        assertThat(classDiagram.print(), is(result));
+    }
+    @Test
+    @DisplayName("should be return one unit and element with the same name and different package")
+    void shouldBeReturnOneUnitAndElementWithTheSameNameAndDifferentPackage() {
+        ClassDiagram classDiagram = new ClassDiagram();
+        Domain domain = new Domain("domain");
+        domain.addUnit("unit", "mypackage").addElement("unit", "secondpackage");
+
+        classDiagram.addDomain(domain);
+
+        String result = "class mypackage.unit\n" +
+                "class secondpackage.unit\n" +
+                "mypackage.unit o--> secondpackage.unit\n";
+
+        assertThat(classDiagram.print(), is(result));
+    }
+
+    @Test
+    @DisplayName("should be return one unit and associate with the same name and different package")
+    void shouldBeReturnOneUnitAndAssociateWithTheSameNameAndDifferentPackage() {
+        ClassDiagram classDiagram = new ClassDiagram();
+        Domain domain = new Domain("domain");
+        domain.addUnit("unit", "mypackage").addAssociate("unit", "secondpackage");
+
+        classDiagram.addDomain(domain);
+
+        String result = "class mypackage.unit\n" +
+                "class secondpackage.unit\n" +
+                "mypackage.unit --> secondpackage.unit\n";
+
+        assertThat(classDiagram.print(), is(result));
+    }
+
+    @Test
+    @DisplayName("should be return one unit and used with the same name and different package")
+    void shouldBeReturnOneUnitAndUsedWithTheSameNameAndDifferentPackage() {
+        ClassDiagram classDiagram = new ClassDiagram();
+        Domain domain = new Domain("domain");
+        domain.addUnit("unit", "mypackage").addUsed("unit", "secondpackage");
+
+        classDiagram.addDomain(domain);
+
+        String result = "class mypackage.unit\n" +
+                "class secondpackage.unit\n" +
+                "mypackage.unit ..> secondpackage.unit\n";
+
+        assertThat(classDiagram.print(), is(result));
+    }
 }
