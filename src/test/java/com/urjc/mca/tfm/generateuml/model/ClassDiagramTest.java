@@ -654,4 +654,34 @@ class ClassDiagramTest {
                 "package3 ..> package1\n";
         assertThat(classDiagram.printPackage(), is(resultPrint));
     }
+
+    @Test
+    @DisplayName("should be return concrete package and one level relation to other packages")
+    void shouldBeReturnConcretePackageAndOneLevelRelationToOtherPackages() {
+        ClassDiagram classDiagram = new ClassDiagram();
+        Domain domain = new Domain("mastermain solution v15.6");
+        domain.addPackage("mastermind")
+                .addUnit("MastermindStandalone")
+                .addBase("Mastermind")
+                .addPackage("mastermind.controllers")
+                .addUnit("AcceptorController")
+                .addUsed("ControllersVisitor")
+                .addUnit("Logic")
+                .addPackage("masterind")
+                .addUnit("Mastermind")
+                .addUsed("AcceptorController")
+                .addPart("Logic");
+
+        String result = "class mastermind.MastermindStandalone\n" +
+                "class mastermind.Mastermind\n" +
+                "class mastermind.controllers.AcceptorController\n" +
+                "class mastermind.controllers.Logic\n" +
+                "mastermind.Mastermind <|-- mastermind.MastermindStandalone\n" +
+                "mastermind.Mastermind *--> mastermind.controllers.Logic\n" +
+                "mastermind.Mastermind ..> mastermind.controllers.AcceptorController\n";
+
+        System.out.println(classDiagram.addDomain(domain).print("mastermind"));
+
+        assertThat(classDiagram.print("mastermind"), is(result));
+    }
 }

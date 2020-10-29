@@ -1,5 +1,7 @@
 package com.urjc.mca.tfm.generateuml.model;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -34,25 +36,39 @@ public class ClassDiagram {
     }
 
     public String print() {
+        return print(null);
+    }
+
+    public String print(String packageDescription) {
         StringBuilder className = new StringBuilder();
         StringBuilder relations = new StringBuilder();
 
-        units.forEach(e -> {
-            className.append(printClass(e));
-            relations.append(printBase(e));
-            relations.append(printPart(e));
-            relations.append(printElement(e));
-            relations.append(printAssociates(e));
-            relations.append(printUsed(e));
+        units.forEach(unit -> {
+            if (packageDescription == null ||
+                    StringUtils.equals(unit.getMyPackage(), packageDescription)) {
+                className.append(printClass(unit));
+                relations.append(printBase(unit));
+                relations.append(printPart(unit));
+                relations.append(printElement(unit));
+                relations.append(printAssociates(unit));
+                relations.append(printUsed(unit));
+            }
         });
-        return className.toString() + relations.toString();
+        String relationsString = relations.toString();
+        if (packageDescription != null) {
+            units.stream()
+                    .filter(unit -> !StringUtils.equals(unit.getMyPackage(), (packageDescription)))
+                    .filter(unit -> relationsString.contains(unit.printName()))
+                    .forEach(unit -> className.append(printClass(unit)));
+        }
+        return className.toString() + relationsString;
     }
 
-    public String printPackage(){
+    public String printPackage() {
         StringBuilder sb = new StringBuilder();
         Set<String> packageDescription = new HashSet<>();
-        units.forEach( e -> {
-            sb.append(printPackage1(e, packageDescription));
+        units.forEach(e -> {
+            sb.append(printPackage(e, packageDescription));
             sb.append(printRelationships(e, packageDescription));
         });
         return sb.toString();
@@ -60,34 +76,25 @@ public class ClassDiagram {
 
     private String printRelationships(Unit unit, Set<String> packageDescription) {
         StringBuilder sb = new StringBuilder();
-        Predicate<Unit> ff = p -> !unit.getMyPackage().equals(p.getMyPackage());
-        Predicate<Unit> f =  p -> !packageDescription.contains(unit.getMyPackage() + USE_RELATIONSHIP + p.getMyPackage());
-        Consumer<Unit> c = p ->{
+        Predicate<Unit> filterNoEqualsPackage = p -> !unit.getMyPackage().equals(p.getMyPackage());
+        Predicate<Unit> filterNoContainsPackage = p -> !packageDescription.contains(unit.getMyPackage() + USE_RELATIONSHIP + p.getMyPackage());
+        Consumer<Unit> addRelationship = p -> {
             sb.append(unit.getMyPackage() + USE_RELATIONSHIP + p.getMyPackage() + LINE_BREAK);
             packageDescription.add(unit.getMyPackage() + USE_RELATIONSHIP + p.getMyPackage());
         };
 
-        if(!unit.getPartList().isEmpty())
-            unit.getPartList().stream().filter(ff).filter(f).forEach(c);
-
-        if(!unit.getUsed().isEmpty())
-            unit.getUsed().stream().filter(ff).filter(f).forEach(c);
-
-        if(!unit.getAssociates().isEmpty())
-            unit.getAssociates().stream().filter(ff).filter(f).forEach(c);
-
-        if(!unit.getElements().isEmpty())
-            unit.getElements().stream().filter(ff).filter(f).forEach(c);
-
-        if(!unit.getBase().isEmpty())
-            unit.getBase().stream().filter(ff).filter(f).forEach(c);
+        unit.getPartList().stream().filter(filterNoEqualsPackage).filter(filterNoContainsPackage).forEach(addRelationship);
+        unit.getUsed().stream().filter(filterNoEqualsPackage).filter(filterNoContainsPackage).forEach(addRelationship);
+        unit.getAssociates().stream().filter(filterNoEqualsPackage).filter(filterNoContainsPackage).forEach(addRelationship);
+        unit.getElements().stream().filter(filterNoEqualsPackage).filter(filterNoContainsPackage).forEach(addRelationship);
+        unit.getBase().stream().filter(filterNoEqualsPackage).filter(filterNoContainsPackage).forEach(addRelationship);
 
         return sb.toString();
     }
 
-    private String printPackage1(Unit e, Set<String> packageDescription) {
+    private String printPackage(Unit e, Set<String> packageDescription) {
         StringBuilder sb = new StringBuilder();
-        if(!packageDescription.contains(e.getMyPackage())){
+        if (!packageDescription.contains(e.getMyPackage())) {
             sb.append("package " + e.getMyPackage() + " {} " + LINE_BREAK);
             packageDescription.add(e.getMyPackage());
         }
@@ -100,41 +107,31 @@ public class ClassDiagram {
 
     public String printPart(Unit unit) {
         StringBuilder chain = new StringBuilder();
-        if (!unit.getPartList().isEmpty()) {
-            unit.getPartList().forEach(p -> chain.append(unit.printName() + PART_RELATIONSHIP + p.printName() + LINE_BREAK));
-        }
+        unit.getPartList().forEach(p -> chain.append(unit.printName() + PART_RELATIONSHIP + p.printName() + LINE_BREAK));
         return chain.toString();
     }
 
     public String printBase(Unit unit) {
         StringBuilder chain = new StringBuilder();
-        if (!unit.getBase().isEmpty()) {
-            unit.getBase().forEach(b -> chain.append(b.printName() + BASE_RELATIONSHIP + unit.printName() + LINE_BREAK));
-        }
+        unit.getBase().forEach(b -> chain.append(b.printName() + BASE_RELATIONSHIP + unit.printName() + LINE_BREAK));
         return chain.toString();
     }
 
     public String printElement(Unit unit) {
         StringBuilder chain = new StringBuilder();
-        if (!unit.getElements().isEmpty()) {
-            unit.getElements().forEach(e -> chain.append(unit.printName() + ELEMENT_RELATIONSHIP + e.printName() + LINE_BREAK));
-        }
+        unit.getElements().forEach(e -> chain.append(unit.printName() + ELEMENT_RELATIONSHIP + e.printName() + LINE_BREAK));
         return chain.toString();
     }
 
     public String printAssociates(Unit unit) {
         StringBuilder chain = new StringBuilder();
-        if (!unit.getAssociates().isEmpty()) {
-            unit.getAssociates().forEach(a -> chain.append(unit.printName() + ASSOCIATION_RELATIONSHIP + a.printName() + LINE_BREAK));
-        }
+        unit.getAssociates().forEach(a -> chain.append(unit.printName() + ASSOCIATION_RELATIONSHIP + a.printName() + LINE_BREAK));
         return chain.toString();
     }
 
     public String printUsed(Unit unit) {
         StringBuilder chain = new StringBuilder();
-        if (!unit.getUsed().isEmpty()) {
-            unit.getUsed().forEach(u -> chain.append(unit.printName() + USE_RELATIONSHIP + u.printName() + LINE_BREAK));
-        }
+        unit.getUsed().forEach(u -> chain.append(unit.printName() + USE_RELATIONSHIP + u.printName() + LINE_BREAK));
         return chain.toString();
     }
 }
