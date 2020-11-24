@@ -21,8 +21,8 @@ public class Unit implements Serializable {
     private Set<Unit> associates = new HashSet<>();
     private Set<Unit> used = new HashSet<>();
     private String myPackage;
-    private transient Set<Attribute> attributes = new HashSet<>();
-    private transient Set<Function> functions = new HashSet<>();
+    private Set<Attribute> attributes = new HashSet<>();
+    private Set<Function> functions = new HashSet<>();
     private boolean abstractUnit = false;
 
     public Unit(String name) {
