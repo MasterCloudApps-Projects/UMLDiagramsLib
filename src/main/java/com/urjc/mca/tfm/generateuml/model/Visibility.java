@@ -16,4 +16,8 @@ public enum Visibility {
     public String getCharacter(){
         return this.character;
     }
+
+    public String getName() {
+        return name;
+    }
 }

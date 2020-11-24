@@ -1,5 +1,7 @@
-package com.urjc.mca.tfm.generateuml.model;
+package com.urjc.mca.tfm.generateuml.view;
 
+import com.urjc.mca.tfm.generateuml.model.Domain;
+import com.urjc.mca.tfm.generateuml.model.Unit;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;

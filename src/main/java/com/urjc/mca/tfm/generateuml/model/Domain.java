@@ -40,7 +40,7 @@ public class Domain {
     }
 
     public Domain addUnit(String unit, String packageDescription){
-        LOG.debug("add unit {} in this package {}");
+        LOG.debug("add unit {} in this package {}", unit, packageDescription);
         return addUnit(new Unit(unit, packageDescription));
     }
 
@@ -99,7 +99,7 @@ public class Domain {
     }
 
     public Domain addBase(String unit, String packageDescription) {
-        LOG.debug("add base:{} with package", unit, packageDescription);
+        LOG.debug("add base:{} with package {}", unit, packageDescription);
         return addBase(new Unit(unit, packageDescription));
     }
 
@@ -190,7 +190,7 @@ public class Domain {
     }
 
     public Domain addVisibility(Visibility visibility) {
-        LOG.debug("add visibility {} {}", visibility.name(), activeFunction != null ? "into function" : "into attribute");
+        LOG.debug("add visibility {} {}", visibility.getName(), activeFunction != null ? "into function" : "into attribute");
         if (activeFunction != null)
             this.activeFunction.setVisibility(visibility);
         else
@@ -250,9 +250,7 @@ public class Domain {
 
     public List<Unit> getAllAfferent() {
         List<Unit> allAfferent = new ArrayList<>();
-        unitList.forEach(u -> {
-            allAfferent.addAll(getAfferent(u.name, "afferent " + u.name));
-        });
+        unitList.forEach(u -> allAfferent.addAll(getAfferent(u.name, "afferent " + u.name)));
         return allAfferent;
     }
 
