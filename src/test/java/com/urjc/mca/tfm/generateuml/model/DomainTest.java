@@ -3,6 +3,7 @@ package com.urjc.mca.tfm.generateuml.model;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.EnumSource;
 
 import java.util.List;
@@ -57,104 +58,41 @@ class DomainTest {
         assertThat(unitDomain.getBase().contains(new Unit("Base2")), is(true));
     }
 
-    @Test
-    void shouldBeReturnTheFirstPartUnit() {
+    @ParameterizedTest
+    @CsvSource({
+            "Part",
+            "Element",
+            "Associate",
+            "Used"
+    })
+    void shouldBeReturnTheFirstSourceUnitAdded(String unit) {
 
         Domain domain = new Domain("domain");
-        domain.addUnit("unit").addPart("Part").addPart("Part");
+        domain.addUnit("unit").addPart(unit).addPart(unit);
 
         Unit unitDomain = domain.getUnit("unit");
 
         assertThat(unitDomain.getPartList().size(), is(1));
-        assertThat(unitDomain.getPartList().contains(new Unit("Part")), is(true));
+        assertThat(unitDomain.getPartList().contains(new Unit(unit)), is(true));
     }
 
-    @Test
-    void shouldBeReturnTheFirstAndSecondPartUnit() {
+    @ParameterizedTest
+    @CsvSource({
+            "Part, Part1",
+            "Element, Element1",
+            "Associate, Associate1",
+            "Used, Used1"
+    })
+    void shouldBeReturnTheFirstAndSecondSourceUnitAdded(String unit, String unit1) {
 
         Domain domain = new Domain("domain");
-        domain.addUnit("unit").addPart("Part").addPart("Part2");
+        domain.addUnit("unit").addPart(unit).addPart(unit1);
 
         Unit unitDomain = domain.getUnit("unit");
 
         assertThat(unitDomain.getPartList().size(), is(2));
-        assertThat(unitDomain.getPartList().contains(new Unit("Part")), is(true));
-        assertThat(unitDomain.getPartList().contains(new Unit("Part2")), is(true));
-    }
-
-    @Test
-    void shouldBeReturnTheFirstElementUnit() {
-
-        Domain domain = new Domain("domain");
-        domain.addUnit("unit").addPart("Element").addPart("Element");
-
-        Unit unitDomain = domain.getUnit("unit");
-
-        assertThat(unitDomain.getPartList().size(), is(1));
-        assertThat(unitDomain.getPartList().contains(new Unit("Element")), is(true));
-    }
-
-    @Test
-    void shouldBeReturnTheFirstAndSecondElementUnit() {
-
-        Domain domain = new Domain("domain");
-        domain.addUnit("unit").addPart("Element").addPart("Element2");
-
-        Unit unitDomain = domain.getUnit("unit");
-
-        assertThat(unitDomain.getPartList().size(), is(2));
-        assertThat(unitDomain.getPartList().contains(new Unit("Element")), is(true));
-        assertThat(unitDomain.getPartList().contains(new Unit("Element2")), is(true));
-    }
-
-    @Test
-    void shouldBeReturnTheFirstAssociateUnit() {
-
-        Domain domain = new Domain("domain");
-        domain.addUnit("unit").addPart("Associate").addPart("Associate");
-
-        Unit unitDomain = domain.getUnit("unit");
-
-        assertThat(unitDomain.getPartList().size(), is(1));
-        assertThat(unitDomain.getPartList().contains(new Unit("Associate")), is(true));
-    }
-
-    @Test
-    void shouldBeReturnTheFirstAndSecondAssociateUnit() {
-
-        Domain domain = new Domain("domain");
-        domain.addUnit("unit").addPart("Associate").addPart("Associate2");
-
-        Unit unitDomain = domain.getUnit("unit");
-
-        assertThat(unitDomain.getPartList().size(), is(2));
-        assertThat(unitDomain.getPartList().contains(new Unit("Associate")), is(true));
-        assertThat(unitDomain.getPartList().contains(new Unit("Associate2")), is(true));
-    }
-
-    @Test
-    void shouldBeReturnTheFirstUsedUnit() {
-
-        Domain domain = new Domain("domain");
-        domain.addUnit("unit").addPart("Used").addPart("Used");
-
-        Unit unitDomain = domain.getUnit("unit");
-
-        assertThat(unitDomain.getPartList().size(), is(1));
-        assertThat(unitDomain.getPartList().contains(new Unit("Used")), is(true));
-    }
-
-    @Test
-    void shouldBeReturnTheFirstAndSecondUsedUnit() {
-
-        Domain domain = new Domain("domain");
-        domain.addUnit("unit").addPart("Used").addPart("Used2");
-
-        Unit unitDomain = domain.getUnit("unit");
-
-        assertThat(unitDomain.getPartList().size(), is(2));
-        assertThat(unitDomain.getPartList().contains(new Unit("Used")), is(true));
-        assertThat(unitDomain.getPartList().contains(new Unit("Used2")), is(true));
+        assertThat(unitDomain.getPartList().contains(new Unit(unit)), is(true));
+        assertThat(unitDomain.getPartList().contains(new Unit(unit1)), is(true));
     }
 
     @Test
@@ -421,7 +359,7 @@ class DomainTest {
         domain.addUnit("unit").addFunction("function").addUnit("unit 2");
         assertThrows(NullPointerException.class, () -> domain.setStatic(true));
     }
-    
+
     @Test
     void shouldBeReturnAnActor() {
         Domain domain = new Domain("domain");
@@ -524,9 +462,9 @@ class DomainTest {
         domain.addUnit("unit").addBase("base").addUnit("base").addUsed("used");
 
         List<Unit> list = domain.getAllEfferents();
-        assertThat(list.get(0).getMyPackage(), is ("efferent unit"));
-        assertThat(list.get(1).getMyPackage(), is ("efferent base"));
-        assertThat(list.get(2).getMyPackage(), is ("efferent used"));
+        assertThat(list.get(0).getMyPackage(), is("efferent unit"));
+        assertThat(list.get(1).getMyPackage(), is("efferent base"));
+        assertThat(list.get(2).getMyPackage(), is("efferent used"));
     }
 
     @Test
@@ -536,8 +474,8 @@ class DomainTest {
         domain.addUnit("unit").addBase("base").addUnit("base").addUsed("used");
 
         List<Unit> list = domain.getAllAfferent();
-        assertThat(list.get(0).getMyPackage(), is ("afferent base"));
-        assertThat(list.get(1).getMyPackage(), is ("afferent used"));
+        assertThat(list.get(0).getMyPackage(), is("afferent base"));
+        assertThat(list.get(1).getMyPackage(), is("afferent used"));
     }
 
     @Test
