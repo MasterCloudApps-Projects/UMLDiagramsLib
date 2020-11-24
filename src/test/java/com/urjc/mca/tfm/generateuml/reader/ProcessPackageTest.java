@@ -95,6 +95,6 @@ class ProcessPackageTest {
         assertEquals(0, domain.getUnit(myPackage + ".A").getAssociates().size());
         assertEquals(0, domain.getUnit(myPackage + ".A").getElements().size());
         assertEquals(0, domain.getUnit(myPackage + ".A").getBase().size());
-        assertEquals(0, domain.getUnit(myPackage + ".A").getUsed().size());
+        assertEquals(1, domain.getUnit(myPackage + ".A").getUsed().size());
     }
 }
