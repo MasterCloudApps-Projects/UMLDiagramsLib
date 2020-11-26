@@ -26,6 +26,7 @@ public class CloneRepository {
             runCommand(directory, "git", "clone", url);
         } catch (MalformedURLException | InterruptedException e) {
             LOG.debug("context", e);
+            Thread.currentThread().interrupt();
         }
     }
 
