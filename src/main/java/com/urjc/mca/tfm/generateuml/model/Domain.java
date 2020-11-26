@@ -228,7 +228,7 @@ public class Domain {
             try {
                 list.add(cloneForEfferent(unit, "efferent " + unit.name));
             } catch (IOException | ClassNotFoundException e) {
-                e.printStackTrace();
+                LOG.debug("context",e);
             }
 
         });
