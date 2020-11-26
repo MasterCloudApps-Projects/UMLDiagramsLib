@@ -1,5 +1,9 @@
 package com.urjc.mca.tfm.generateuml.connect.plantuml;
 
+import com.urjc.mca.tfm.generateuml.model.Domain;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.script.Invocable;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
@@ -13,9 +17,11 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Random;
+import java.security.SecureRandom;
 
 public class GenerateImage {
+
+    private static final Logger LOG = LoggerFactory.getLogger(Domain.class);
 
     private static ScriptEngineManager manager = new ScriptEngineManager();
     private static String path;
@@ -30,14 +36,14 @@ public class GenerateImage {
             Files.deleteIfExists(Path.of("src/main/resources/js/rawdeflate.min.js").toAbsolutePath());
             Files.copy(in, Paths.get("src/main/resources/js/rawdeflate.min.js").toAbsolutePath());
         } catch (MalformedURLException | FileNotFoundException e) {
-            e.printStackTrace();
+            LOG.debug("context",e);
         }
 
         try (InputStream in = new URL("https://www.planttext.com/js/plantuml.min.js").openStream()) {
             Files.deleteIfExists(Path.of("src/main/resources/js/plantuml.min.js.js").toAbsolutePath());
             Files.copy(in, Paths.get("src/main/resources/js/plantuml.min.js.js").toAbsolutePath());
         } catch (MalformedURLException | FileNotFoundException e) {
-            e.printStackTrace();
+            LOG.debug("context", e);
         }
     }
 
@@ -75,9 +81,9 @@ public class GenerateImage {
         try (InputStream in = new URL("https://www.planttext.com/api/plantuml/svg/" + encodingClassDiagram).openStream()) {
             Files.copy(in, Paths.get(path + name));
         } catch (MalformedURLException e) {
-            e.printStackTrace();
+            LOG.debug("context",e);
         } catch (IOException e) {
-            e.printStackTrace();
+            LOG.debug("context",e);
         }
         return name;
     }
@@ -98,9 +104,9 @@ public class GenerateImage {
     }
 
     private static String generateRandomName() {
-        int number = new Random().nextInt();
+        int number = new SecureRandom().nextInt();
         while (Files.exists(Paths.get("resources/input/images/image" + number + ".svg").toAbsolutePath()))
-            number = new Random().nextInt();
+            number = new SecureRandom().nextInt();
         return "image" + number + ".jpg";
     }
 }
