@@ -22,7 +22,7 @@ public class GenerateImage {
     private static String name;
 
     private static void inicialized(){
-        path="src/main/resources/input/images/";
+        path="src/main/resources/images/";
         name="image";
     }
     private static void downloadFilesToEncode() throws IOException {

@@ -4,6 +4,7 @@ import com.urjc.mca.tfm.generateuml.model.Domain;
 import com.urjc.mca.tfm.generateuml.view.ClassDiagram;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -26,9 +27,9 @@ class GenerateImageTest {
     @AfterAll
     static void deleteFiles(){
         nameList.forEach(n -> {
-            if(Files.exists(Path.of("resources/input/images/"+n).toAbsolutePath())) {
+            if(Files.exists(Path.of("resources/images/"+n).toAbsolutePath())) {
                 try {
-                    Files.delete(Path.of("resources/input/images/"+n).toAbsolutePath());
+                    Files.delete(Path.of("resources/images/"+n).toAbsolutePath());
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -45,6 +46,7 @@ class GenerateImageTest {
 
     @Test
     @DisplayName("Should be create a image with class diagram")
+    @Disabled
     void shouldBeCreateAImageWithClassDiagram() throws NoSuchMethodException, ScriptException, IOException {
         Domain domain = new Domain("domain");
         ClassDiagram classDiagram = new ClassDiagram();
@@ -54,9 +56,10 @@ class GenerateImageTest {
         String imageName = GenerateImage.downloadImage(classDiagram.print());
         nameList.add(imageName);
 
-        assertTrue(Files.exists(Path.of("src/main/resources/input/images/"+imageName).toAbsolutePath()));
+        assertTrue(Files.exists(Path.of("src/main/resources/images/"+imageName).toAbsolutePath()));
     }
 
+    @Disabled
     @Test
     @DisplayName("Should be create a image with class diagram with name param")
     void shouldBeCreateAImageWithClassDiagramWithNameParam() throws NoSuchMethodException, ScriptException, IOException {
@@ -68,16 +71,17 @@ class GenerateImageTest {
         String imageName = GenerateImage.downloadImage(classDiagram.print(), name);
         nameList.add(imageName);
 
-        assertTrue(Files.exists(Path.of("src/main/resources/input/images/"+imageName).toAbsolutePath()));
+        assertTrue(Files.exists(Path.of("src/main/resources/images/"+imageName).toAbsolutePath()));
     }
 
+    @Disabled
     @Test
     @DisplayName("Should be create a image with class diagram with name param and folder")
     void shouldBeCreateAImageWithClassDiagramWithNameParamAndFolder() throws NoSuchMethodException, ScriptException, IOException {
         Domain domain = new Domain("domain");
         ClassDiagram classDiagram = new ClassDiagram();
         String name = "image-" + new Random().nextInt() + ".svg";
-        String folder = "src/main/resources/input/images/prueba/";
+        String folder = "src/main/resources/images/prueba/";
         domain.addUnit("unit").addBase("base");
         classDiagram.addDomain(domain);
         String imageName = GenerateImage.downloadImage(classDiagram.print(), name, folder);
