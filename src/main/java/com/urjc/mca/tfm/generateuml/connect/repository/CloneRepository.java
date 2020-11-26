@@ -1,5 +1,6 @@
 package com.urjc.mca.tfm.generateuml.connect.repository;
 
+import com.urjc.mca.tfm.generateuml.connect.plantuml.GenerateImage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,14 +13,32 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Objects;
+import java.util.Properties;
 
 public class CloneRepository {
 
     private static final Logger LOG = LoggerFactory.getLogger(CloneRepository.class);
+    private static String repositoryFolder;
+    private static Properties props = new Properties();
+
+    private static void loadFromPropeties(){
+        try(InputStream configStream = GenerateImage.class.getResourceAsStream( "/application.properties")){
+            props.load(configStream);
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private static void inicialized() {
+        loadFromPropeties();
+        repositoryFolder = props.getProperty("repositories.folder");
+    }
 
     public static void clone(String url) throws IOException {
+        inicialized();
         try {
-            Path directory = Paths.get("src/main/resources/repository");
+            Path directory = Paths.get(repositoryFolder);
             if (!Files.exists(directory)) {
                 Files.createDirectory(directory);
             }
