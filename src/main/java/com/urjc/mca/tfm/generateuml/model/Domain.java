@@ -18,8 +18,6 @@ public class Domain {
     private final List<Unit> unitList = new ArrayList<>();
     private Unit activeUnit;
     private String activePackage;
-    private final List<Actor> actorList = new ArrayList<>();
-    private Actor activeActor;
     private Function activeFunction;
     private Attribute activeAttribute;
 
@@ -298,59 +296,4 @@ public class Domain {
         LOG.debug("get afferent:{}", unit);
         return findAfferent(new Unit(unit), false);
     }
-
-
-    private Domain addActor(Actor actor) {
-        this.activeActor = this.getActor(actor);
-        return this;
-    }
-
-    public Domain addActor(String actor) {
-        LOG.debug("add actor:{}", actor);
-        return addActor(new Actor(actor));
-    }
-
-    private Actor getActor(Actor actor) {
-        Actor aux = getActor(actor.name);
-        if (aux == null) {
-            actorList.add(actor);
-            aux = actor;
-        }
-        return aux;
-    }
-
-    public Actor getActor(String name) {
-        LOG.debug("get actor:{}", name);
-        return actorList.stream().filter(a -> a.name.equals(name)).findFirst().orElse(null);
-    }
-
-    public List<Actor> getActorList() {
-        return this.actorList;
-    }
-
-    public Domain addUseCase(String useCase) {
-        return addUseCase(new UseCaseLeaf(useCase));
-    }
-
-    private Domain addUseCase(UseCase useCase) {
-        this.activeActor.addUseCase(useCase);
-        return this;
-    }
-
-    public Domain addUseCaseComposite(String useCase) {
-        UseCaseComposite usc = new UseCaseComposite(useCase);
-        this.activeActor.addUseCaseComposite(usc);
-        return this;
-    }
-
-    public Domain addUseCaseToComposite(String useCase) {
-        this.activeActor.addUseCaseToComposite(new UseCaseLeaf(useCase));
-        return this;
-    }
-
-    public Domain addUseCaseCompositeToComposite(String useCase) {
-        this.activeActor.addUseCaseCompositeToComposite(new UseCaseComposite(useCase));
-        return this;
-    }
-
 }
