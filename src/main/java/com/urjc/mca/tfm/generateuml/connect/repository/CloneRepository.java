@@ -68,7 +68,7 @@ public class CloneRepository {
                     System.out.println(type + "> " + line);
                 }
             } catch (IOException ioe) {
-                ioe.printStackTrace();
+                LOG.debug("context", ioe);
             }
         }
     }
