@@ -27,15 +27,15 @@ public class GenerateImage {
     }
     private static void downloadFilesToEncode() throws IOException {
         try (InputStream in = new URL("https://www.planttext.com/js/rawdeflate.min.js").openStream()) {
-            Files.deleteIfExists(Path.of("src/main/resources/js/rawdeflate.min.js"));
-            Files.copy(in, Paths.get("src/main/resources/js/rawdeflate.min.js"));
+            Files.deleteIfExists(Path.of("src/main/resources/js/rawdeflate.min.js").toAbsolutePath());
+            Files.copy(in, Paths.get("src/main/resources/js/rawdeflate.min.js").toAbsolutePath());
         } catch (MalformedURLException | FileNotFoundException e) {
             e.printStackTrace();
         }
 
         try (InputStream in = new URL("https://www.planttext.com/js/plantuml.min.js").openStream()) {
-            Files.deleteIfExists(Path.of("src/main/resources/js/plantuml.min.js.js"));
-            Files.copy(in, Paths.get("src/main/resources/js/plantuml.min.js.js"));
+            Files.deleteIfExists(Path.of("src/main/resources/js/plantuml.min.js.js").toAbsolutePath());
+            Files.copy(in, Paths.get("src/main/resources/js/plantuml.min.js.js").toAbsolutePath());
         } catch (MalformedURLException | FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -43,7 +43,7 @@ public class GenerateImage {
 
     private static String deflate(String classDiagram) throws IOException, ScriptException, NoSuchMethodException {
         ScriptEngine engine = manager.getEngineByName("JavaScript");
-        engine.eval(Files.newBufferedReader(Paths.get("src/main/resources/js/rawdeflate.min.js"), StandardCharsets.UTF_8));
+        engine.eval(Files.newBufferedReader(Paths.get("src/main/resources/js/rawdeflate.min.js").toAbsolutePath(), StandardCharsets.UTF_8));
 
         Invocable inv = (Invocable) engine;
         return (String) inv.invokeFunction("deflate", classDiagram);
@@ -52,7 +52,7 @@ public class GenerateImage {
 
     private static String encode64(String classDiagram) throws IOException, ScriptException, NoSuchMethodException {
         ScriptEngine engine = manager.getEngineByName("JavaScript");
-        engine.eval(Files.newBufferedReader(Paths.get("src/main/resources/js/plantuml.min.js.js"), StandardCharsets.UTF_8));
+        engine.eval(Files.newBufferedReader(Paths.get("src/main/resources/js/plantuml.min.js.js").toAbsolutePath(), StandardCharsets.UTF_8));
 
         Invocable inv = (Invocable) engine;
         return (String) inv.invokeFunction("encode64", classDiagram);
@@ -99,7 +99,7 @@ public class GenerateImage {
 
     private static String generateRandomName() {
         int number = new Random().nextInt();
-        while (Files.exists(Paths.get("resources/input/images/image" + number + ".svg")))
+        while (Files.exists(Paths.get("resources/input/images/image" + number + ".svg").toAbsolutePath()))
             number = new Random().nextInt();
         return "image" + number + ".jpg";
     }
