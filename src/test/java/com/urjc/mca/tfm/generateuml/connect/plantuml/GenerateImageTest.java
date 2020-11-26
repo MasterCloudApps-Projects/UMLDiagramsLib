@@ -26,9 +26,9 @@ class GenerateImageTest {
     @AfterAll
     static void deleteFiles(){
         nameList.forEach(n -> {
-            if(Files.exists(Path.of("src/main/resources/input/images/"+n))) {
+            if(Files.exists(Path.of("resources/input/images/"+n).toAbsolutePath())) {
                 try {
-                    Files.delete(Path.of("src/main/resources/input/images/"+n));
+                    Files.delete(Path.of("resources/input/images/"+n).toAbsolutePath());
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -54,7 +54,7 @@ class GenerateImageTest {
         String imageName = GenerateImage.downloadImage(classDiagram.print());
         nameList.add(imageName);
 
-        assertTrue(Files.exists(Path.of("src/main/resources/input/images/"+imageName)));
+        assertTrue(Files.exists(Path.of("src/main/resources/input/images/"+imageName).toAbsolutePath()));
     }
 
     @Test
@@ -68,7 +68,7 @@ class GenerateImageTest {
         String imageName = GenerateImage.downloadImage(classDiagram.print(), name);
         nameList.add(imageName);
 
-        assertTrue(Files.exists(Path.of("src/main/resources/input/images/"+imageName)));
+        assertTrue(Files.exists(Path.of("src/main/resources/input/images/"+imageName).toAbsolutePath()));
     }
 
     @Test
@@ -84,6 +84,6 @@ class GenerateImageTest {
         nameList.add(imageName);
         pathList.add(folder);
 
-        assertTrue(Files.exists(Path.of(folder+imageName)));
+        assertTrue(Files.exists(Path.of(folder+imageName).toAbsolutePath()));
     }
 }
