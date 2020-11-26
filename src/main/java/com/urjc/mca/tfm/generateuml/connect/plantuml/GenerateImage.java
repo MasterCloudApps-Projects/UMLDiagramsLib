@@ -1,6 +1,5 @@
 package com.urjc.mca.tfm.generateuml.connect.plantuml;
 
-import com.urjc.mca.tfm.generateuml.model.Domain;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,7 +20,7 @@ import java.security.SecureRandom;
 
 public class GenerateImage {
 
-    private static final Logger LOG = LoggerFactory.getLogger(Domain.class);
+    private static final Logger LOG = LoggerFactory.getLogger(GenerateImage.class);
 
     private static ScriptEngineManager manager = new ScriptEngineManager();
     private static String path;
