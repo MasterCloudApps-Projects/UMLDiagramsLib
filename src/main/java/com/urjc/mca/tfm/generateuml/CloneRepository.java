@@ -1,6 +1,5 @@
-package com.urjc.mca.tfm.generateuml.connect.repository;
+package com.urjc.mca.tfm.generateuml;
 
-import com.urjc.mca.tfm.generateuml.connect.plantuml.GenerateImage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,7 +34,7 @@ public class CloneRepository {
         repositoryFolder = props.getProperty("repositories.folder");
     }
 
-    public static void clone(String url) throws IOException {
+    public static String clone(String url) throws IOException {
         inicialized();
         try {
             Path directory = Paths.get(repositoryFolder);
@@ -47,9 +46,15 @@ public class CloneRepository {
             LOG.debug("context", e);
             Thread.currentThread().interrupt();
         }
+        return obtainNewPath(url);
     }
 
-    public static void runCommand(Path directory, String... command) throws IOException, InterruptedException {
+    private static String obtainNewPath(String url){
+        String[] aux = url.split("/");
+        return (repositoryFolder + aux[aux.length-1].substring(0, aux[aux.length-1].length()-4)+"/src/main/java");
+    }
+
+    private static void runCommand(Path directory, String... command) throws IOException, InterruptedException {
         Objects.requireNonNull(directory, "directory");
         if (!Files.exists(directory)) {
             throw new RuntimeException("can't run command in non-existing directory '" + directory + "'");
