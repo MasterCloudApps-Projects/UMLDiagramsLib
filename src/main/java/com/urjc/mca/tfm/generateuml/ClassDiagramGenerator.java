@@ -1,4 +1,4 @@
-package com.urjc.mca.tfm.generateuml.view;
+package com.urjc.mca.tfm.generateuml;
 
 import com.urjc.mca.tfm.generateuml.model.Domain;
 import com.urjc.mca.tfm.generateuml.model.Unit;
@@ -11,7 +11,7 @@ import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
-public class ClassDiagram {
+public class ClassDiagramGenerator {
 
     private static final String LINE_BREAK = "\n";
     private static final String PART_RELATIONSHIP = " *--> ";
@@ -22,17 +22,17 @@ public class ClassDiagram {
 
     List<Unit> units = new ArrayList<>();
 
-    public ClassDiagram addUnit(Unit unit) {
+    public ClassDiagramGenerator addUnit(Unit unit) {
         units.add(unit);
         return this;
     }
 
-    public ClassDiagram addUnits(List<Unit> entities) {
+    public ClassDiagramGenerator addUnits(List<Unit> entities) {
         entities.forEach(this::addUnit);
         return this;
     }
 
-    public ClassDiagram addDomain(Domain domain) {
+    public ClassDiagramGenerator addDomain(Domain domain) {
         this.addUnits(domain.getUnitList());
         return this;
     }
