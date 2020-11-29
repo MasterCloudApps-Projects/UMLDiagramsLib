@@ -1,6 +1,6 @@
 package com.urjc.mca.tfm.generateuml.model;
 
-import com.urjc.mca.tfm.generateuml.view.ClassDiagram;
+import com.urjc.mca.tfm.generateuml.ClassDiagramGenerator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -8,7 +8,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
 
-class ClassDiagramTest {
+class ClassDiagramGeneratorTest {
 
     @Test
     void printClassName() {
@@ -16,7 +16,7 @@ class ClassDiagramTest {
         domain.addPackage("package")
                 .addUnit("Unit1")
                 .addUnit("Unit2");
-        ClassDiagram classDiagram = new ClassDiagram();
+        ClassDiagramGenerator classDiagram = new ClassDiagramGenerator();
 
         classDiagram.addUnits(domain.getUnitList()).print();
 
@@ -33,7 +33,7 @@ class ClassDiagramTest {
         domain.addPackage("package")
                 .addUnit("Unit1")
                 .setAbstractUnit();
-        ClassDiagram classDiagram = new ClassDiagram();
+        ClassDiagramGenerator classDiagram = new ClassDiagramGenerator();
 
         classDiagram.addDomain(domain);
 
@@ -47,7 +47,7 @@ class ClassDiagramTest {
         domain.addPackage("package")
                 .addUnit("Unit1")
                 .addBase("Base");
-        ClassDiagram classDiagram = new ClassDiagram();
+        ClassDiagramGenerator classDiagram = new ClassDiagramGenerator();
 
         classDiagram.addUnits(domain.getUnitList()).print();
 
@@ -59,7 +59,7 @@ class ClassDiagramTest {
 
     @Test
     void printPart() {
-        ClassDiagram classDiagram = new ClassDiagram();
+        ClassDiagramGenerator classDiagram = new ClassDiagramGenerator();
         Domain domain = new Domain("domain");
         domain.addPackage("package")
                 .addUnit("Unit1")
@@ -75,7 +75,7 @@ class ClassDiagramTest {
 
     @Test
     void printElement() {
-        ClassDiagram classDiagram = new ClassDiagram();
+        ClassDiagramGenerator classDiagram = new ClassDiagramGenerator();
         Domain domain = new Domain("domain");
         domain.addPackage("package")
                 .addUnit("Unit1")
@@ -91,7 +91,7 @@ class ClassDiagramTest {
 
     @Test
     void printAssociates() {
-        ClassDiagram classDiagram = new ClassDiagram();
+        ClassDiagramGenerator classDiagram = new ClassDiagramGenerator();
         Domain domain = new Domain("domain");
         domain.addPackage("package")
                 .addUnit("Unit1")
@@ -107,7 +107,7 @@ class ClassDiagramTest {
 
     @Test
     void printUsed() {
-        ClassDiagram classDiagram = new ClassDiagram();
+        ClassDiagramGenerator classDiagram = new ClassDiagramGenerator();
         Domain domain = new Domain("domain");
         domain.addPackage("package")
                 .addUnit("Unit1")
@@ -123,14 +123,15 @@ class ClassDiagramTest {
 
     @Test
     void shouldBeReturnDiagramClassPractice1Design() {
-        ClassDiagram classDiagram = new ClassDiagram();
+        ClassDiagramGenerator classDiagram = new ClassDiagramGenerator();
         Domain domain = new Domain("mastermind");
         domain.addPackage("mastermind")
-                .addUnit("Mastermind").addBase("WithConsoleModel").addPart("SecretCombination").addPart("ProposedCombination")
-                .addPart("Result").addUsed("Message")
+                .addUnit("Mastermind")
+                    .addBase("WithConsoleModel").addPart("SecretCombination").addPart("ProposedCombination")
+                    .addPart("Result").addUsed("Message")
                 .addUnit("Combination").addBase("WithConsoleModel").addPart("Color").addPart("SecretCombination")
                 .addUnit("SecretCombination").addBase("Combination").addUsed("ProposedCombination")
-                .addUsed("Message").addUsed("Result")
+                .   addUsed("Message").addUsed("Result")
                 .addUnit("ProposedCombination").addBase("Combination").addUsed("Error").addUsed("Message");
 
 
@@ -165,7 +166,7 @@ class ClassDiagramTest {
 
     @Test
     void shouldBeReturnSecretCombinationInDiagramClassPractice1Design() {
-        ClassDiagram classDiagram = new ClassDiagram();
+        ClassDiagramGenerator classDiagram = new ClassDiagramGenerator();
         Domain domain = new Domain("mastermind");
         domain.addPackage("mastermind")
                 .addUnit("Mastermind").addBase("WithConsoleModel").addPart("SecretCombination").addPart("ProposedCombination")
@@ -190,7 +191,7 @@ class ClassDiagramTest {
 
     @Test
     void shouldBeReturnAfferentUnitForX() {
-        ClassDiagram classDiagram = new ClassDiagram();
+        ClassDiagramGenerator classDiagram = new ClassDiagramGenerator();
         Domain domain = new Domain("mastermind");
         domain.addUnit("X")
                 .addBase("Base_de_X")
@@ -221,7 +222,7 @@ class ClassDiagramTest {
 
     @Test
     void shouldBeReturnAllAfferent() {
-        ClassDiagram classDiagram = new ClassDiagram();
+        ClassDiagramGenerator classDiagram = new ClassDiagramGenerator();
         Domain domain = new Domain("mastermind");
         domain.addUnit("X")
                 .addBase("Base_de_X")
@@ -260,7 +261,7 @@ class ClassDiagramTest {
 
     @Test
     void shouldBeReturnAfferentUnitForBase_de_X() {
-        ClassDiagram classDiagram = new ClassDiagram();
+        ClassDiagramGenerator classDiagram = new ClassDiagramGenerator();
         Domain domain = new Domain("mastermind");
         domain.addUnit("X")
                 .addBase("Base_de_X")
@@ -286,7 +287,7 @@ class ClassDiagramTest {
 
     @Test
     void shouldBeReturnEfferentUnit() {
-        ClassDiagram classDiagram = new ClassDiagram();
+        ClassDiagramGenerator classDiagram = new ClassDiagramGenerator();
         Domain domain = new Domain("mastermind");
         domain.addUnit("X")
                 .addBase("Base_de_X")
@@ -316,7 +317,7 @@ class ClassDiagramTest {
 
     @Test
     void shouldBeReturnDiagramClassPractice1DesignWithTwoModels() {
-        ClassDiagram classDiagram = new ClassDiagram();
+        ClassDiagramGenerator classDiagram = new ClassDiagramGenerator();
         Domain domain = new Domain("mastermind");
         Domain domainUtils = new Domain("mastermind.utils");
         domainUtils.addUnit("WithConsoleModel");
@@ -376,8 +377,8 @@ class ClassDiagramTest {
     }
 
     @Test
-    void shouldBeReturnDiagramClassPractice1DesignWithTwoModelsWhenAddModel() {
-        ClassDiagram classDiagram = new ClassDiagram();
+    void shouldBeReturnDiagramClassPractice1DesignWithTwoModelsWhenAddDomain() {
+        ClassDiagramGenerator classDiagram = new ClassDiagramGenerator();
         Domain domain = new Domain("mastermind");
         domain.addPackage("mastermind")
                 .addUnit("Mastermind")
@@ -424,7 +425,7 @@ class ClassDiagramTest {
 
     @Test
     void shouldBeReturnAttributeWithPublicVisibility() {
-        ClassDiagram classDiagram = new ClassDiagram();
+        ClassDiagramGenerator classDiagram = new ClassDiagramGenerator();
         Domain domain = new Domain("domain");
         domain.addUnit("unit").addAttribute("attribute").addVisibility(Visibility.PUBLIC);
 
@@ -439,7 +440,7 @@ class ClassDiagramTest {
 
     @Test
     void shouldBeReturnAttributeWithPrivateVisibility() {
-        ClassDiagram classDiagram = new ClassDiagram();
+        ClassDiagramGenerator classDiagram = new ClassDiagramGenerator();
         Domain domain = new Domain("domain");
         domain.addUnit("unit").addAttribute("attribute").addVisibility(Visibility.PRIVATE);
 
@@ -454,7 +455,7 @@ class ClassDiagramTest {
 
     @Test
     void shouldBeReturnAttributeWithProtectedVisibility() {
-        ClassDiagram classDiagram = new ClassDiagram();
+        ClassDiagramGenerator classDiagram = new ClassDiagramGenerator();
         Domain domain = new Domain("domain");
         domain.addUnit("unit").addAttribute("attribute").addVisibility(Visibility.PROTECTED);
 
@@ -469,7 +470,7 @@ class ClassDiagramTest {
 
     @Test
     void shouldBeReturnAttributeWithPackageVisibility() {
-        ClassDiagram classDiagram = new ClassDiagram();
+        ClassDiagramGenerator classDiagram = new ClassDiagramGenerator();
         Domain domain = new Domain("domain");
         domain.addUnit("unit").addAttribute("attribute").addVisibility(Visibility.PACKAGE);
 
@@ -484,7 +485,7 @@ class ClassDiagramTest {
 
     @Test
     void shouldBeReturnAttributeWithoutVisibility() {
-        ClassDiagram classDiagram = new ClassDiagram();
+        ClassDiagramGenerator classDiagram = new ClassDiagramGenerator();
         Domain domain = new Domain("domain");
         domain.addUnit("unit").addAttribute("attribute").addVisibility(Visibility.EMPTY_VISIBILITY);
 
@@ -499,7 +500,7 @@ class ClassDiagramTest {
 
     @Test
     void shouldBeReturnNameWithSpaces() {
-        ClassDiagram classDiagram = new ClassDiagram();
+        ClassDiagramGenerator classDiagram = new ClassDiagramGenerator();
         Domain domain = new Domain("domain");
         domain.addUnit("my unit");
 
@@ -511,7 +512,7 @@ class ClassDiagramTest {
 
     @Test
     void shouldBeReturnAttributeWithProtectedVisibilityAndSpacesInName() {
-        ClassDiagram classDiagram = new ClassDiagram();
+        ClassDiagramGenerator classDiagram = new ClassDiagramGenerator();
         Domain domain = new Domain("domain");
         domain.addUnit("my unit").addAttribute("my attribute").addVisibility(Visibility.PROTECTED);
 
@@ -526,7 +527,7 @@ class ClassDiagramTest {
 
     @Test
     void shouldBeReturnUnitWithFunction() {
-        ClassDiagram classDiagram = new ClassDiagram();
+        ClassDiagramGenerator classDiagram = new ClassDiagramGenerator();
         Domain domain = new Domain("domain");
         domain.addUnit("unit").addFunction("function");
 
@@ -541,7 +542,7 @@ class ClassDiagramTest {
 
     @Test
     void shouldBeReturnUnitWithFunctionAndVisibility() {
-        ClassDiagram classDiagram = new ClassDiagram();
+        ClassDiagramGenerator classDiagram = new ClassDiagramGenerator();
         Domain domain = new Domain("domain");
         domain.addUnit("unit").addFunction("function").addVisibility(Visibility.PUBLIC);
 
@@ -556,7 +557,7 @@ class ClassDiagramTest {
 
     @Test
     void shouldBeReturnUnitWithFunctionAndVisibilityAndReturnType() {
-        ClassDiagram classDiagram = new ClassDiagram();
+        ClassDiagramGenerator classDiagram = new ClassDiagramGenerator();
         Domain domain = new Domain("domain");
         domain.addUnit("unit").addFunction("function").addVisibility(Visibility.PUBLIC).addReturnType("String");
 
@@ -571,7 +572,7 @@ class ClassDiagramTest {
 
     @Test
     void shouldBeReturnUnitWithFunctionAndVisibilityAndReturnTypeAndParameters() {
-        ClassDiagram classDiagram = new ClassDiagram();
+        ClassDiagramGenerator classDiagram = new ClassDiagramGenerator();
         Domain domain = new Domain("domain");
         String[] parameters = {"String", "int"};
         domain.addUnit("unit").addFunction("function").addVisibility(Visibility.PUBLIC).addReturnType("String")
@@ -588,7 +589,7 @@ class ClassDiagramTest {
 
     @Test
     void shouldBeReturnUnitStaticWithFunctionAndVisibilityAndReturnTypeAndParameters() {
-        ClassDiagram classDiagram = new ClassDiagram();
+        ClassDiagramGenerator classDiagram = new ClassDiagramGenerator();
         Domain domain = new Domain("domain");
         String[] parameters = {"String", "int"};
         domain.addUnit("unit").addFunction("function").addVisibility(Visibility.PUBLIC).addReturnType("String")
@@ -606,7 +607,7 @@ class ClassDiagramTest {
 
     @Test
     void shouldBeReturnAllEfferentUnits() {
-        ClassDiagram classDiagram = new ClassDiagram();
+        ClassDiagramGenerator classDiagram = new ClassDiagramGenerator();
         Domain domain = new Domain("mastermind");
         domain.addUnit("X")
                 .addBase("Base_de_X")
@@ -649,7 +650,7 @@ class ClassDiagramTest {
     @Test
     @DisplayName("should be return only packages")
     void shouldBeReturnOnlyPackages() {
-        ClassDiagram classDiagram = new ClassDiagram();
+        ClassDiagramGenerator classDiagram = new ClassDiagramGenerator();
         Domain domain = new Domain("mastermind");
         domain.addPackage("package1").addUnit("unit1").addUnit("unit2").addUsed("used").addPackage("package2").addUnit("unit3")
                 .addPackage("package3").addUnit("unit4").addUsed("unit1");
@@ -666,7 +667,7 @@ class ClassDiagramTest {
     @Test
     @DisplayName("should be return concrete package and one level relation to other packages")
     void shouldBeReturnConcretePackageAndOneLevelRelationToOtherPackages() {
-        ClassDiagram classDiagram = new ClassDiagram();
+        ClassDiagramGenerator classDiagram = new ClassDiagramGenerator();
         Domain domain = new Domain("mastermain solution v15.6");
         domain.addPackage("mastermind")
                 .addUnit("MastermindStandalone")
@@ -696,7 +697,7 @@ class ClassDiagramTest {
     @Test
     @DisplayName("should be return one unit and base with the same name and different package")
     void shouldBeReturnOneUnitAndBaseWithTheSameNameAndDifferentPackage() {
-        ClassDiagram classDiagram = new ClassDiagram();
+        ClassDiagramGenerator classDiagram = new ClassDiagramGenerator();
         Domain domain = new Domain("domain");
         domain.addUnit("unit", "mypackage").addBase("unit", "secondpackage");
         classDiagram.addDomain(domain);
@@ -711,7 +712,7 @@ class ClassDiagramTest {
     @Test
     @DisplayName("should be return one unit and part with the same name and different package")
     void shouldBeReturnOneUnitAndPartWithTheSameNameAndDifferentPackage() {
-        ClassDiagram classDiagram = new ClassDiagram();
+        ClassDiagramGenerator classDiagram = new ClassDiagramGenerator();
         Domain domain = new Domain("domain");
         domain.addUnit("unit", "mypackage").addPart("unit", "secondpackage");
 
@@ -726,7 +727,7 @@ class ClassDiagramTest {
     @Test
     @DisplayName("should be return one unit and element with the same name and different package")
     void shouldBeReturnOneUnitAndElementWithTheSameNameAndDifferentPackage() {
-        ClassDiagram classDiagram = new ClassDiagram();
+        ClassDiagramGenerator classDiagram = new ClassDiagramGenerator();
         Domain domain = new Domain("domain");
         domain.addUnit("unit", "mypackage").addElement("unit", "secondpackage");
 
@@ -742,7 +743,7 @@ class ClassDiagramTest {
     @Test
     @DisplayName("should be return one unit and associate with the same name and different package")
     void shouldBeReturnOneUnitAndAssociateWithTheSameNameAndDifferentPackage() {
-        ClassDiagram classDiagram = new ClassDiagram();
+        ClassDiagramGenerator classDiagram = new ClassDiagramGenerator();
         Domain domain = new Domain("domain");
         domain.addUnit("unit", "mypackage").addAssociate("unit", "secondpackage");
 
@@ -758,7 +759,7 @@ class ClassDiagramTest {
     @Test
     @DisplayName("should be return one unit and used with the same name and different package")
     void shouldBeReturnOneUnitAndUsedWithTheSameNameAndDifferentPackage() {
-        ClassDiagram classDiagram = new ClassDiagram();
+        ClassDiagramGenerator classDiagram = new ClassDiagramGenerator();
         Domain domain = new Domain("domain");
         domain.addUnit("unit", "mypackage").addUsed("unit", "secondpackage");
 
