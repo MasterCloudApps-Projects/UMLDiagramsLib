@@ -1,4 +1,4 @@
-package com.urjc.mca.tfm.generateuml.reader;
+package com.urjc.mca.tfm.generateuml;
 
 import com.tngtech.archunit.core.domain.JavaClass;
 import com.tngtech.archunit.core.domain.JavaClasses;
@@ -8,11 +8,11 @@ import com.urjc.mca.tfm.generateuml.model.Domain;
 import java.util.HashSet;
 import java.util.Set;
 
-public class ProcessPackage {
+public class JavaAnalyzer {
     Set<String> constructor = new HashSet<>();
     String path;
 
-    public ProcessPackage(String path) {
+    public JavaAnalyzer(String path) {
         this.path = path;
     }
 
