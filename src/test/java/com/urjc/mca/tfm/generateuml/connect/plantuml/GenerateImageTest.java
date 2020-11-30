@@ -1,7 +1,8 @@
 package com.urjc.mca.tfm.generateuml.connect.plantuml;
 
+import com.urjc.mca.tfm.generateuml.ClassDiagramGenerator;
+import com.urjc.mca.tfm.generateuml.GenerateImage;
 import com.urjc.mca.tfm.generateuml.model.Domain;
-import com.urjc.mca.tfm.generateuml.view.ClassDiagram;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Disabled;
@@ -55,7 +56,7 @@ class GenerateImageTest {
     @Disabled
     void shouldBeCreateAImageWithClassDiagram() throws NoSuchMethodException, ScriptException, IOException {
         Domain domain = new Domain(DOMAIN);
-        ClassDiagram classDiagram = new ClassDiagram();
+        ClassDiagramGenerator classDiagram = new ClassDiagramGenerator();
 
         domain.addUnit(UNIT).addBase(BASE);
         classDiagram.addDomain(domain);
@@ -70,7 +71,7 @@ class GenerateImageTest {
     @DisplayName("Should be create a image with class diagram with name param")
     void shouldBeCreateAImageWithClassDiagramWithNameParam() throws NoSuchMethodException, ScriptException, IOException {
         Domain domain = new Domain(DOMAIN);
-        ClassDiagram classDiagram = new ClassDiagram();
+        ClassDiagramGenerator classDiagram = new ClassDiagramGenerator();
         String name = IMAGE + new Random().nextInt() + SVG;
         domain.addUnit(UNIT).addBase(BASE);
         classDiagram.addDomain(domain);
@@ -85,7 +86,7 @@ class GenerateImageTest {
     @DisplayName("Should be create a image with class diagram with name param and folder")
     void shouldBeCreateAImageWithClassDiagramWithNameParamAndFolder() throws NoSuchMethodException, ScriptException, IOException {
         Domain domain = new Domain(DOMAIN);
-        ClassDiagram classDiagram = new ClassDiagram();
+        ClassDiagramGenerator classDiagram = new ClassDiagramGenerator();
         String name = IMAGE + new Random().nextInt() + SVG;
         String folder = SRC_MAIN_RESOURCES_IMAGES.concat("prueba/");
         domain.addUnit(UNIT).addBase(BASE);
