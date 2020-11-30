@@ -1,5 +1,6 @@
 package com.urjc.mca.tfm.generateuml.reader;
 
+import com.urjc.mca.tfm.generateuml.ClassDiagramGenerator;
 import com.urjc.mca.tfm.generateuml.JavaAnalyzer;
 import com.urjc.mca.tfm.generateuml.JavaAnalyzerEclipseAST;
 import com.urjc.mca.tfm.generateuml.model.Domain;
@@ -57,8 +58,27 @@ class JavaAnalyzerTest {
     void testName() throws IOException {
         String myPackage = GENERAL_PACKAGE + ASSOCIATE;
 
-        Domain domain = JavaAnalyzerEclipseAST.run("/Users/pablo.calvo.local/Documents/proyectos/iberia/mis proyectos/master/TFM/generateuml/src/main/java/repositories/damas/src/main/java");
+        Domain domain = JavaAnalyzerEclipseAST.run("/Users/pablo.calvo.local/Documents/proyectos/iberia/mis proyectos/master/TFM/generateuml/src/main/java/com/urjc/mca/tfm/generateuml/JavaAnalyzerEclipseAST.java");
+//        Domain domain = JavaAnalyzerEclipseAST.run("/Users/pablo.calvo.local/Documents/proyectos/iberia/mis proyectos/master/1 - diseño y calidad del software/soluciones/practica 1/Mastermind. Solucion. Version 1.1. domainModel/src");
+//        Domain domain = JavaAnalyzerEclipseAST.run("/Users/pablo.calvo.local/Documents/proyectos/iberia/mis proyectos/master/1 - diseño y calidad del software/soluciones/practica 1/Mastermind. Solucion. Version 1.1. domainModel/src");
+//        Domain domain = JavaAnalyzerEclipseAST.run("/Users/pablo.calvo.local/Documents/proyectos/iberia/mis proyectos/master/TFM/generateuml/src/main/java/com/urjc/mca/tfm/generateuml/GenerateImage.java");
+
+//        JavaAnalyzer processPackage = new JavaAnalyzer("com.urjc.mca.tfm.generateuml");
+//        Domain domain = processPackage.run();
+
         domain.toString();
+        ClassDiagramGenerator classDiagramGenerator = new ClassDiagramGenerator();
+        classDiagramGenerator.addDomain(domain);
+//        try {
+//            System.out.println(classDiagramGenerator.print());
+//       //     GenerateImage.downloadImage(classDiagramGenerator.print(), "jajai1.svg");
+//        } catch (NoSuchMethodException e) {
+//            e.printStackTrace();
+//        } catch (ScriptException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
 
     @Test
