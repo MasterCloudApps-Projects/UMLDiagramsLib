@@ -38,17 +38,16 @@ public class GenerateImage {
     private static String format;
 
 
-    private static void loadFromPropeties(){
+    private static void loadFromProperties(){
         try(InputStream configStream =GenerateImage.class.getResourceAsStream( "/application.properties")){
             props.load(configStream);
         }catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     private static void inicialized(){
-        loadFromPropeties();
+        loadFromProperties();
         path=props.getProperty("img.folder");
         jsPath=props.getProperty("js.folder");
         name=props.getProperty("img.name.default");
@@ -109,8 +108,6 @@ public class GenerateImage {
         String encodingClassDiagram = encode64(deflate(classDiagramEncode));
         try (InputStream in = new URL(createPath(url,urlApi,format,"/") + encodingClassDiagram).openStream()) {
             Files.copy(in, Paths.get(path + name));
-        } catch (MalformedURLException e) {
-            LOG.debug("context",e);
         } catch (IOException e) {
             LOG.debug("context",e);
         }
