@@ -19,6 +19,10 @@ import java.util.stream.Stream;
 public class JavaAnalyzerEclipseAST {
     private static final Logger LOG = LoggerFactory.getLogger(JavaAnalyzerEclipseAST.class);
 
+    private JavaAnalyzerEclipseAST() {
+        throw new IllegalStateException("Utility class");
+    }
+
     public static Domain run(String path) {
         Domain domain = new Domain("domain");
         Optional<Path> hit = Optional.empty();
@@ -31,8 +35,9 @@ public class JavaAnalyzerEclipseAST {
             LOG.debug("context", e);
         }
 
+        hit = Optional.ofNullable(Path.of(path));
         try (Stream<Path> entries
-                     = Files.walk(Paths.get(hit.get().toString()).toAbsolutePath())) {
+                     = Files.walk(Paths.get(hit.stream().findFirst().orElse(null).toString()).toAbsolutePath())) {
             entries.forEach(ruta -> {
                 if (Files.isRegularFile(ruta)) {
                     try {
@@ -45,24 +50,20 @@ public class JavaAnalyzerEclipseAST {
         } catch (IOException e) {
             LOG.debug("context", e);
         }
-        ClassDiagramGenerator classDiagramGenerator = new ClassDiagramGenerator();
-        System.out.println(classDiagramGenerator.addDomain(domain).print());
         return domain;
     }
 
     public static char[] readFileToString(String filePath) throws IOException {
         StringBuilder fileData = new StringBuilder(1000);
-        BufferedReader reader = new BufferedReader(new FileReader(filePath));
-
-        char[] buf = new char[10];
-        int numRead = 0;
-        while ((numRead = reader.read(buf)) != -1) {
-            String readData = String.valueOf(buf, 0, numRead);
-            fileData.append(readData);
-            buf = new char[1024];
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            char[] buf = new char[10];
+            int numRead = 0;
+            while ((numRead = reader.read(buf)) != -1) {
+                String readData = String.valueOf(buf, 0, numRead);
+                fileData.append(readData);
+                buf = new char[1024];
+            }
         }
-
-        reader.close();
 
         return fileData.toString().toCharArray();
     }
@@ -71,7 +72,7 @@ public class JavaAnalyzerEclipseAST {
 
         Set<String> aggregation = new HashSet<>();
         Set<String> primitives = new HashSet<>(Arrays.asList("int", "byte", "short", "long", "float", "double", "boolean", "char"));
-        Set<String> objects = new HashSet<>(Arrays.asList("Map", "Set", "BufferedReader", "Random", "Collections", "Arrays", "Files", "LOG", "Objects", "System", "SpringApplication", "CommandLineRunner", "JavaClasses", "JavaClass", "ObjectInputStream", "ByteArrayInputStream", "ObjectOutputStream", "ByteArrayOutputStream", "Object", "Serializable", "String", "StringBuilder", "ProcessBuilder", "Path", "Process", "InputStream", "Thread", "Invocable", "ScriptEngine"));
+        Set<String> objects = new HashSet<>(Arrays.asList("RuntimeException", "AssertionError", "Logger", "Map", "Set", "BufferedReader", "Random", "Collections", "Arrays", "Files", "LOG", "Objects", "System", "SpringApplication", "CommandLineRunner", "JavaClasses", "SecureRandom", "JavaClass", "ObjectInputStream", "ByteArrayInputStream", "ObjectOutputStream", "ByteArrayOutputStream", "Object", "Serializable", "String", "StringBuilder", "ProcessBuilder", "Path", "Process", "InputStream", "Thread", "Invocable", "ScriptEngine"));
         Set<String> objectJavaAnalyzer = new HashSet<>(Arrays.asList("CompilationUnit", "TypeDeclaration",
                 "SimpleName",
                 "MethodDeclaration",
@@ -100,37 +101,16 @@ public class JavaAnalyzerEclipseAST {
         cu.accept(new ASTVisitor() {
 
             String mypackage = "";
-            Set names = new HashSet();
-
 
             public boolean visit(VariableDeclarationFragment node) {
 
-                SimpleName name = node.getName();
-                this.names.add(name.getIdentifier());
-                //  System.out.println("Declaration of '" + name + "' type " );
                 if (node.getParent() instanceof FieldDeclaration) {
-                    // System.out.println(((FieldDeclaration) node.getParent()).getType().toString());
-                    //domain.addAssociate(((FieldDeclaration) node.getParent()).getType().toString());
                     fields.add(((FieldDeclaration) node.getParent()).getType().toString());
                 }
-                //else if (node.getParent() instanceof VariableDeclarationStatement)
-                //    System.out.println(((VariableDeclarationStatement) node.getParent()).getType().toString());
-
                 return false; // do not continue to avoid usage info
             }
 
-            //don't uses, it's for usages aqui podría poner 4 parents y añadirlo como composition
-//            public boolean visit(SimpleName node) {
-//                if (this.names.contains(node.getIdentifier())) {
-//                    System.out.println("Usage of '" + node + "' at line " + cu.getLineNumber(node.getStartPosition()));
-//                }
-//                return true;
-//            }
-
-            //para dependecy and associate
             public boolean visit(MethodDeclaration unit) {
-//                System.out.println("metodo: " + unit.getName());
-//                System.out.println(unit.parameters());
                 if (!unit.isConstructor()) {
                     unit.parameters().stream()
                             .filter(p -> !primitives.contains(obtainClass(p.toString())))
@@ -141,9 +121,7 @@ public class JavaAnalyzerEclipseAST {
                                     domain.addUsed(obtainClass(p.toString()));
                                 units.add(obtainClass(p.toString()));
                             });
-                }
-                //unit.getBody().statements()
-                else {
+                } else {
                     unit.parameters().stream()
                             .filter(p -> !primitives.contains(obtainClass(p.toString())))
                             .filter(p -> !objects.contains(obtainClass(p.toString())))
@@ -163,12 +141,6 @@ public class JavaAnalyzerEclipseAST {
                     return auxArray[1].split("\\.")[0];
             }
 
-            //atributos
-//            public boolean visit(FieldDeclaration unit) {
-//                System.out.println("Atributo: " + unit.getType().toString());
-//                return true;
-//            }
-
             public boolean visit(ClassInstanceCreation node) {
                 String aux = node.getType().toString();
                 if (node.getParent().getParent().getParent().getParent() instanceof MethodDeclaration) {
@@ -185,18 +157,14 @@ public class JavaAnalyzerEclipseAST {
                         units.add(aux);
                     }
                 } else {
-                    domain.addUsed(aux);
-                    units.add(aux);
+                    if (!objects.contains(aux)) {
+                        domain.addUsed(aux);
+                        units.add(aux);
+                    }
                 }
                 return true;
             }
 
-            //toda la clase
-//            public boolean visit(CompilationUnit node) {
-//                return true;
-//            }
-
-            // podría valer para compositiones, comprobando que el padre sea constructor y que el objeto sea un atributo
             public boolean visit(ExpressionStatement node) {
                 String aux = node.toString();
                 if (Character.isUpperCase(aux.charAt(0))) {
@@ -210,47 +178,19 @@ public class JavaAnalyzerEclipseAST {
                 return true;
             }
 
-            //for imports
-//            public boolean visit(ImportDeclaration node) {
-//                return true;
-//            }
-
             public boolean visit(PackageDeclaration node) {
                 mypackage = node.getName().toString();
-//                System.out.println("Package: " + node.getName());
                 return true;
             }
 
-            //para listas
             public boolean visit(ParameterizedType node) {
                 node.typeArguments().stream()
                         .filter(t -> !objects.contains(t.toString()))
-                        .forEach(t -> {
-                            //domain.addElement(t.toString());
-                            aggregation.add(t.toString());
-//                            units.add(t.toString());
-                        });
+                        .forEach(t -> aggregation.add(t.toString()));
 
                 return true;
             }
 
-            //return statement
-//            public boolean visit(ReturnStatement node) {
-//                return true;
-//            }
-
-            //Obtain all object to analyzed
-//            public boolean visit(SimpleType node) {
-//                return true;
-//            }
-//
-//            parametros de metodos
-//            public boolean visit(SingleVariableDeclaration node) {
-//                return true;
-//            }
-
-            //La clase a analizar
-            //La clase a analizar
             public boolean visit(TypeDeclaration node) {
                 if (node.getName().toString().equals("JavaAnalyzer"))
                     return false;
@@ -264,7 +204,6 @@ public class JavaAnalyzerEclipseAST {
                     domain.addBase(node.getSuperclassType().toString());
                 }
                 node.superInterfaceTypes().forEach(i -> domain.addBase(i.toString()));
-                System.out.println("Class to analyze: " + node.getName());
                 return true;
             }
 
@@ -296,12 +235,12 @@ public class JavaAnalyzerEclipseAST {
             }
 
             public boolean visit(Assignment node) {
-                if (node.getRightHandSide().getParent().getParent().getParent().getParent() instanceof MethodDeclaration)
-                    if (((MethodDeclaration) node.getRightHandSide().getParent().getParent().getParent().getParent()).isConstructor()
-                            && Character.isUpperCase(node.getRightHandSide().toString().split("\\.")[0].charAt(0))) {
-                        domain.addPart(node.getRightHandSide().toString().split("\\.")[0]);
-                        units.add(node.getRightHandSide().toString().split("\\.")[0]);
-                    }
+                if (node.getRightHandSide().getParent().getParent().getParent().getParent() instanceof MethodDeclaration &&
+                        ((MethodDeclaration) node.getRightHandSide().getParent().getParent().getParent().getParent()).isConstructor()
+                        && Character.isUpperCase(node.getRightHandSide().toString().split("\\.")[0].charAt(0))) {
+                    domain.addPart(node.getRightHandSide().toString().split("\\.")[0]);
+                    units.add(node.getRightHandSide().toString().split("\\.")[0]);
+                }
                 return true;
             }
         });
@@ -318,7 +257,7 @@ public class JavaAnalyzerEclipseAST {
                 .filter(f -> !primitives.contains(f))
                 .filter(f -> !objects.contains(f))
                 .forEach(f -> {
-                    if (!units.contains(f))
+                    if (!units.contains(f)) {
                         if (f.contains("<") || f.contains("[")) {
                             String aux = f;
                             if (f.contains("[")) {
@@ -334,6 +273,7 @@ public class JavaAnalyzerEclipseAST {
                         } else {
                             domain.addAssociate(f);
                         }
+                    }
                 });
     }
 }
