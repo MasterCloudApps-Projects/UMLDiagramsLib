@@ -1,8 +1,5 @@
-package com.urjc.mca.tfm.generateuml.reader;
+package com.urjc.mca.tfm.generateuml;
 
-import com.urjc.mca.tfm.generateuml.ClassDiagramGenerator;
-import com.urjc.mca.tfm.generateuml.JavaAnalyzer;
-import com.urjc.mca.tfm.generateuml.JavaAnalyzerEclipseAST;
 import com.urjc.mca.tfm.generateuml.model.Domain;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -52,16 +49,6 @@ class JavaAnalyzerTest {
         assertEquals(1, domain.getUnit( "A").getAssociates().size());
         assertEquals(2, domain.getUnitList().size());
 
-    }
-    @Test
-    @DisplayName("Test name")
-    void testName() throws IOException {
-        String myPackage = GENERAL_PACKAGE + ASSOCIATE;
-
-        Domain domain = JavaAnalyzerEclipseAST.run("/Users/pablo.calvo.local/Documents/proyectos/iberia/mis proyectos/master/TFM/generateuml/src/main/java/com/urjc/mca/tfm/generateuml/JavaAnalyzerEclipseAST.java");
-        domain.toString();
-        ClassDiagramGenerator classDiagramGenerator = new ClassDiagramGenerator();
-        System.out.println(classDiagramGenerator.addDomain(domain).print());
     }
 
     @Test
