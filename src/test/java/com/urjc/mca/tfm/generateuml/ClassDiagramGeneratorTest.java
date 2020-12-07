@@ -1,6 +1,7 @@
-package com.urjc.mca.tfm.generateuml.model;
+package com.urjc.mca.tfm.generateuml;
 
-import com.urjc.mca.tfm.generateuml.ClassDiagramGenerator;
+import com.urjc.mca.tfm.generateuml.model.Domain;
+import com.urjc.mca.tfm.generateuml.model.Visibility;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

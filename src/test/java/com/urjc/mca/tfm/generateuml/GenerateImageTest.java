@@ -1,7 +1,5 @@
-package com.urjc.mca.tfm.generateuml.connect.plantuml;
+package com.urjc.mca.tfm.generateuml;
 
-import com.urjc.mca.tfm.generateuml.ClassDiagramGenerator;
-import com.urjc.mca.tfm.generateuml.GenerateImage;
 import com.urjc.mca.tfm.generateuml.model.Domain;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.AfterAll;
