@@ -1,6 +1,5 @@
-package com.urjc.mca.tfm.generateuml.connect.repository;
+package com.urjc.mca.tfm.generateuml;
 
-import com.urjc.mca.tfm.generateuml.CloneRepository;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Disabled;
