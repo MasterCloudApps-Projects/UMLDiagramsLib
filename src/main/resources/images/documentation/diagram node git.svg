@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" contentScriptType="application/ecmascript" contentStyleType="text/css"
+     height="266px" preserveAspectRatio="none" style="width:477px;height:266px;" version="1.1" viewBox="0 0 477 266"
+     width="477px" zoomAndPan="magnify"><defs><filter height="300%" id="f1nawcvn7h5sun" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[7ecfd14b23748f3a7dd29cbe680ebe27]
+cluster GenerateUML--><polygon fill="#FFFFFF" filter="url(#f1nawcvn7h5sun)" points="16,6,130,6,137,28.2969,460,28.2969,460,259,16,259,16,6" style="stroke:#000000;stroke-width:1.5;"/><line style="stroke:#000000;stroke-width:1.5;" x1="16" x2="137" y1="28.2969" y2="28.2969"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="108" x="20" y="20.9951">GenerateUML</text><!--MD5=[0a47f41a79208e3933daa41d23af385b]
+entity clientNode--><polygon fill="#DDDDDD" filter="url(#f1nawcvn7h5sun)" points="32.5,51,42.5,41,203.5,41,203.5,126.1875,193.5,136.1875,32.5,136.1875,32.5,51" style="stroke:#000000;stroke-width:1.5;"/><line style="stroke:#000000;stroke-width:1.5;" x1="193.5" x2="203.5" y1="51" y2="41"/><line style="stroke:#000000;stroke-width:1.5;" x1="32.5" x2="193.5" y1="51" y2="51"/><line style="stroke:#000000;stroke-width:1.5;" x1="193.5" x2="193.5" y1="51" y2="136.1875"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="131" x="47.5" y="73.9951">Client Computer</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="36" x="47.5" y="90.292">- - - -</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="123" x="47.5" y="106.5889">memory : xxx Mb</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="96" x="47.5" y="122.8857">cpu : xxx GHz</text><!--MD5=[b44ab08de9c6116d244b4c6b384e4695]
+entity clientComponent--><rect fill="#FEFECE" filter="url(#f1nawcvn7h5sun)" height="46.2969" style="stroke:#A80036;stroke-width:1.5;" width="163" x="36.5" y="197"/><rect fill="#FEFECE" height="10" style="stroke:#A80036;stroke-width:1.5;" width="15" x="179.5" y="202"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="177.5" y="204"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="177.5" y="208"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="115" x="55.5" y="229.9951">generateuml.jar</text><!--MD5=[dd4c3b8997c01cae5e384ea008a8b026]
+entity serverGit--><polygon fill="#DDDDDD" filter="url(#f1nawcvn7h5sun)" points="280.5,51,290.5,41,443.5,41,443.5,126.1875,433.5,136.1875,280.5,136.1875,280.5,51" style="stroke:#000000;stroke-width:1.5;"/><line style="stroke:#000000;stroke-width:1.5;" x1="433.5" x2="443.5" y1="51" y2="41"/><line style="stroke:#000000;stroke-width:1.5;" x1="280.5" x2="433.5" y1="51" y2="51"/><line style="stroke:#000000;stroke-width:1.5;" x1="433.5" x2="433.5" y1="51" y2="136.1875"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="114" x="295.5" y="73.9951">Git repository</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="36" x="295.5" y="90.292">- - - -</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="123" x="295.5" y="106.5889">memory : xxx Mb</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="96" x="295.5" y="122.8857">cpu : xxx GHz</text><!--MD5=[e79b9563b7c71f60e1c69fc11aa07838]
+link clientNode to clientComponent--><path d="M118,148.252 C118,148.252 118,173.22 118,183.8818 " fill="none" id="clientNode-clientComponent" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="118,196.9771,122,187.9771,118,191.9771,114,187.9771,118,196.9771" style="stroke:#A80036;stroke-width:1.0;"/><line style="stroke:#A80036;stroke-width:1.0;" x1="118" x2="118" y1="191.9771" y2="183.9771"/><polygon fill="#A80036" points="118,136.252,114,142.252,118,148.252,122,142.252,118,136.252" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[27552cd31052f8d3a6108f26f7a47040]
+link clientNode to serverGit--><path d="M203.682,88.5 C226.789,88.5 251.808,88.5 274.987,88.5 " fill="none" id="clientNode-to-serverGit" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="280.213,88.5,271.213,84.5,275.213,88.5,271.213,92.5,280.213,88.5" style="stroke:#A80036;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="40" x="222" y="81.5669">TCP/IP</text><!--MD5=[46cc1bc524c62043d5bd3f3d9cdc182b]
+@startuml
+package GenerateUML {
+
+node clientNode #DDDDDD [
+<b>Client Computer</b>
+- - - -
+memory : xxx Mb
+cpu : xxx GHz
+]
+
+[ generateuml.jar ] as clientComponent
+
+node serverGit #DDDDDD [
+<b>Git repository</b>
+- - - -
+memory : xxx Mb
+cpu : xxx GHz
+]
+
+
+
+}
+
+clientNode *- -> clientComponent
+
+
+clientNode -right-> serverGit : TCP/IP
+@enduml
+
+PlantUML version 1.2020.22beta2(Unknown compile time)
+(GPL source distribution)
+Java Runtime: Java(TM) SE Runtime Environment
+JVM: Java HotSpot(TM) 64-Bit Server VM
+Default Encoding: UTF-8
+Language: en
+Country: US
+--></g></svg>
