@@ -1017,5 +1017,3 @@ final CompilationUnit cu = (CompilationUnit) parser.createAST(null);
 ````
 El método **accept** posee varios métodos visit que podremos usar para procesar la información dependiendo de si queremos atributos, imports, paquete, etc.
 
----
-### Conclusiones
