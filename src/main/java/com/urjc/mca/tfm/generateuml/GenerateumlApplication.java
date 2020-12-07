@@ -1,11 +1,14 @@
 package com.urjc.mca.tfm.generateuml;
 
-import com.urjc.mca.tfm.generateuml.model.Unit;
+import org.eclipse.core.commands.ExecutionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import javax.script.ScriptException;
+import java.io.IOException;
 
 @SpringBootApplication
 public class GenerateumlApplication implements CommandLineRunner {
@@ -20,12 +23,9 @@ public class GenerateumlApplication implements CommandLineRunner {
     }
 
     @Override
-    public void run(String... args) {
-        log.info("EXECUTING : command line runner");
+    public void run(String... args) throws NoSuchMethodException, ScriptException, IOException, ExecutionException {
 
-        Unit entity = new Unit("Padre");
-        entity.addBase(new Unit("Abuelo"));
-        entity.addPart(new Unit("Hijo"));
-        entity.toStringClassFormat();
+        GenerateUml generateUml = new GenerateUml();
+        generateUml.run("https://github.com/pjcalvo84/damas.git", "damas");
     }
 }
