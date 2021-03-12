@@ -4,8 +4,6 @@ import com.urjc.mca.tfm.generateuml.model.Domain;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -25,6 +23,8 @@ class JavaAnalyzerTest {
         JavaAnalyzer processPackage = new JavaAnalyzer(myPackage);
 
         Domain domain = processPackage.run();
+        printDomain(domain);
+
         assertTrue(domain.getUnit(myPackage + ".A").getAssociates().contains(domain.getUnit(myPackage + ".B")));
         assertEquals(0, domain.getUnit(myPackage + ".A").getPartList().size());
         assertEquals(0, domain.getUnit(myPackage + ".A").getElements().size());
@@ -35,21 +35,6 @@ class JavaAnalyzerTest {
 
     }
 
-    @Test
-    @DisplayName("Should be return a associate in domain with eclipse AST")
-    void shouldBeReturnAAssociateInDomainWithEclipseAST() throws IOException {
-        String myPackage = GENERAL_PACKAGE + ASSOCIATE;
-
-        Domain domain = JavaAnalyzerEclipseAST.run(myPackage.replace(".","/"));
-        assertTrue(domain.getUnit("A").getAssociates().contains(domain.getUnit( "B")));
-        assertEquals(0, domain.getUnit( "A").getPartList().size());
-        assertEquals(0, domain.getUnit("A").getElements().size());
-        assertEquals(0, domain.getUnit( "A").getBase().size());
-        assertEquals(0, domain.getUnit( "A").getUsed().size());
-        assertEquals(1, domain.getUnit( "A").getAssociates().size());
-        assertEquals(2, domain.getUnitList().size());
-
-    }
 
     @Test
     @DisplayName("Should be return a aggregation in domain")
@@ -67,6 +52,13 @@ class JavaAnalyzerTest {
         assertEquals(3, domain.getUnitList().size());
     }
 
+
+
+    void printDomain(Domain domain){
+        ClassDiagramGenerator classDiagramGenerator = new ClassDiagramGenerator();
+        classDiagramGenerator.addDomain(domain);
+        System.out.println(classDiagramGenerator.print());
+    }
     @Test
     @DisplayName("Should be return a two bases in domain")
     void shouldBeReturnATwoBasesInDomain() {
@@ -74,6 +66,8 @@ class JavaAnalyzerTest {
         JavaAnalyzer processPackage = new JavaAnalyzer(myPackage);
 
         Domain domain = processPackage.run();
+        printDomain(domain);
+
         assertTrue(domain.getUnit(myPackage + ".A").getBase().contains(domain.getUnit(myPackage + ".B")));
         assertTrue(domain.getUnit(myPackage + ".A").getBase().contains(domain.getUnit(myPackage + ".C")));
         assertEquals(2, domain.getUnit(myPackage + ".A").getBase().size());
@@ -84,6 +78,9 @@ class JavaAnalyzerTest {
         assertEquals(3, domain.getUnitList().size());
     }
 
+
+
+
     @Test
     @DisplayName("Shoulb be return a composition in domain")
     void shoulbBeReturnACompositionInDomain() {
@@ -91,6 +88,8 @@ class JavaAnalyzerTest {
         JavaAnalyzer processPackage = new JavaAnalyzer(myPackage);
 
         Domain domain = processPackage.run();
+        printDomain(domain);
+
         assertTrue(domain.getUnit(myPackage + ".A").getPartList().contains(domain.getUnit(myPackage + ".B")));
         assertEquals(2, domain.getUnitList().size());
         assertEquals(1, domain.getUnit(myPackage + ".A").getPartList().size());
@@ -99,6 +98,7 @@ class JavaAnalyzerTest {
         assertEquals(0, domain.getUnit(myPackage + ".A").getBase().size());
         assertEquals(0, domain.getUnit(myPackage + ".A").getUsed().size());
     }
+
 
     @Test
     @DisplayName("Should be return a dependecy in domain")
@@ -115,4 +115,5 @@ class JavaAnalyzerTest {
         assertEquals(0, domain.getUnit(myPackage + ".A").getBase().size());
         assertEquals(1, domain.getUnit(myPackage + ".A").getUsed().size());
     }
+
 }
