@@ -25,15 +25,15 @@ public class JavaAnalyzerEclipseAST {
 
     public static Domain run(String path) {
         Domain domain = new Domain("domain");
-        Optional<Path> hit = Optional.empty();
+        Optional<Path> hit;
 
-        try (Stream<Path> entries = Files.walk(Path.of(System.getProperty("user.dir")))) {
-            hit = entries.filter(file -> file.toString().contains(path))
-                    .findAny();
-
-        } catch (IOException e) {
-            LOG.debug("context", e);
-        }
+//        try (Stream<Path> entries = Files.walk(Path.of(System.getProperty("user.dir")))) {
+//            hit = entries.filter(file -> file.toString().contains(path))
+//                    .findAny();
+//
+//        } catch (IOException e) {
+//            LOG.debug("context", e);
+//        }
 
         hit = Optional.ofNullable(Path.of(path));
         try (Stream<Path> entries
@@ -72,7 +72,7 @@ public class JavaAnalyzerEclipseAST {
 
         Set<String> aggregation = new HashSet<>();
         Set<String> primitives = new HashSet<>(Arrays.asList("int", "byte", "short", "long", "float", "double", "boolean", "char"));
-        Set<String> objects = new HashSet<>(Arrays.asList("RuntimeException", "AssertionError", "Logger", "Map", "Set", "BufferedReader", "Random", "Collections", "Arrays", "Files", "LOG", "Objects", "System", "SpringApplication", "CommandLineRunner", "JavaClasses", "SecureRandom", "JavaClass", "ObjectInputStream", "ByteArrayInputStream", "ObjectOutputStream", "ByteArrayOutputStream", "Object", "Serializable", "String", "StringBuilder", "ProcessBuilder", "Path", "Process", "InputStream", "Thread", "Invocable", "ScriptEngine"));
+        Set<String> objects = new HashSet<>(Arrays.asList("RuntimeException", "StateValue,AcceptorController", "List<Color","String", "StateValue,Controller","AssertionError", "Logger", "Map", "Set", "BufferedReader", "Random", "Collections", "Arrays", "Files", "LOG", "Objects", "System", "SpringApplication", "CommandLineRunner", "JavaClasses", "SecureRandom", "JavaClass", "ObjectInputStream", "ByteArrayInputStream", "ObjectOutputStream", "ByteArrayOutputStream", "Object", "Serializable", "String", "StringBuilder", "ProcessBuilder", "Path", "Process", "InputStream", "Thread", "Invocable", "ScriptEngine"));
         Set<String> objectJavaAnalyzer = new HashSet<>(Arrays.asList("CompilationUnit", "TypeDeclaration",
                 "SimpleName",
                 "MethodDeclaration",
@@ -85,6 +85,7 @@ public class JavaAnalyzerEclipseAST {
                 "VariableDeclarationStatement",
                 "PackageDeclaration"));
         objects.addAll(objectJavaAnalyzer);
+        objects.addAll(primitives);
         Set<String> fields = new HashSet<>();
         Set<String> units = new HashSet<>();
         ASTParser parser = ASTParser.newParser(AST.JLS8);
@@ -126,7 +127,7 @@ public class JavaAnalyzerEclipseAST {
                             .filter(p -> !primitives.contains(obtainClass(p.toString())))
                             .filter(p -> !objects.contains(obtainClass(p.toString())))
                             .forEach(p -> {
-                                domain.addAssociate(obtainClass(p.toString()));
+                                domain.addAssociate(obtainClassFromList(obtainClass(p.toString())));
                                 units.add(obtainClass(p.toString()));
                             });
                 }
@@ -146,15 +147,12 @@ public class JavaAnalyzerEclipseAST {
                 if (node.getParent().getParent().getParent().getParent() instanceof MethodDeclaration) {
                     if (((MethodDeclaration) node.getParent().getParent().getParent().getParent()).isConstructor()) {
                         if (!primitives.contains(aux) && !node.getType().isSimpleType()) {
-                            if (node.getType().isArrayType()) {
-                                aux = aux.substring(0, aux.indexOf("["));
-                            } else {
-                                aux = aux.substring(aux.indexOf("<") + 1);
-                                aux = aux.substring(0, aux.indexOf(">"));
-                            }
+                            aux = obtainClassFromList(aux);
                         }
-                        domain.addPart(aux);
-                        units.add(aux);
+                        if (!objects.contains(aux)) {
+                            domain.addPart(aux);
+                            units.add(aux);
+                        }
                     }
                 } else {
                     if (!objects.contains(aux)) {
@@ -211,12 +209,8 @@ public class JavaAnalyzerEclipseAST {
             public boolean visit(VariableDeclarationStatement node) {
                 String aux = node.getType().toString();
                 if (!primitives.contains(aux) && !node.getType().isSimpleType()) {
-                    if (node.getType().isArrayType()) {
-                        aux = aux.substring(0, aux.indexOf("["));
-                    } else {
-                        aux = aux.substring(aux.indexOf("<") + 1);
-                        aux = aux.substring(0, aux.indexOf(">"));
-                    }
+                    aux = obtainClassFromList(aux);
+
                 }
                 if (!primitives.contains(aux) && !objects.contains(aux) && !aggregation.contains(aux)) {
                     domain.addUsed(aux);
@@ -238,8 +232,10 @@ public class JavaAnalyzerEclipseAST {
                 if (node.getRightHandSide().getParent().getParent().getParent().getParent() instanceof MethodDeclaration &&
                         ((MethodDeclaration) node.getRightHandSide().getParent().getParent().getParent().getParent()).isConstructor()
                         && Character.isUpperCase(node.getRightHandSide().toString().split("\\.")[0].charAt(0))) {
-                    domain.addPart(node.getRightHandSide().toString().split("\\.")[0]);
-                    units.add(node.getRightHandSide().toString().split("\\.")[0]);
+                    if (!objects.contains(node.getRightHandSide().toString().split("\\.")[0])) {
+                        domain.addPart(node.getRightHandSide().toString().split("\\.")[0]);
+                        units.add(node.getRightHandSide().toString().split("\\.")[0]);
+                    }
                 }
                 return true;
             }
@@ -258,15 +254,10 @@ public class JavaAnalyzerEclipseAST {
                 .filter(f -> !objects.contains(f))
                 .forEach(f -> {
                     if (!units.contains(f)) {
-                        if (f.contains("<") || f.contains("[")) {
-                            String aux = f;
-                            if (f.contains("[")) {
-                                aux = aux.substring(0, aux.indexOf("["));
-                            } else {
-                                aux = aux.substring(aux.indexOf("<") + 1);
-                                aux = aux.substring(0, aux.indexOf(">"));
-                            }
-                            if (domain.getUnit(aux) == null) {
+                        if (isArrayOrList(f)) {
+                            String aux = obtainClassFromList(f);
+
+                            if (domain.getUnit(aux) == null && !objects.contains(aux)) {
                                 domain.addAssociate(aux);
                                 units.add(aux);
                             }
@@ -275,6 +266,20 @@ public class JavaAnalyzerEclipseAST {
                         }
                     }
                 });
+    }
+
+    private static boolean isArrayOrList(String aux){
+        return aux.contains("<") || aux.contains("[");
+    }
+
+    private static String obtainClassFromList(String aux){
+        if (aux.contains("[") && aux.contains("]")) {
+            aux = aux.substring(0, aux.indexOf("["));
+        } else if(aux.contains("<") && aux.contains(">")){
+            aux = aux.substring(aux.indexOf("<") + 1);
+            aux = aux.substring(0, aux.indexOf(">"));
+        }
+        return aux;
     }
 }
 
