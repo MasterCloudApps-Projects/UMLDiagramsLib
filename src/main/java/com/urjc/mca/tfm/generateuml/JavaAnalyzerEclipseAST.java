@@ -142,10 +142,14 @@ public class JavaAnalyzerEclipseAST {
                     return auxArray[1].split("\\.")[0];
             }
 
+            private boolean isConstructor(ClassInstanceCreation node){
+                Object object = node.getParent().getParent().getParent().getParent();
+                return object instanceof MethodDeclaration?((MethodDeclaration) object).isConstructor():false;
+            }
+            //Constructor
             public boolean visit(ClassInstanceCreation node) {
                 String aux = node.getType().toString();
-                if (node.getParent().getParent().getParent().getParent() instanceof MethodDeclaration) {
-                    if (((MethodDeclaration) node.getParent().getParent().getParent().getParent()).isConstructor()) {
+                    if(isConstructor(node)){
                         if (!primitives.contains(aux) && !node.getType().isSimpleType()) {
                             aux = obtainClassFromList(aux);
                         }
