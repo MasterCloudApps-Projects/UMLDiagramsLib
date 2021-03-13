@@ -155,17 +155,19 @@ public class JavaAnalyzerEclipseAST {
             //Constructor
             public boolean visit(ClassInstanceCreation node) {
                 String aux = node.getType().toString();
-                    if(isConstructor(node)){
-                        if (!primitives.contains(aux) && !node.getType().isSimpleType()) {
-                            aux = obtainClassFromList(aux);
-                        }
-                        if (!objects.contains(aux)) {
-                            domain.addPart(aux);
-                            units.add(aux);
-                        }
+                if (isConstructor(node)) {
+                    if (notExitsInPrimitiveList(aux) &&
+                            //comprueba si es collection
+                            !node.getType().isSimpleType()) {
+                        aux = obtainClassFromList(aux);
+                    }
+                    //for composition
+                    if (notExitsInObjectBlackList(aux)) {
+                        domain.addPart(aux);
+                        units.add(aux);
                     }
                 } else {
-                    if (!objects.contains(aux)) {
+                    if (notExitsInObjectBlackList(aux)) {
                         domain.addUsed(aux);
                         units.add(aux);
                     }
@@ -178,7 +180,7 @@ public class JavaAnalyzerEclipseAST {
                 if (Character.isUpperCase(aux.charAt(0))) {
 
                     aux = aux.substring(0, aux.indexOf("."));
-                    if (!objects.contains(aux)) {
+                    if (notExitsInObjectBlackList(aux)) {
                         domain.addUsed(aux);
                         units.add(aux);
                     }
@@ -218,11 +220,12 @@ public class JavaAnalyzerEclipseAST {
             //dependency
             public boolean visit(VariableDeclarationStatement node) {
                 String aux = node.getType().toString();
-                if (!primitives.contains(aux) && !node.getType().isSimpleType()) {
+                if (notExitsInPrimitiveList(aux) && !node.getType().isSimpleType()) {
                     aux = obtainClassFromList(aux);
 
                 }
-                if (!primitives.contains(aux) && !objects.contains(aux) && !aggregation.contains(aux)) {
+                //for dependency
+                if (notExitsInPrimitiveList(aux) && notExitsInObjectBlackList(aux) && notExitInAggregationList(aux)) {
                     domain.addUsed(aux);
                     units.add(aux);
                 }
@@ -242,7 +245,8 @@ public class JavaAnalyzerEclipseAST {
                 if (node.getRightHandSide().getParent().getParent().getParent().getParent() instanceof MethodDeclaration &&
                         ((MethodDeclaration) node.getRightHandSide().getParent().getParent().getParent().getParent()).isConstructor()
                         && Character.isUpperCase(node.getRightHandSide().toString().split("\\.")[0].charAt(0))) {
-                    if (!objects.contains(node.getRightHandSide().toString().split("\\.")[0])) {
+                    //Aqui consigo entrar con los repos del master (with Composite)
+                    if (notExitsInObjectBlackList(node.getRightHandSide().toString().split("\\.")[0])) {
                         domain.addPart(node.getRightHandSide().toString().split("\\.")[0]);
                         units.add(node.getRightHandSide().toString().split("\\.")[0]);
                     }
@@ -270,7 +274,7 @@ public class JavaAnalyzerEclipseAST {
                             String aux = obtainClassFromList(unit);
                             //aqui no consigo entrar
                             //tiene pinta que estaba puesto por si guardaba Tipos con Collections
-                            if (domain.getUnit(aux) == null && !objects.contains(aux)) {
+                            if (domain.getUnit(aux) == null && notExitsInObjectBlackList(aux)) {
                                 domain.addAssociate(aux);
                                 units.add(aux);
                             }
@@ -281,8 +285,20 @@ public class JavaAnalyzerEclipseAST {
                 });
     }
 
+    private static boolean notExitInAggregationList(String aux) {
+        return !aggregation.contains(aux);
+    }
+
+    private static boolean notExitsInPrimitiveList(String aux) {
+        return !primitives.contains(aux);
+    }
+
+    private static boolean notExitsInObjectBlackList(String aux) {
+        return !objects.contains(aux);
+    }
+
     private static Predicate unitNotInAggregationList() {
-        return p -> !aggregation.contains(obtainClass(p.toString()));
+        return p -> notExitInAggregationList(obtainClass(p.toString()));
     }
 
     private static boolean isArrayOrList(String aux) {
@@ -301,15 +317,15 @@ public class JavaAnalyzerEclipseAST {
 
     static Predicate unitNotInObjectsBlackList(boolean obtainClass) {
         if (obtainClass)
-            return p -> !objects.contains(obtainClass(p.toString()));
+            return p -> notExitsInObjectBlackList(obtainClass(p.toString()));
         else
-            return p -> !objects.contains(p.toString());
+            return p -> notExitsInObjectBlackList(p.toString());
     }
     static Predicate unitNotInPrimitiveBlackList(boolean obtainClass) {
         if (obtainClass)
-            return p -> !primitives.contains(obtainClass(p.toString()));
+            return p -> notExitsInPrimitiveList(obtainClass(p.toString()));
         else
-            return p -> !primitives.contains(p.toString());
+            return p -> notExitsInPrimitiveList(p.toString());
     }
 
     private static String obtainClass(String aux) {
