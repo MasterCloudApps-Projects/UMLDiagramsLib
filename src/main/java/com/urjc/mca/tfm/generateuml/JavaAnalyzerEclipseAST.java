@@ -14,10 +14,14 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 public class JavaAnalyzerEclipseAST {
     private static final Logger LOG = LoggerFactory.getLogger(JavaAnalyzerEclipseAST.class);
+    static Set<String> objects = new HashSet<>(Arrays.asList("RuntimeException", "StateValue,AcceptorController", "List<Color", "String", "StateValue,Controller", "AssertionError", "Logger", "Map", "Set", "BufferedReader", "Random", "Collections", "Arrays", "Files", "LOG", "Objects", "System", "SpringApplication", "CommandLineRunner", "JavaClasses", "SecureRandom", "JavaClass", "ObjectInputStream", "ByteArrayInputStream", "ObjectOutputStream", "ByteArrayOutputStream", "Object", "Serializable", "String", "StringBuilder", "ProcessBuilder", "Path", "Process", "InputStream", "Thread", "Invocable", "ScriptEngine"));
+    static Set<String> primitives = new HashSet<>(Arrays.asList("int", "byte", "short", "long", "float", "double", "boolean", "char"));
+    static Set<String> aggregation = new HashSet<>();
 
     private JavaAnalyzerEclipseAST() {
         throw new IllegalStateException("Utility class");
@@ -87,6 +91,8 @@ public class JavaAnalyzerEclipseAST {
         objects.addAll(objectJavaAnalyzer);
         objects.addAll(primitives);
         Set<String> fields = new HashSet<>();
+        Map<String, String> fields2 = new HashMap<>();
+        aggregation = new HashSet<>();
         Set<String> units = new HashSet<>();
         ASTParser parser = ASTParser.newParser(AST.JLS8);
         parser.setSource(readFileToString(pathFile));
@@ -114,9 +120,9 @@ public class JavaAnalyzerEclipseAST {
             public boolean visit(MethodDeclaration unit) {
                 if (!unit.isConstructor()) {
                     unit.parameters().stream()
-                            .filter(p -> !primitives.contains(obtainClass(p.toString())))
-                            .filter(p -> !objects.contains(obtainClass(p.toString())))
-                            .filter(p -> !aggregation.contains(obtainClass(p.toString())))
+                            .filter(unitNotInPrimitiveBlackList(true))
+                            .filter(unitNotInObjectsBlackList(true))
+                            .filter(unitNotInAggregationList())
                             .forEach(p -> {
                                 if (((SingleVariableDeclaration) p).getType().isSimpleType())
                                     domain.addUsed(obtainClass(p.toString()));
@@ -124,8 +130,8 @@ public class JavaAnalyzerEclipseAST {
                             });
                 } else {
                     unit.parameters().stream()
-                            .filter(p -> !primitives.contains(obtainClass(p.toString())))
-                            .filter(p -> !objects.contains(obtainClass(p.toString())))
+                            .filter(unitNotInPrimitiveBlackList(true))
+                            .filter(unitNotInObjectsBlackList(true))
                             .forEach(p -> {
                                 domain.addAssociate(obtainClassFromList(obtainClass(p.toString())));
                                 units.add(obtainClass(p.toString()));
@@ -142,9 +148,9 @@ public class JavaAnalyzerEclipseAST {
                     return auxArray[1].split("\\.")[0];
             }
 
-            private boolean isConstructor(ClassInstanceCreation node){
+            private boolean isConstructor(ClassInstanceCreation node) {
                 Object object = node.getParent().getParent().getParent().getParent();
-                return object instanceof MethodDeclaration?((MethodDeclaration) object).isConstructor():false;
+                return object instanceof MethodDeclaration ? ((MethodDeclaration) object).isConstructor() : false;
             }
             //Constructor
             public boolean visit(ClassInstanceCreation node) {
@@ -187,7 +193,7 @@ public class JavaAnalyzerEclipseAST {
 
             public boolean visit(ParameterizedType node) {
                 node.typeArguments().stream()
-                        .filter(t -> !objects.contains(t.toString()))
+                        .filter(unitNotInObjectsBlackList(false))
                         .forEach(t -> aggregation.add(t.toString()));
 
                 return true;
@@ -245,45 +251,73 @@ public class JavaAnalyzerEclipseAST {
             }
         });
 
-        aggregation.stream().filter(a -> !primitives.contains(a))
-                .filter(a -> !objects.contains(a))
+        aggregation.stream().filter(unitNotInPrimitiveBlackList(false))
+                .filter(unitNotInObjectsBlackList(false))
                 .forEach(a -> {
                     if (!units.contains(a)) {
-                        domain.addElement(a);
-                        units.add(a);
+                        String unit = (String)a;
+                        domain.addElement(unit);
+                        units.add(unit);
                     }
                 });
         fields.stream()
-                .filter(f -> !primitives.contains(f))
-                .filter(f -> !objects.contains(f))
+                .filter(unitNotInPrimitiveBlackList(false))
+                .filter(unitNotInObjectsBlackList(false))
                 .forEach(f -> {
                     if (!units.contains(f)) {
-                        if (isArrayOrList(f)) {
-                            String aux = obtainClassFromList(f);
-
+                        String unit = (String) f;
+                        if (isArrayOrList(unit)) {
+                            String aux = obtainClassFromList(unit);
+                            //aqui no consigo entrar
+                            //tiene pinta que estaba puesto por si guardaba Tipos con Collections
                             if (domain.getUnit(aux) == null && !objects.contains(aux)) {
                                 domain.addAssociate(aux);
                                 units.add(aux);
                             }
                         } else {
-                            domain.addAssociate(f);
+                            domain.addAssociate(unit);
                         }
                     }
                 });
     }
 
-    private static boolean isArrayOrList(String aux){
+    private static Predicate unitNotInAggregationList() {
+        return p -> !aggregation.contains(obtainClass(p.toString()));
+    }
+
+    private static boolean isArrayOrList(String aux) {
         return aux.contains("<") || aux.contains("[");
     }
 
-    private static String obtainClassFromList(String aux){
+    private static String obtainClassFromList(String aux) {
         if (aux.contains("[") && aux.contains("]")) {
             aux = aux.substring(0, aux.indexOf("["));
-        } else if(aux.contains("<") && aux.contains(">")){
+        } else if (aux.contains("<") && aux.contains(">")) {
             aux = aux.substring(aux.indexOf("<") + 1);
             aux = aux.substring(0, aux.indexOf(">"));
         }
         return aux;
+    }
+
+    static Predicate unitNotInObjectsBlackList(boolean obtainClass) {
+        if (obtainClass)
+            return p -> !objects.contains(obtainClass(p.toString()));
+        else
+            return p -> !objects.contains(p.toString());
+    }
+    static Predicate unitNotInPrimitiveBlackList(boolean obtainClass) {
+        if (obtainClass)
+            return p -> !primitives.contains(obtainClass(p.toString()));
+        else
+            return p -> !primitives.contains(p.toString());
+    }
+
+    private static String obtainClass(String aux) {
+        String[] auxArray = aux.split(" ");
+        if (auxArray.length == 2)
+            return auxArray[0].split("\\.")[0];
+        else //aqui tampoco entra
+            return auxArray[1].split("\\.")[0];
     }
 }
 
