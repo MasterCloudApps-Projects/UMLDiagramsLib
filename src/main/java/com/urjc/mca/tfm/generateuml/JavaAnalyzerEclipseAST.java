@@ -126,7 +126,8 @@ public class JavaAnalyzerEclipseAST {
                             .forEach(p -> {
                                 if (((SingleVariableDeclaration) p).getType().isSimpleType())
                                     domain.addUsed(obtainClass(p.toString()));
-                                units.add(obtainClass(p.toString()));
+                                    units.add(obtainClass(p.toString()));
+                                }
                             });
                 } else {
                     unit.parameters().stream()
@@ -208,12 +209,20 @@ public class JavaAnalyzerEclipseAST {
                 if (unit != null) {
                     unit.setMyPackage(mypackage);
                     domain.addUnit(unit.name);
-                } else
+                    units.add(unit.name);
+                } else {
                     domain.addUnit(node.getName().toString(), mypackage);
+                    units.add(node.getName().toString());
+                }
+                //for base
                 if (node.getSuperclassType() != null) {
                     domain.addBase(node.getSuperclassType().toString());
+                    units.add(node.getSuperclassType().toString());
                 }
-                node.superInterfaceTypes().forEach(i -> domain.addBase(i.toString()));
+                node.superInterfaceTypes().forEach(i -> {
+                    domain.addBase(i.toString());
+                    units.add(i.toString());
+                });
                 return true;
             }
 
@@ -238,6 +247,8 @@ public class JavaAnalyzerEclipseAST {
                     unit.setMyPackage(mypackage);
                 else
                     domain.addUnit(node.getName().toString(), mypackage);
+                    units.add(node.getName().toString());
+                }
                 return true;
             }
 
