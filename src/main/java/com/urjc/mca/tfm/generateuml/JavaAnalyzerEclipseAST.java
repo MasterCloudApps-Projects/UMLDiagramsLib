@@ -128,6 +128,9 @@ public class JavaAnalyzerEclipseAST {
                                 if (((SingleVariableDeclaration) p).getType().isSimpleType()) {
                                     addUsed(obtainClass(p.toString()));
                                 }
+                                else{
+                                    addUsed(obtainClassFromList(obtainClass(p.toString())));
+                                }
                             });
                 } else {
                     unit.parameters().stream()

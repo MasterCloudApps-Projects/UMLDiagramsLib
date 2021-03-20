@@ -89,11 +89,26 @@ class JavaAnalyzerEclipseASTTest {
         printDomain(domain);
 
         assertTrue(domain.getUnit("A").getUsed().contains(domain.getUnit("B")));
-        assertEquals(3, domain.getUnitList().size());
+        assertEquals(4, domain.getUnitList().size());
         assertEquals(0, domain.getUnit("A").getPartList().size());
         assertEquals(0, domain.getUnit("A").getAssociates().size());
         assertEquals(0, domain.getUnit("A").getElements().size());
         assertEquals(0, domain.getUnit("A").getBase().size());
-        assertEquals(2, domain.getUnit("A").getUsed().size());
+        assertEquals(3, domain.getUnit("A").getUsed().size());
+    }
+
+    @Test
+    @DisplayName("Should be return all relations")
+    void shouldBeReturnAllRelations() {
+        Domain domain = JavaAnalyzerEclipseAST.run("src/test/java/com/urjc/mca/tfm/generateuml/eclipse/ast");
+        printDomain(domain);
+
+    }
+    @Test
+    @DisplayName("Should be return all relations")
+    void shouldBeReturnAllRelations2() {
+        Domain domain = JavaAnalyzerEclipseAST.run("src/main/java/com/urjc/mca/tfm/generateuml");
+        printDomain(domain);
+
     }
 }
