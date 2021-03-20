@@ -124,9 +124,9 @@ public class JavaAnalyzerEclipseAST {
                             .filter(unitNotInObjectsBlackList(true))
                             .filter(unitNotInAggregationList())
                             .forEach(p -> {
-                                if (((SingleVariableDeclaration) p).getType().isSimpleType())
-                                    domain.addUsed(obtainClass(p.toString()));
-                                    units.add(obtainClass(p.toString()));
+                                //for dependency
+                                if (((SingleVariableDeclaration) p).getType().isSimpleType()) {
+                                    addUsed(obtainClass(p.toString()));
                                 }
                             });
                 } else {
@@ -134,8 +134,7 @@ public class JavaAnalyzerEclipseAST {
                             .filter(unitNotInPrimitiveBlackList(true))
                             .filter(unitNotInObjectsBlackList(true))
                             .forEach(p -> {
-                                domain.addAssociate(obtainClassFromList(obtainClass(p.toString())));
-                                units.add(obtainClass(p.toString()));
+                                addAssociate(obtainClassFromList(obtainClass(p.toString())));
                             });
                 }
                 return true;
@@ -164,13 +163,11 @@ public class JavaAnalyzerEclipseAST {
                     }
                     //for composition
                     if (notExitsInObjectBlackList(aux)) {
-                        domain.addPart(aux);
-                        units.add(aux);
+                        addPart(aux);
                     }
                 } else {
                     if (notExitsInObjectBlackList(aux)) {
-                        domain.addUsed(aux);
-                        units.add(aux);
+                        addUsed(aux);
                     }
                 }
                 return true;
@@ -182,8 +179,7 @@ public class JavaAnalyzerEclipseAST {
 
                     aux = aux.substring(0, aux.indexOf("."));
                     if (notExitsInObjectBlackList(aux)) {
-                        domain.addUsed(aux);
-                        units.add(aux);
+                        addUsed(aux);
                     }
                 }
                 return true;
@@ -207,25 +203,45 @@ public class JavaAnalyzerEclipseAST {
                     return false;
                 Unit unit = domain.getUnit(node.getName().toString());
                 if (unit != null) {
-                    unit.setMyPackage(mypackage);
-                    domain.addUnit(unit.name);
-                    units.add(unit.name);
+//                    unit.setMyPackage(mypackage);
+                    addUnit(unit.name, mypackage);
                 } else {
-                    domain.addUnit(node.getName().toString(), mypackage);
-                    units.add(node.getName().toString());
+                    addUnit(node.getName().toString(), mypackage);
                 }
                 //for base
                 if (node.getSuperclassType() != null) {
-                    domain.addBase(node.getSuperclassType().toString());
-                    units.add(node.getSuperclassType().toString());
+                    addBase(node.getSuperclassType().toString());
                 }
                 node.superInterfaceTypes().forEach(i -> {
-                    domain.addBase(i.toString());
-                    units.add(i.toString());
+                    addBase(i.toString());
                 });
                 return true;
             }
 
+            private void addUnit(String unit, String mypackage) {
+                domain.addUnit(unit, mypackage);
+                units.add(unit);
+            }
+
+            private void addAssociate(String p) {
+                domain.addAssociate(p);
+//                                ((MethodDeclaration) ((SingleVariableDeclaration) p).getParent()).getBody().statements()
+                units.add(p);
+            }
+            private void addBase(String base) {
+                domain.addBase(base);
+                units.add(base);
+            }
+
+            private void addPart(String aux) {
+                domain.addPart(aux);
+                units.add(aux);
+            }
+
+            private void addUsed(String aux) {
+                domain.addUsed(aux);
+                units.add(aux);
+            }
             //dependency
             public boolean visit(VariableDeclarationStatement node) {
                 String aux = node.getType().toString();
@@ -235,8 +251,7 @@ public class JavaAnalyzerEclipseAST {
                 }
                 //for dependency
                 if (notExitsInPrimitiveList(aux) && notExitsInObjectBlackList(aux) && notExitInAggregationList(aux)) {
-                    domain.addUsed(aux);
-                    units.add(aux);
+                    addUsed(aux);
                 }
                 return true;
             }
@@ -245,9 +260,10 @@ public class JavaAnalyzerEclipseAST {
                 Unit unit = domain.getUnit(node.getName().toString());
                 if (unit != null)
                     unit.setMyPackage(mypackage);
-                else
-                    domain.addUnit(node.getName().toString(), mypackage);
-                    units.add(node.getName().toString());
+                else {
+                    addUnit(node.getName().toString(), mypackage);
+//                    domain.addUnit(node.getName().toString(), mypackage);
+//                    units.add(node.getName().toString());
                 }
                 return true;
             }
@@ -258,8 +274,7 @@ public class JavaAnalyzerEclipseAST {
                         && Character.isUpperCase(node.getRightHandSide().toString().split("\\.")[0].charAt(0))) {
                     //Aqui consigo entrar con los repos del master (with Composite)
                     if (notExitsInObjectBlackList(node.getRightHandSide().toString().split("\\.")[0])) {
-                        domain.addPart(node.getRightHandSide().toString().split("\\.")[0]);
-                        units.add(node.getRightHandSide().toString().split("\\.")[0]);
+                        addPart(node.getRightHandSide().toString().split("\\.")[0]);
                     }
                 }
                 return true;
