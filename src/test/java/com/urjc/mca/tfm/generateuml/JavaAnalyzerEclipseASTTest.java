@@ -1,6 +1,7 @@
 package com.urjc.mca.tfm.generateuml;
 
 import com.urjc.mca.tfm.generateuml.model.Domain;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -73,12 +74,12 @@ class JavaAnalyzerEclipseASTTest {
         Domain domain = JavaAnalyzerEclipseAST.run("src/test/java/com/urjc/mca/tfm/generateuml/arqUnit/composition");
 
         assertTrue(domain.getUnit( "A").getPartList().contains(domain.getUnit( "B")));
-        assertEquals(2, domain.getUnitList().size());
+        assertEquals(3, domain.getUnitList().size());
         assertEquals(1, domain.getUnit( "A").getPartList().size());
         assertEquals(0, domain.getUnit( "A").getAssociates().size());
         assertEquals(0, domain.getUnit( "A").getElements().size());
         assertEquals(0, domain.getUnit( "A").getBase().size());
-        assertEquals(0, domain.getUnit( "A").getUsed().size());
+        assertEquals(1, domain.getUnit( "A").getUsed().size());
     }
 
 
@@ -89,12 +90,12 @@ class JavaAnalyzerEclipseASTTest {
         printDomain(domain);
 
         assertTrue(domain.getUnit("A").getUsed().contains(domain.getUnit("B")));
-        assertEquals(4, domain.getUnitList().size());
+        assertEquals(5, domain.getUnitList().size());
         assertEquals(0, domain.getUnit("A").getPartList().size());
         assertEquals(0, domain.getUnit("A").getAssociates().size());
         assertEquals(0, domain.getUnit("A").getElements().size());
         assertEquals(0, domain.getUnit("A").getBase().size());
-        assertEquals(3, domain.getUnit("A").getUsed().size());
+        assertEquals(4, domain.getUnit("A").getUsed().size());
     }
 
     @Test
