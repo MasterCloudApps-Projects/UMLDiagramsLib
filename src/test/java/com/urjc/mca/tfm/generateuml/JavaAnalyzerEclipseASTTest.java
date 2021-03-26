@@ -4,20 +4,25 @@ import com.urjc.mca.tfm.generateuml.model.Domain;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+@SpringBootTest(classes = JavaAnalyzerEclipseAST.class)
 class JavaAnalyzerEclipseASTTest {
 
+    @Autowired
+    JavaAnalyzerEclipseAST javaAnalyzerEclipseAST;
 
     @Test
     @DisplayName("Should be return a associate in domain with eclipse AST")
     void shouldBeReturnAAssociateInDomainWithEclipseAST() throws IOException {
 
-        Domain domain = JavaAnalyzerEclipseAST.run("src/test/java/com/urjc/mca/tfm/generateuml/arqUnit/associate");
+        Domain domain =  javaAnalyzerEclipseAST.run("src/test/java/com/urjc/mca/tfm/generateuml/arqUnit/associate");
 
         printDomain(domain);
         assertTrue(domain.getUnit("A").getAssociates().contains(domain.getUnit( "B")));
@@ -39,7 +44,7 @@ class JavaAnalyzerEclipseASTTest {
     @Test
     @DisplayName("Should be return a aggregation in domain")
     void shouldBeReturnAAggregationInDomainWithEclipseAST() {
-        Domain domain = JavaAnalyzerEclipseAST.run("src/test/java/com/urjc/mca/tfm/generateuml/arqUnit/aggregation");
+        Domain domain =  javaAnalyzerEclipseAST.run("src/test/java/com/urjc/mca/tfm/generateuml/arqUnit/aggregation");
         printDomain(domain);
 
         assertTrue(domain.getUnit("A").getElements().contains(domain.getUnit("B")));
@@ -55,7 +60,7 @@ class JavaAnalyzerEclipseASTTest {
     @Test
     @DisplayName("Should be return a two bases in domain")
     void shouldBeReturnATwoBasesInDomainWithEclipseAST() {
-        Domain domain = JavaAnalyzerEclipseAST.run("src/test/java/com/urjc/mca/tfm/generateuml/arqUnit/base");
+        Domain domain =  javaAnalyzerEclipseAST.run("src/test/java/com/urjc/mca/tfm/generateuml/arqUnit/base");
 
         assertTrue(domain.getUnit("A").getBase().contains(domain.getUnit( "B")));
         assertTrue(domain.getUnit( "A").getBase().contains(domain.getUnit("C")));
@@ -71,7 +76,7 @@ class JavaAnalyzerEclipseASTTest {
     @Test
     @DisplayName("Shoulb be return a composition in domain")
     void shoulbBeReturnACompositionInDomainWithEclipseAST() {
-        Domain domain = JavaAnalyzerEclipseAST.run("src/test/java/com/urjc/mca/tfm/generateuml/arqUnit/composition");
+        Domain domain =  javaAnalyzerEclipseAST.run("src/test/java/com/urjc/mca/tfm/generateuml/arqUnit/composition");
 
         assertTrue(domain.getUnit( "A").getPartList().contains(domain.getUnit( "B")));
         assertEquals(3, domain.getUnitList().size());
@@ -86,7 +91,7 @@ class JavaAnalyzerEclipseASTTest {
     @Test
     @DisplayName("Should be return a dependecy in domain")
     void shouldBeReturnADependecyInDomainWithEclipseAST() {
-        Domain domain = JavaAnalyzerEclipseAST.run("src/test/java/com/urjc/mca/tfm/generateuml/arqUnit/dependency");
+        Domain domain =  javaAnalyzerEclipseAST.run("src/test/java/com/urjc/mca/tfm/generateuml/arqUnit/dependency");
         printDomain(domain);
 
         assertTrue(domain.getUnit("A").getUsed().contains(domain.getUnit("B")));
@@ -98,18 +103,21 @@ class JavaAnalyzerEclipseASTTest {
         assertEquals(4, domain.getUnit("A").getUsed().size());
     }
 
+    @Disabled
     @Test
     @DisplayName("Should be return all relations")
     void shouldBeReturnAllRelations() {
-        Domain domain = JavaAnalyzerEclipseAST.run("src/test/java/com/urjc/mca/tfm/generateuml/eclipse/ast");
+        Domain domain =  javaAnalyzerEclipseAST.run("src/test/java/com/urjc/mca/tfm/generateuml/eclipse/ast");
         printDomain(domain);
 
     }
+    @Disabled
     @Test
     @DisplayName("Should be return all relations")
     void shouldBeReturnAllRelations2() {
-        Domain domain = JavaAnalyzerEclipseAST.run("src/main/java/com/urjc/mca/tfm/generateuml");
+        Domain domain =  javaAnalyzerEclipseAST.run("src/main/java/com/urjc/mca/tfm/generateuml");
         printDomain(domain);
 
     }
+
 }
