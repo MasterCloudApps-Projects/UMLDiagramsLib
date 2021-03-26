@@ -6,6 +6,8 @@ import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.dom.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -17,17 +19,29 @@ import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
+@Component
 public class JavaAnalyzerEclipseAST {
-    private static final Logger LOG = LoggerFactory.getLogger(JavaAnalyzerEclipseAST.class);
-    static Set<String> objects = new HashSet<>(Arrays.asList("RuntimeException", "StateValue,AcceptorController", "List<Color", "String", "StateValue,Controller", "AssertionError", "Logger", "Map", "Set", "BufferedReader", "Random", "Collections", "Arrays", "Files", "LOG", "Objects", "System", "SpringApplication", "CommandLineRunner", "JavaClasses", "SecureRandom", "JavaClass", "ObjectInputStream", "ByteArrayInputStream", "ObjectOutputStream", "ByteArrayOutputStream", "Object", "Serializable", "String", "StringBuilder", "ProcessBuilder", "Path", "Process", "InputStream", "Thread", "Invocable", "ScriptEngine"));
-    static Set<String> primitives = new HashSet<>(Arrays.asList("int", "byte", "short", "long", "float", "double", "boolean", "char"));
-    static Set<String> aggregation = new HashSet<>();
+    private final Logger LOG = LoggerFactory.getLogger(JavaAnalyzerEclipseAST.class);
 
-    private JavaAnalyzerEclipseAST() {
-        throw new IllegalStateException("Utility class");
-    }
+    Set<String> aggregation = new HashSet<>();
 
-    public static Domain run(String path) {
+    @Value("${primitives}")
+    public Set<String> primitives;
+
+    @Value("${objectBlackList}")
+    public Set<String> objectsBlackList;
+
+    @Value("${packageBlacklist}")
+    public Set<String> packageBlacklist;
+
+    @Value("${objectWhiteList}")
+    public Set<String> objectWhiteList;
+
+    @Value("#{${annotation.spring.background.color}}")
+    private Map<String, String> annotationSpringBackgroundColor;
+
+
+    public Domain run(String path) {
         Domain domain = new Domain("domain");
         Optional<Path> hit;
 
@@ -57,7 +71,7 @@ public class JavaAnalyzerEclipseAST {
         return domain;
     }
 
-    public static char[] readFileToString(String filePath) throws IOException {
+    public char[] readFileToString(String filePath) throws IOException {
         StringBuilder fileData = new StringBuilder(1000);
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             char[] buf = new char[10];
@@ -72,7 +86,7 @@ public class JavaAnalyzerEclipseAST {
         return fileData.toString().toCharArray();
     }
 
-    public static void analyzed(Domain domain, String pathFile) throws IOException {
+    public void analyzed(Domain domain, String pathFile) throws IOException {
 
         Set<String> aggregation = new HashSet<>();
         Set<String> primitives = new HashSet<>(Arrays.asList("int", "byte", "short", "long", "float", "double", "boolean", "char"));
@@ -88,8 +102,8 @@ public class JavaAnalyzerEclipseAST {
                 "ExpressionStatement",
                 "VariableDeclarationStatement",
                 "PackageDeclaration"));
-        objects.addAll(objectJavaAnalyzer);
-        objects.addAll(primitives);
+        objectsBlackList.addAll(objectJavaAnalyzer);
+        objectsBlackList.addAll(primitives);
         Set<String> fields = new HashSet<>();
         Map<String, String> fields2 = new HashMap<>();
         aggregation = new HashSet<>();
@@ -125,10 +139,9 @@ public class JavaAnalyzerEclipseAST {
                             .filter(unitNotInAggregationList())
                             .forEach(p -> {
                                 //for dependency
-                                if (((SingleVariableDeclaration) p).getType().isSimpleType()) {
+                                if (isSimpleType(p)) {
                                     addUsed(obtainClass(p.toString()));
-                                }
-                                else{
+                                } else {
                                     addUsed(obtainClassFromList(obtainClass(p.toString())));
                                 }
                             });
@@ -143,12 +156,8 @@ public class JavaAnalyzerEclipseAST {
                 return true;
             }
 
-            private String obtainClass(String aux) {
-                String[] auxArray = aux.split(" ");
-                if (auxArray.length == 2)
-                    return auxArray[0].split("\\.")[0];
-                else
-                    return auxArray[1].split("\\.")[0];
+            private boolean isSimpleType(Object p) {
+                return ((SingleVariableDeclaration) p).getType().isSimpleType();
             }
 
             private boolean isConstructor(ClassInstanceCreation node) {
@@ -178,14 +187,22 @@ public class JavaAnalyzerEclipseAST {
 
             public boolean visit(ExpressionStatement node) {
                 String aux = node.toString();
-                if (Character.isUpperCase(aux.charAt(0))) {
-
-                    aux = aux.substring(0, aux.indexOf("."));
+                if (startWithUpperCase(aux)) {
+                    //revistar porque esta esto para darle semantica
+                    aux = extractClassWithMethods(aux);
                     if (notExitsInObjectBlackList(aux)) {
                         addUsed(aux);
                     }
                 }
                 return true;
+            }
+
+            private String extractClassWithMethods(String aux) {
+                return aux.substring(0, aux.indexOf("."));
+            }
+
+            private boolean startWithUpperCase(String aux) {
+                return Character.isUpperCase(aux.charAt(0));
             }
 
             public boolean visit(PackageDeclaration node) {
@@ -272,14 +289,73 @@ public class JavaAnalyzerEclipseAST {
             }
 
             public boolean visit(Assignment node) {
-                if (node.getRightHandSide().getParent().getParent().getParent().getParent() instanceof MethodDeclaration &&
-                        ((MethodDeclaration) node.getRightHandSide().getParent().getParent().getParent().getParent()).isConstructor()
-                        && Character.isUpperCase(node.getRightHandSide().toString().split("\\.")[0].charAt(0))) {
-                    //Aqui consigo entrar con los repos del master (with Composite)
-                    if (notExitsInObjectBlackList(node.getRightHandSide().toString().split("\\.")[0])) {
-                        addPart(node.getRightHandSide().toString().split("\\.")[0]);
+                if (isMethodDeclaration(node) &&
+                        isConstructor(node)) {
+                    String unit = node.getRightHandSide().toString().split("\\.")[0];
+                    if (startWithUpperCase(unit)) {
+                        if (notExitsInObjectBlackList(unit)) {
+                            addPart(unit);
+                        }
                     }
                 }
+                return true;
+            }
+
+            private boolean isConstructor(Assignment node) {
+                return ((MethodDeclaration) node.getRightHandSide().getParent().getParent().getParent().getParent()).isConstructor();
+            }
+
+            private boolean isMethodDeclaration(Assignment node) {
+                return node.getRightHandSide().getParent().getParent().getParent().getParent() instanceof MethodDeclaration;
+            }
+
+
+            //Añadido para comprobar si me puede ayudar alguna que nos falta
+            public boolean visit(AnonymousClassDeclaration node) {
+                return true;
+            }
+
+
+            //block de una clase
+            public boolean visit(Block node) {
+                return true;
+            }
+
+            //cast
+            public boolean visit(CastExpression node) {
+                return true;
+            }
+
+
+            //toda la clase incluido el paquete , importaciones clase etc
+            public boolean visit(CompilationUnit node) {
+                return true;
+            }
+
+            // conditional ? :
+            public boolean visit(ConditionalExpression node) {
+                return true;
+            }
+
+
+            //imports
+            public boolean visit(ImportDeclaration node) {
+                return true;
+            }
+
+            //Lambda expresion
+            public boolean visit(LambdaExpression node) {
+                return true;
+            }
+
+            //anotación de la clase
+            public boolean visit(MarkerAnnotation node) {
+                return true;
+            }
+
+
+            //nombre del paquet cualificado
+            public boolean visit(QualifiedName node) {
                 return true;
             }
         });
@@ -288,7 +364,7 @@ public class JavaAnalyzerEclipseAST {
                 .filter(unitNotInObjectsBlackList(false))
                 .forEach(a -> {
                     if (!units.contains(a)) {
-                        String unit = (String)a;
+                        String unit = (String) a;
                         domain.addElement(unit);
                         units.add(unit);
                     }
@@ -314,27 +390,28 @@ public class JavaAnalyzerEclipseAST {
                 });
     }
 
-    private static boolean notExitInAggregationList(String aux) {
+
+    private boolean notExitInAggregationList(String aux) {
         return !aggregation.contains(aux);
     }
 
-    private static boolean notExitsInPrimitiveList(String aux) {
+    private boolean notExitsInPrimitiveList(String aux) {
         return !primitives.contains(aux);
     }
 
-    private static boolean notExitsInObjectBlackList(String aux) {
-        return !objects.contains(aux);
+    private boolean notExitsInObjectBlackList(String aux) {
+        return !objectsBlackList.contains(aux);
     }
 
-    private static Predicate unitNotInAggregationList() {
+    private Predicate unitNotInAggregationList() {
         return p -> notExitInAggregationList(obtainClass(p.toString()));
     }
 
-    private static boolean isArrayOrList(String aux) {
+    private boolean isArrayOrList(String aux) {
         return aux.contains("<") || aux.contains("[");
     }
 
-    private static String obtainClassFromList(String aux) {
+    private String obtainClassFromList(String aux) {
         if (aux.contains("[") && aux.contains("]")) {
             aux = aux.substring(0, aux.indexOf("["));
         } else if (aux.contains("<") && aux.contains(">")) {
@@ -344,20 +421,21 @@ public class JavaAnalyzerEclipseAST {
         return aux;
     }
 
-    static Predicate unitNotInObjectsBlackList(boolean obtainClass) {
+    Predicate unitNotInObjectsBlackList(boolean obtainClass) {
         if (obtainClass)
             return p -> notExitsInObjectBlackList(obtainClass(p.toString()));
         else
             return p -> notExitsInObjectBlackList(p.toString());
     }
-    static Predicate unitNotInPrimitiveBlackList(boolean obtainClass) {
+
+    Predicate unitNotInPrimitiveBlackList(boolean obtainClass) {
         if (obtainClass)
             return p -> notExitsInPrimitiveList(obtainClass(p.toString()));
         else
             return p -> notExitsInPrimitiveList(p.toString());
     }
 
-    private static String obtainClass(String aux) {
+    private String obtainClass(String aux) {
         String[] auxArray = aux.split(" ");
         if (auxArray.length == 2)
             return auxArray[0].split("\\.")[0];
