@@ -60,6 +60,12 @@ public class Domain {
         return this;
     }
 
+    public Domain addAnnotation(String annotation){
+        LOG.debug("add annotation: {}", annotation);
+        this.activeUnit.addAnnotation(annotation);
+        return this;
+    }
+
     private Unit getUnit(Unit unit) {
         Unit aux = getUnit(unit.name, unit.getMyPackage());
         if (aux == null) {
