@@ -2,6 +2,8 @@ package com.urjc.mca.tfm.generateuml;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,30 +14,16 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Objects;
-import java.util.Properties;
 
+@Component
 public class CloneRepository {
 
-    private static final Logger LOG = LoggerFactory.getLogger(CloneRepository.class);
-    private static String repositoryFolder;
-    private static Properties props = new Properties();
+    private final Logger logger = LoggerFactory.getLogger(CloneRepository.class);
 
-    private static void loadFromPropeties(){
-        try(InputStream configStream = GenerateImage.class.getResourceAsStream( "/application.properties")){
-            props.load(configStream);
-        }catch (IOException e) {
-            e.printStackTrace();
-        }
+    @Value("${repositories.folder}")
+    private String repositoryFolder;
 
-    }
-
-    private static void inicialized() {
-        loadFromPropeties();
-        repositoryFolder = props.getProperty("repositories.folder");
-    }
-
-    public static String clone(String url) throws IOException {
-        inicialized();
+    public String clone(String url) throws IOException {
         try {
             Path directory = Paths.get(repositoryFolder);
             if (!Files.exists(directory)) {
@@ -43,18 +31,18 @@ public class CloneRepository {
             }
             runCommand(directory, "git", "clone", url);
         } catch (MalformedURLException | InterruptedException e) {
-            LOG.debug("context", e);
+            logger.debug("context", e);
             Thread.currentThread().interrupt();
         }
         return obtainNewPath(url);
     }
 
-    private static String obtainNewPath(String url){
+    private String obtainNewPath(String url){
         String[] aux = url.split("/");
         return (repositoryFolder + aux[aux.length-1].substring(0, aux[aux.length-1].length()-4)+"/src/main/java");
     }
 
-    private static void runCommand(Path directory, String... command) throws IOException, InterruptedException {
+    private void runCommand(Path directory, String... command) throws IOException, InterruptedException {
         Objects.requireNonNull(directory, "directory");
         if (!Files.exists(directory)) {
             throw new RuntimeException("can't run command in non-existing directory '" + directory + "'");
@@ -75,7 +63,7 @@ public class CloneRepository {
         }
     }
 
-    private static class StreamGobbler extends Thread {
+    private class StreamGobbler extends Thread {
 
         private final InputStream is;
         private final String type;
@@ -90,10 +78,10 @@ public class CloneRepository {
             try (BufferedReader br = new BufferedReader(new InputStreamReader(is));) {
                 String line;
                 while ((line = br.readLine()) != null) {
-                    System.out.println(type + "> " + line);
+                    logger.info("{} > {}", type, line);
                 }
             } catch (IOException ioe) {
-                LOG.debug("context", ioe);
+                logger.debug("context", ioe);
             }
         }
     }

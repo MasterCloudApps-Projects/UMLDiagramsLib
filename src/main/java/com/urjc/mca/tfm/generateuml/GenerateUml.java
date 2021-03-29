@@ -16,10 +16,13 @@ public class GenerateUml {
     @Autowired
     GenerateImage generateImage;
 
+    @Autowired
+    CloneRepository cloneRepository;
+
     public void run(String url, String imageName) throws IOException, NoSuchMethodException, ScriptException {
 
         ClassDiagramGenerator classDiagramGenerator = new ClassDiagramGenerator();
-        Domain domain = javaAnalyzerEclipseAST.run(CloneRepository.clone(url));
+        Domain domain = javaAnalyzerEclipseAST.run(cloneRepository.clone(url));
         classDiagramGenerator.addDomain(domain);
         generateImage.downloadImage(classDiagramGenerator.print(), imageName + ".svg");
     }

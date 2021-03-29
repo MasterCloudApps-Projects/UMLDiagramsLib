@@ -175,7 +175,7 @@ public class JavaAnalyzerEclipseAST {
 
             private boolean isConstructor(ClassInstanceCreation node) {
                 Object object = node.getParent().getParent().getParent().getParent();
-                return object instanceof MethodDeclaration ? ((MethodDeclaration) object).isConstructor() : false;
+                return object instanceof MethodDeclaration && ((MethodDeclaration) object).isConstructor();
             }
 
             //Constructor
@@ -250,9 +250,7 @@ public class JavaAnalyzerEclipseAST {
                 if (node.getSuperclassType() != null) {
                     addBase(node.getSuperclassType().toString());
                 }
-                node.superInterfaceTypes().forEach(i -> {
-                    addBase(i.toString());
-                });
+                node.superInterfaceTypes().forEach(i -> addBase(i.toString()));
                 return true;
             }
 

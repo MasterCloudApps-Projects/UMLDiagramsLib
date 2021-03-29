@@ -131,10 +131,10 @@ public class Unit implements Serializable {
         if(containsAttributeOrFunction()){
             stringBuilder.append("{" + LINE_BREAK);
             this.attributes.forEach(attribute -> stringBuilder.append(attribute.toString()));
-            if(attributes.size()>0)
+            if(!attributes.isEmpty())
                 stringBuilder.append(LINE_BREAK);
             this.functions.forEach(function -> stringBuilder.append(function.toString()));
-            if(functions.size()>0)
+            if(!functions.isEmpty())
                 stringBuilder.append(LINE_BREAK);
             stringBuilder.append("}");
         }

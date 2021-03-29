@@ -26,7 +26,7 @@ public class GenerateumlApplication implements CommandLineRunner {
     @Autowired
     GenerateUml generateUml;
 
-    public static void main(String[] args) throws NoSuchMethodException, ScriptException, IOException {
+    public static void main(String[] args) {
         log.info("STARTING THE APPLICATION");
         SpringApplication.run(GenerateumlApplication.class, args);
         log.info("APPLICATION FINISHED");

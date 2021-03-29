@@ -20,14 +20,13 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.SecureRandom;
 import java.util.Arrays;
-import java.util.Properties;
 import java.util.stream.Collectors;
 
 @Component
 public class GenerateImage {
 
-    private final Logger LOG = LoggerFactory.getLogger(GenerateImage.class);
-    private Properties props = new Properties();
+    private static final String CONTEXT = "context";
+    private final Logger logger = LoggerFactory.getLogger(GenerateImage.class);
 
     private ScriptEngineManager manager = new ScriptEngineManager();
 
@@ -58,41 +57,20 @@ public class GenerateImage {
     @Value("${plantuml.url.format.image}")
     private String format;
 
-
-    private void loadFromProperties(){
-        try(InputStream configStream =GenerateImage.class.getResourceAsStream( "/application.properties")){
-            props.load(configStream);
-        }catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void inicialized(){
-        loadFromProperties();
-        path=props.getProperty("img.folder");
-        jsPath=props.getProperty("js.folder");
-        name=props.getProperty("img.name.default");
-        rawdeflate=props.getProperty("rawdeflate.file");
-        plantumlJs=props.getProperty("plantuml.file");
-        urlJs=props.getProperty("plantuml.url.js");
-        urlApi=props.getProperty("plantuml.url.api");
-        url=props.getProperty("plantuml.url");
-        format=props.getProperty("plantuml.url.format.image");
-    }
     private void downloadFilesToEncode() throws IOException {
 
         try (InputStream in = new URL(createPath(url,urlJs,rawdeflate)).openStream()) {
             Files.deleteIfExists(Path.of(createPath(jsPath,rawdeflate)).toAbsolutePath());
             Files.copy(in, Paths.get(createPath(jsPath,rawdeflate)).toAbsolutePath());
         } catch (MalformedURLException | FileNotFoundException e) {
-            LOG.debug("context",e);
+            logger.debug(CONTEXT,e);
         }
 
         try (InputStream in = new URL(createPath(url, urlJs,plantumlJs)).openStream()) {
             Files.deleteIfExists(Path.of(createPath(jsPath,plantumlJs)).toAbsolutePath());
             Files.copy(in, Paths.get(createPath(jsPath,plantumlJs)).toAbsolutePath());
         } catch (MalformedURLException | FileNotFoundException e) {
-            LOG.debug("context", e);
+            logger.debug(CONTEXT, e);
         }
     }
 
@@ -122,7 +100,6 @@ public class GenerateImage {
     }
 
     public String downloadImage(String classDiagramEncode, String nameUser, String pathUser) throws NoSuchMethodException, ScriptException, IOException {
-        inicialized();
         downloadFilesToEncode();
         checkAndCreatePath(pathUser);
         checkName(nameUser);
@@ -130,7 +107,7 @@ public class GenerateImage {
         try (InputStream in = new URL(createPath(url,urlApi,format,"/") + encodingClassDiagram).openStream()) {
             Files.copy(in, Paths.get(path + name));
         } catch (IOException e) {
-            LOG.debug("context",e);
+            logger.debug(CONTEXT,e);
         }
         return name;
     }
