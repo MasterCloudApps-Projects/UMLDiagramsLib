@@ -28,6 +28,7 @@ public class Unit implements Serializable {
     private Set<Attribute> attributes = new HashSet<>();
     private Set<Function> functions = new HashSet<>();
     private boolean abstractUnit = false;
+    private String annotation;
 
     public Unit(String name) {
         this.name = name;
@@ -42,6 +43,13 @@ public class Unit implements Serializable {
         partList.add(unit);
     }
 
+    public void addAnnotation(String annotation){
+        this.annotation = annotation;
+    }
+
+    public String getAnnotation(){
+        return annotation;
+    }
     public void addElement(Unit unit){
         elements.add(unit);
     }
@@ -122,12 +130,15 @@ public class Unit implements Serializable {
         return this.functions;
     }
 
-    public String toStringClassFormat(){
+    public String toStringClassFormat(String annotationColor){
         StringBuilder stringBuilder = new StringBuilder();
         if(abstractUnit)
             stringBuilder.append(ABSTRACT_AND_SPACE);
         stringBuilder.append(CLASS_AND_SPACE);
         stringBuilder.append(printName());
+        if(!StringUtils.isEmpty(annotation)){
+            stringBuilder.append(" ").append(annotationColor);
+        }
         if(containsAttributeOrFunction()){
             stringBuilder.append("{" + LINE_BREAK);
             this.attributes.forEach(attribute -> stringBuilder.append(attribute.toString()));
