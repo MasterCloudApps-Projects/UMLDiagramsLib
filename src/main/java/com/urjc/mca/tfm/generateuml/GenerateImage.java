@@ -2,6 +2,8 @@ package com.urjc.mca.tfm.generateuml;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import javax.script.Invocable;
 import javax.script.ScriptEngine;
@@ -21,24 +23,43 @@ import java.util.Arrays;
 import java.util.Properties;
 import java.util.stream.Collectors;
 
+@Component
 public class GenerateImage {
 
-    private static final Logger LOG = LoggerFactory.getLogger(GenerateImage.class);
-    private static Properties props = new Properties();
+    private final Logger LOG = LoggerFactory.getLogger(GenerateImage.class);
+    private Properties props = new Properties();
 
-    private static ScriptEngineManager manager = new ScriptEngineManager();
-    private static String path;
-    private static String jsPath;
-    private static String name;
-    private static String rawdeflate;
-    private static String plantumlJs;
-    private static String urlJs;
-    private static String urlApi;
-    private static String url;
-    private static String format;
+    private ScriptEngineManager manager = new ScriptEngineManager();
+
+    @Value("${img.folder}")
+    private String path;
+    
+    @Value("${js.folder}")
+    private String jsPath;
+    
+    @Value("${img.name.default}")
+    private String name;
+    
+    @Value("${rawdeflate.file}")
+    private String rawdeflate;
+    
+    @Value("${plantuml.file}")
+    private String plantumlJs;
+    
+    @Value("${plantuml.url.js}")
+    private String urlJs;
+    
+    @Value("${plantuml.url.api}")
+    private String urlApi;
+    
+    @Value("${plantuml.url}")
+    private String url;
+    
+    @Value("${plantuml.url.format.image}")
+    private String format;
 
 
-    private static void loadFromProperties(){
+    private void loadFromProperties(){
         try(InputStream configStream =GenerateImage.class.getResourceAsStream( "/application.properties")){
             props.load(configStream);
         }catch (IOException e) {
@@ -46,7 +67,7 @@ public class GenerateImage {
         }
     }
 
-    private static void inicialized(){
+    private void inicialized(){
         loadFromProperties();
         path=props.getProperty("img.folder");
         jsPath=props.getProperty("js.folder");
@@ -58,7 +79,7 @@ public class GenerateImage {
         url=props.getProperty("plantuml.url");
         format=props.getProperty("plantuml.url.format.image");
     }
-    private static void downloadFilesToEncode() throws IOException {
+    private void downloadFilesToEncode() throws IOException {
 
         try (InputStream in = new URL(createPath(url,urlJs,rawdeflate)).openStream()) {
             Files.deleteIfExists(Path.of(createPath(jsPath,rawdeflate)).toAbsolutePath());
@@ -75,7 +96,7 @@ public class GenerateImage {
         }
     }
 
-    private static String deflate(String classDiagram) throws IOException, ScriptException, NoSuchMethodException {
+    private String deflate(String classDiagram) throws IOException, ScriptException, NoSuchMethodException {
         ScriptEngine engine = manager.getEngineByName("JavaScript");
         engine.eval(Files.newBufferedReader(Paths.get(createPath(jsPath,rawdeflate)).toAbsolutePath(), StandardCharsets.UTF_8));
 
@@ -84,7 +105,7 @@ public class GenerateImage {
 
     }
 
-    private static String encode64(String classDiagram) throws IOException, ScriptException, NoSuchMethodException {
+    private String encode64(String classDiagram) throws IOException, ScriptException, NoSuchMethodException {
         ScriptEngine engine = manager.getEngineByName("JavaScript");
         engine.eval(Files.newBufferedReader(Paths.get(createPath(jsPath,plantumlJs)).toAbsolutePath(), StandardCharsets.UTF_8));
 
@@ -92,15 +113,15 @@ public class GenerateImage {
         return (String) inv.invokeFunction("encode64", classDiagram);
     }
 
-    public static String downloadImage(String classDiagramEncode) throws NoSuchMethodException, ScriptException, IOException {
+    public String downloadImage(String classDiagramEncode) throws NoSuchMethodException, ScriptException, IOException {
         return downloadImage(classDiagramEncode, null, null);
     }
 
-    public static String downloadImage(String classDiagramEncode, String name) throws NoSuchMethodException, ScriptException, IOException {
+    public String downloadImage(String classDiagramEncode, String name) throws NoSuchMethodException, ScriptException, IOException {
         return downloadImage(classDiagramEncode, name, null);
     }
 
-    public static String downloadImage(String classDiagramEncode, String nameUser, String pathUser) throws NoSuchMethodException, ScriptException, IOException {
+    public String downloadImage(String classDiagramEncode, String nameUser, String pathUser) throws NoSuchMethodException, ScriptException, IOException {
         inicialized();
         downloadFilesToEncode();
         checkAndCreatePath(pathUser);
@@ -114,14 +135,14 @@ public class GenerateImage {
         return name;
     }
 
-    private static void checkName(String nameToCheck) {
+    private void checkName(String nameToCheck) {
         if(nameToCheck !=null)
             name = nameToCheck;
         else
             name = generateRandomName();
     }
 
-    private static void checkAndCreatePath(String pathToCheck) throws IOException {
+    private void checkAndCreatePath(String pathToCheck) throws IOException {
         if(pathToCheck != null){
             path = pathToCheck;
             if(!Files.exists(Path.of(pathToCheck)))
@@ -129,14 +150,14 @@ public class GenerateImage {
         }
     }
 
-    private static String generateRandomName() {
+    private String generateRandomName() {
         int number = new SecureRandom().nextInt();
         while (Files.exists(Paths.get(createPath(path, name) + number + "." + format).toAbsolutePath()))
             number = new SecureRandom().nextInt();
         return name + number + "." + format;
     }
 
-    private static String createPath(String... args){
+    private String createPath(String... args){
         return Arrays.stream(args).collect(Collectors.joining());
     }
 }
