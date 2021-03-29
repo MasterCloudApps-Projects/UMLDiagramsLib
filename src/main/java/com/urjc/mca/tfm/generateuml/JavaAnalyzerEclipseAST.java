@@ -37,10 +37,6 @@ public class JavaAnalyzerEclipseAST {
     @Value("${objectWhiteList}")
     public Set<String> objectWhiteList;
 
-    @Value("#{${annotation.spring.background.color}}")
-    private Map<String, String> annotationSpringBackgroundColor;
-
-
     public Domain run(String path) {
         Domain domain = new Domain("domain");
         Optional<Path> hit;

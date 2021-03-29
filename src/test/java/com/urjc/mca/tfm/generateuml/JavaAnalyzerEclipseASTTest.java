@@ -12,11 +12,14 @@ import java.io.IOException;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@SpringBootTest(classes = JavaAnalyzerEclipseAST.class)
+@SpringBootTest(classes = {JavaAnalyzerEclipseAST.class, ClassDiagramGenerator.class})
 class JavaAnalyzerEclipseASTTest {
 
     @Autowired
     JavaAnalyzerEclipseAST javaAnalyzerEclipseAST;
+
+    @Autowired
+    ClassDiagramGenerator classDiagramGenerator;
 
     @Test
     @DisplayName("Should be return a associate in domain with eclipse AST")
@@ -36,7 +39,6 @@ class JavaAnalyzerEclipseASTTest {
     }
 
     void printDomain(Domain domain){
-        ClassDiagramGenerator classDiagramGenerator = new ClassDiagramGenerator();
         classDiagramGenerator.addDomain(domain);
         System.out.println(classDiagramGenerator.print());
     }
