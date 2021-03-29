@@ -6,6 +6,8 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.script.ScriptException;
 import java.io.File;
@@ -18,6 +20,7 @@ import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+@SpringBootTest(classes = GenerateImage.class)
 class GenerateImageTest {
 
     private static final String SRC_MAIN_RESOURCES_IMAGES = "src/main/resources/images/";
@@ -28,6 +31,9 @@ class GenerateImageTest {
     private static final String SVG = ".svg";
     static List<String> nameList = new ArrayList<>();
     static List<String> pathList = new ArrayList<>();
+
+    @Autowired
+    GenerateImage generateImage;
 
     @AfterAll
     static void deleteFiles(){
@@ -58,7 +64,7 @@ class GenerateImageTest {
 
         domain.addUnit(UNIT).addBase(BASE);
         classDiagram.addDomain(domain);
-        String imageName = GenerateImage.downloadImage(classDiagram.print());
+        String imageName = generateImage.downloadImage(classDiagram.print());
         nameList.add(imageName);
 
         assertTrue(Files.exists(Path.of(SRC_MAIN_RESOURCES_IMAGES +imageName).toAbsolutePath()));
@@ -73,7 +79,7 @@ class GenerateImageTest {
         String name = IMAGE + new Random().nextInt() + SVG;
         domain.addUnit(UNIT).addBase(BASE);
         classDiagram.addDomain(domain);
-        String imageName = GenerateImage.downloadImage(classDiagram.print(), name);
+        String imageName = generateImage.downloadImage(classDiagram.print(), name);
         nameList.add(imageName);
 
         assertTrue(Files.exists(Path.of(SRC_MAIN_RESOURCES_IMAGES +imageName).toAbsolutePath()));
@@ -89,7 +95,7 @@ class GenerateImageTest {
         String folder = SRC_MAIN_RESOURCES_IMAGES.concat("prueba/");
         domain.addUnit(UNIT).addBase(BASE);
         classDiagram.addDomain(domain);
-        String imageName = GenerateImage.downloadImage(classDiagram.print(), name, folder);
+        String imageName = generateImage.downloadImage(classDiagram.print(), name, folder);
         nameList.add(imageName);
         pathList.add(folder);
 

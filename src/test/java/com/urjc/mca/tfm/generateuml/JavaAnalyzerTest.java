@@ -3,10 +3,12 @@ package com.urjc.mca.tfm.generateuml;
 import com.urjc.mca.tfm.generateuml.model.Domain;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+@SpringBootTest(classes = JavaAnalyzer.class)
 class JavaAnalyzerTest {
 
     private static final String GENERAL_PACKAGE = "com.urjc.mca.tfm.generateuml.arqUnit";
