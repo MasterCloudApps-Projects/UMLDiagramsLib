@@ -480,4 +480,15 @@ class DomainTest {
         assertThat(unitList.get(1).getMyPackage(), is("secondpackage"));
         assertThat(unitList.get(1).name, is("unit"));
     }
+
+    @Test
+    @DisplayName("should be return the annotation added")
+    void shouldBeReturnTheAnnotationAdded() {
+        Domain domain = new Domain("domain");
+        domain.addUnit("unit").addAnnotation("annotation");
+
+        List<Unit> units = domain.getUnitList();
+
+        assertThat(units.get(0).getAnnotation(), is("annotation"));
+    }
 }
