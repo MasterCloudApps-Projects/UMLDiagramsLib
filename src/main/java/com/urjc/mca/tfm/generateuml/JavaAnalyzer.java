@@ -4,13 +4,18 @@ import com.tngtech.archunit.core.domain.JavaClass;
 import com.tngtech.archunit.core.domain.JavaClasses;
 import com.tngtech.archunit.core.importer.ClassFileImporter;
 import com.urjc.mca.tfm.generateuml.model.Domain;
+import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
 import java.util.Set;
 
+@Component
 public class JavaAnalyzer {
     Set<String> constructor = new HashSet<>();
     String path;
+
+    public JavaAnalyzer() {
+    }
 
     public JavaAnalyzer(String path) {
         this.path = path;
