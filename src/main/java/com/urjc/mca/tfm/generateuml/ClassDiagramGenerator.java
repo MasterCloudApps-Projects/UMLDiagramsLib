@@ -110,7 +110,7 @@ public class ClassDiagramGenerator {
     }
 
     private String printClass(Unit unit) {
-        return unit.toStringClassFormat(annotationSpringBackgroundColor.get(unit.getAnnotation()));
+        return unit.toStringClassFormat(annotationSpringBackgroundColor);
     }
 
     public String printPart(Unit unit) {
