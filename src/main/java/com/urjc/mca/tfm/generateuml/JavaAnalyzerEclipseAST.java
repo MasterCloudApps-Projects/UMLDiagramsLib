@@ -45,14 +45,6 @@ public class JavaAnalyzerEclipseAST {
         Domain domain = new Domain("domain");
         Optional<Path> hit;
 
-//        try (Stream<Path> entries = Files.walk(Path.of(System.getProperty("user.dir")))) {
-//            hit = entries.filter(file -> file.toString().contains(path))
-//                    .findAny();
-//
-//        } catch (IOException e) {
-//            LOG.debug("context", e);
-//        }
-
         hit = Optional.ofNullable(Path.of(path));
         try (Stream<Path> entries
                      = Files.walk(Paths.get(hit.stream().findFirst().orElse(null).toString()).toAbsolutePath())) {
@@ -88,9 +80,6 @@ public class JavaAnalyzerEclipseAST {
 
     public void analyzed(Domain domain, String pathFile) throws IOException {
 
-        Set<String> aggregation = new HashSet<>();
-        Set<String> primitives = new HashSet<>(Arrays.asList("int", "byte", "short", "long", "float", "double", "boolean", "char"));
-        Set<String> objects = new HashSet<>(Arrays.asList("RuntimeException", "StateValue,AcceptorController", "List<Color","String", "StateValue,Controller","AssertionError", "Logger", "Map", "Set", "BufferedReader", "Random", "Collections", "Arrays", "Files", "LOG", "Objects", "System", "SpringApplication", "CommandLineRunner", "JavaClasses", "SecureRandom", "JavaClass", "ObjectInputStream", "ByteArrayInputStream", "ObjectOutputStream", "ByteArrayOutputStream", "Object", "Serializable", "String", "StringBuilder", "ProcessBuilder", "Path", "Process", "InputStream", "Thread", "Invocable", "ScriptEngine"));
         Set<String> objectJavaAnalyzer = new HashSet<>(Arrays.asList("CompilationUnit", "TypeDeclaration",
                 "SimpleName",
                 "MethodDeclaration",
@@ -108,6 +97,14 @@ public class JavaAnalyzerEclipseAST {
         Map<String, String> fields2 = new HashMap<>();
         aggregation = new HashSet<>();
         Set<String> units = new HashSet<>();
+
+        //JAJAI
+        Set<String> base = new HashSet<>();
+        Set<String> associate = new HashSet<>();
+        //composition
+        Set<String> parts = new HashSet<>();
+
+        //JAJAI
         ASTParser parser = ASTParser.newParser(AST.JLS8);
         parser.setSource(readFileToString(pathFile));
         parser.setKind(ASTParser.K_COMPILATION_UNIT);
@@ -123,14 +120,27 @@ public class JavaAnalyzerEclipseAST {
 
             String mypackage = "";
 
+            //fields declaration
             public boolean visit(VariableDeclarationFragment node) {
 
                 if (node.getParent() instanceof FieldDeclaration) {
                     fields.add(((FieldDeclaration) node.getParent()).getType().toString());
+                    fields2.put(node.toString(), ((FieldDeclaration) node.getParent()).getType().toString());
                 }
                 return false; // do not continue to avoid usage info
             }
 
+            public boolean visit(AnnotationTypeDeclaration node) {
+
+                return true;
+            }
+
+            public boolean visit(AnnotationTypeMemberDeclaration node) {
+
+                return true;
+            }
+
+            //declaración del método
             public boolean visit(MethodDeclaration unit) {
                 if (!unit.isConstructor()) {
                     unit.parameters().stream()
@@ -146,10 +156,12 @@ public class JavaAnalyzerEclipseAST {
                                 }
                             });
                 } else {
+                    //for associate
                     unit.parameters().stream()
                             .filter(unitNotInPrimitiveBlackList(true))
                             .filter(unitNotInObjectsBlackList(true))
                             .forEach(p -> {
+                                //                                ((MethodDeclaration) ((SingleVariableDeclaration) p).getParent()).getBody().statements()
                                 addAssociate(obtainClassFromList(obtainClass(p.toString())));
                             });
                 }
@@ -160,10 +172,12 @@ public class JavaAnalyzerEclipseAST {
                 return ((SingleVariableDeclaration) p).getType().isSimpleType();
             }
 
+
             private boolean isConstructor(ClassInstanceCreation node) {
                 Object object = node.getParent().getParent().getParent().getParent();
                 return object instanceof MethodDeclaration ? ((MethodDeclaration) object).isConstructor() : false;
             }
+
             //Constructor
             public boolean visit(ClassInstanceCreation node) {
                 String aux = node.getType().toString();
@@ -185,6 +199,8 @@ public class JavaAnalyzerEclipseAST {
                 return true;
             }
 
+
+            //Asignaciones
             public boolean visit(ExpressionStatement node) {
                 String aux = node.toString();
                 if (startWithUpperCase(aux)) {
@@ -210,6 +226,7 @@ public class JavaAnalyzerEclipseAST {
                 return true;
             }
 
+            //for aggregation
             public boolean visit(ParameterizedType node) {
                 node.typeArguments().stream()
                         .filter(unitNotInObjectsBlackList(false))
@@ -219,8 +236,9 @@ public class JavaAnalyzerEclipseAST {
             }
 
             public boolean visit(TypeDeclaration node) {
-                if (node.getName().toString().equals("JavaAnalyzer"))
-                    return false;
+//                if (node.getName().toString().equals("JavaAnalyzer"))
+//                    return false;
+                //Aqui podría ver si tiene anotaciones la clase para ver si es component, repository, etc
                 Unit unit = domain.getUnit(node.getName().toString());
                 if (unit != null) {
 //                    unit.setMyPackage(mypackage);
@@ -245,9 +263,9 @@ public class JavaAnalyzerEclipseAST {
 
             private void addAssociate(String p) {
                 domain.addAssociate(p);
-//                                ((MethodDeclaration) ((SingleVariableDeclaration) p).getParent()).getBody().statements()
                 units.add(p);
             }
+
             private void addBase(String base) {
                 domain.addBase(base);
                 units.add(base);
@@ -262,6 +280,7 @@ public class JavaAnalyzerEclipseAST {
                 domain.addUsed(aux);
                 units.add(aux);
             }
+
             //dependency
             public boolean visit(VariableDeclarationStatement node) {
                 String aux = node.getType().toString();
@@ -276,6 +295,7 @@ public class JavaAnalyzerEclipseAST {
                 return true;
             }
 
+            //Enumerados
             public boolean visit(EnumDeclaration node) {
                 Unit unit = domain.getUnit(node.getName().toString());
                 if (unit != null)
@@ -288,6 +308,8 @@ public class JavaAnalyzerEclipseAST {
                 return true;
             }
 
+            //asignaciones, ejemplo : composition = new Composition();
+            //y con el ejemplo de arriba no funciona
             public boolean visit(Assignment node) {
                 if (isMethodDeclaration(node) &&
                         isConstructor(node)) {
@@ -358,6 +380,23 @@ public class JavaAnalyzerEclipseAST {
             public boolean visit(QualifiedName node) {
                 return true;
             }
+
+            //return
+            public boolean visit(ReturnStatement node) {
+                return true;
+            }
+
+            //tipo de clase que asignas en una asignación
+            public boolean visit(SimpleName node) {
+                return true;
+            }
+
+            //variable declaration expresion
+            public boolean visit(VariableDeclarationExpression node) {
+                return true;
+            }
+
+
         });
 
         aggregation.stream().filter(unitNotInPrimitiveBlackList(false))
@@ -369,6 +408,7 @@ public class JavaAnalyzerEclipseAST {
                         units.add(unit);
                     }
                 });
+
         fields.stream()
                 .filter(unitNotInPrimitiveBlackList(false))
                 .filter(unitNotInObjectsBlackList(false))
@@ -383,6 +423,7 @@ public class JavaAnalyzerEclipseAST {
                                 domain.addAssociate(aux);
                                 units.add(aux);
                             }
+                            //aqui entro en el test de domain model y en el del proyecto
                         } else {
                             domain.addAssociate(unit);
                         }
