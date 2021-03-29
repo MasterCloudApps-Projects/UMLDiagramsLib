@@ -5,14 +5,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Comparator;
 import java.util.Objects;
 
 @Component
@@ -29,6 +27,9 @@ public class CloneRepository {
             if (!Files.exists(directory)) {
                 Files.createDirectory(directory);
             }
+            if (Files.exists(Paths.get(repositoryFolder + obtainNameNewProject(url)))){
+                deleteFolder(Paths.get(repositoryFolder + obtainNameNewProject(url)).toAbsolutePath());
+            }
             runCommand(directory, "git", "clone", url);
         } catch (MalformedURLException | InterruptedException e) {
             logger.debug("context", e);
@@ -37,15 +38,29 @@ public class CloneRepository {
         return obtainNewPath(url);
     }
 
-    private String obtainNewPath(String url){
+    private void deleteFolder(Path path) throws IOException {
+        Files.walk(path)
+                .sorted(Comparator.reverseOrder())
+                .map(Path::toFile)
+                .forEach(File::delete);
+
+//        assertFalse("Directory still exists",
+//                Files.exists(pathToBeDeleted));
+    }
+    private String obtainNewPath(String url) {
+        return (repositoryFolder + obtainNameNewProject(url) +"/src/main/java");
+    }
+
+    private String obtainNameNewProject(String url) {
         String[] aux = url.split("/");
-        return (repositoryFolder + aux[aux.length-1].substring(0, aux[aux.length-1].length()-4)+"/src/main/java");
+        return aux[aux.length - 1].substring(0, aux[aux.length - 1].length() - 4);
     }
 
     private void runCommand(Path directory, String... command) throws IOException, InterruptedException {
         Objects.requireNonNull(directory, "directory");
         if (!Files.exists(directory)) {
-            throw new RuntimeException("can't run command in non-existing directory '" + directory + "'");
+            Files.delete(directory);
+//            throw new RuntimeException("can't run command in non-existing directory '" + directory + "'");
         }
         ProcessBuilder pb = new ProcessBuilder()
                 .command(command)
