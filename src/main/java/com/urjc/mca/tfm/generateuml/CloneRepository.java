@@ -43,9 +43,6 @@ public class CloneRepository {
                 .sorted(Comparator.reverseOrder())
                 .map(Path::toFile)
                 .forEach(File::delete);
-
-//        assertFalse("Directory still exists",
-//                Files.exists(pathToBeDeleted));
     }
     private String obtainNewPath(String url) {
         return (repositoryFolder + obtainNameNewProject(url) +"/src/main/java");

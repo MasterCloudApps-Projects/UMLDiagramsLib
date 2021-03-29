@@ -59,16 +59,15 @@ public class GenerateImage {
 
     private void downloadFilesToEncode() throws IOException {
 
-        try (InputStream in = new URL(createPath(url,urlJs,rawdeflate)).openStream()) {
-            Files.deleteIfExists(Path.of(createPath(jsPath,rawdeflate)).toAbsolutePath());
-            Files.copy(in, Paths.get(createPath(jsPath,rawdeflate)).toAbsolutePath());
-        } catch (MalformedURLException | FileNotFoundException e) {
-            logger.debug(CONTEXT,e);
-        }
+        donwloadFile(rawdeflate);
 
-        try (InputStream in = new URL(createPath(url, urlJs,plantumlJs)).openStream()) {
-            Files.deleteIfExists(Path.of(createPath(jsPath,plantumlJs)).toAbsolutePath());
-            Files.copy(in, Paths.get(createPath(jsPath,plantumlJs)).toAbsolutePath());
+        donwloadFile(plantumlJs);
+    }
+
+    private void donwloadFile(String plantumlJs) throws IOException {
+        try (InputStream in = new URL(createPath(url, urlJs, plantumlJs)).openStream()) {
+            Files.deleteIfExists(Path.of(createPath(jsPath, plantumlJs)).toAbsolutePath());
+            Files.copy(in, Paths.get(createPath(jsPath, plantumlJs)).toAbsolutePath());
         } catch (MalformedURLException | FileNotFoundException e) {
             logger.debug(CONTEXT, e);
         }
