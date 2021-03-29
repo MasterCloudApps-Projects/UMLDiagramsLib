@@ -2,28 +2,38 @@ package com.urjc.mca.tfm.generateuml;
 
 import com.urjc.mca.tfm.generateuml.model.Domain;
 import com.urjc.mca.tfm.generateuml.model.Visibility;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
 
+@SpringBootTest(classes = ClassDiagramGenerator.class)
 class ClassDiagramGeneratorTest {
 
+    @Autowired
+    ClassDiagramGenerator classDiagramGenerator;
+
+    @BeforeEach
+    void reset(){
+        classDiagramGenerator.clearUnits();
+    }
     @Test
     void printClassName() {
         Domain domain = new Domain("domain");
         domain.addPackage("package")
                 .addUnit("Unit1")
                 .addUnit("Unit2");
-        ClassDiagramGenerator classDiagram = new ClassDiagramGenerator();
 
-        classDiagram.addUnits(domain.getUnitList()).print();
+        classDiagramGenerator.addUnits(domain.getUnitList()).print();
 
         String result = "class package.Unit1\n" +
                 "class package.Unit2\n";
-        assertThat(classDiagram.print(), is(result));
+        assertThat(classDiagramGenerator.print(), is(result));
 
     }
 
@@ -34,12 +44,11 @@ class ClassDiagramGeneratorTest {
         domain.addPackage("package")
                 .addUnit("Unit1")
                 .setAbstractUnit();
-        ClassDiagramGenerator classDiagram = new ClassDiagramGenerator();
 
-        classDiagram.addDomain(domain);
+        classDiagramGenerator.addDomain(domain);
 
         String result = "abstract class package.Unit1\n";
-        assertThat(classDiagram.print(), is(result));
+        assertThat(classDiagramGenerator.print(), is(result));
     }
 
     @Test
@@ -48,83 +57,77 @@ class ClassDiagramGeneratorTest {
         domain.addPackage("package")
                 .addUnit("Unit1")
                 .addBase("Base");
-        ClassDiagramGenerator classDiagram = new ClassDiagramGenerator();
 
-        classDiagram.addUnits(domain.getUnitList()).print();
+        classDiagramGenerator.addUnits(domain.getUnitList()).print();
 
         String result = "class package.Unit1\n" +
                 "class package.Base\n" +
                 "package.Base <|-- package.Unit1\n";
-        assertThat(classDiagram.print(), is(result));
+        assertThat(classDiagramGenerator.print(), is(result));
     }
 
     @Test
     void printPart() {
-        ClassDiagramGenerator classDiagram = new ClassDiagramGenerator();
         Domain domain = new Domain("domain");
         domain.addPackage("package")
                 .addUnit("Unit1")
                 .addPart("Part");
 
-        classDiagram.addUnits(domain.getUnitList()).print();
+        classDiagramGenerator.addUnits(domain.getUnitList()).print();
 
         String result = "class package.Unit1\n" +
                 "class package.Part\n" +
                 "package.Unit1 *--> package.Part\n";
-        assertThat(classDiagram.print(), is(result));
+        assertThat(classDiagramGenerator.print(), is(result));
     }
 
     @Test
     void printElement() {
-        ClassDiagramGenerator classDiagram = new ClassDiagramGenerator();
         Domain domain = new Domain("domain");
         domain.addPackage("package")
                 .addUnit("Unit1")
                 .addElement("Element");
 
-        classDiagram.addUnits(domain.getUnitList()).print();
+        classDiagramGenerator.addUnits(domain.getUnitList()).print();
 
         String result = "class package.Unit1\n" +
                 "class package.Element\n" +
                 "package.Unit1 o--> package.Element\n";
-        assertThat(classDiagram.print(), is(result));
+        assertThat(classDiagramGenerator.print(), is(result));
     }
 
     @Test
     void printAssociates() {
-        ClassDiagramGenerator classDiagram = new ClassDiagramGenerator();
         Domain domain = new Domain("domain");
         domain.addPackage("package")
                 .addUnit("Unit1")
                 .addAssociate("Associate");
 
-        classDiagram.addUnits(domain.getUnitList()).print();
+        classDiagramGenerator.addUnits(domain.getUnitList()).print();
 
         String result = "class package.Unit1\n" +
                 "class package.Associate\n" +
                 "package.Unit1 --> package.Associate\n";
-        assertThat(classDiagram.print(), is(result));
+        assertThat(classDiagramGenerator.print(), is(result));
     }
 
     @Test
     void printUsed() {
-        ClassDiagramGenerator classDiagram = new ClassDiagramGenerator();
         Domain domain = new Domain("domain");
         domain.addPackage("package")
                 .addUnit("Unit1")
                 .addUsed("Used");
 
-        classDiagram.addUnits(domain.getUnitList()).print();
+        classDiagramGenerator.addUnits(domain.getUnitList()).print();
 
         String result = "class package.Unit1\n" +
                 "class package.Used\n" +
                 "package.Unit1 ..> package.Used\n";
-        assertThat(classDiagram.print(), is(result));
+        assertThat(classDiagramGenerator.print(), is(result));
     }
 
     @Test
     void shouldBeReturnDiagramClassPractice1Design() {
-        ClassDiagramGenerator classDiagram = new ClassDiagramGenerator();
         Domain domain = new Domain("mastermind");
         domain.addPackage("mastermind")
                 .addUnit("Mastermind")
@@ -148,7 +151,7 @@ class ClassDiagramGeneratorTest {
                     .addUsed("Message");
 
 
-        classDiagram.addUnits(domain.getUnitList()).print();
+        classDiagramGenerator.addUnits(domain.getUnitList()).print();
 
         String resultPrint = "class mastermind.Mastermind\n" +
                 "class mastermind.WithConsoleModel\n" +
@@ -174,12 +177,11 @@ class ClassDiagramGeneratorTest {
                 "mastermind.WithConsoleModel <|-- mastermind.Combination\n" +
                 "mastermind.Combination *--> mastermind.Color\n" +
                 "mastermind.Combination *--> mastermind.SecretCombination\n";
-        assertThat(classDiagram.print(), is(resultPrint));
+        assertThat(classDiagramGenerator.print(), is(resultPrint));
     }
 
     @Test
     void shouldBeReturnSecretCombinationInDiagramClassPractice1Design() {
-        ClassDiagramGenerator classDiagram = new ClassDiagramGenerator();
         Domain domain = new Domain("mastermind");
         domain.addPackage("mastermind")
                 .addUnit("Mastermind").addBase("WithConsoleModel").addPart("SecretCombination").addPart("ProposedCombination")
@@ -192,19 +194,18 @@ class ClassDiagramGeneratorTest {
                 .addUnit("ProposedCombination")
                 .addBase("Combination").addUsed("Error").addUsed("Message");
 
-        classDiagram.addUnits(domain.getEfferent("SecretCombination"));
+        classDiagramGenerator.addUnits(domain.getEfferent("SecretCombination"));
 
         String resultPrint = "class mastermind.SecretCombination\n" +
                 "mastermind.Combination <|-- mastermind.SecretCombination\n" +
                 "mastermind.SecretCombination ..> mastermind.Message\n" +
                 "mastermind.SecretCombination ..> mastermind.ProposedCombination\n" +
                 "mastermind.SecretCombination ..> mastermind.Result\n";
-        assertThat(classDiagram.print(), is(resultPrint));
+        assertThat(classDiagramGenerator.print(), is(resultPrint));
     }
 
     @Test
     void shouldBeReturnAfferentUnitForX() {
-        ClassDiagramGenerator classDiagram = new ClassDiagramGenerator();
         Domain domain = new Domain("mastermind");
         domain.addUnit("X")
                 .addBase("Base_de_X")
@@ -220,8 +221,8 @@ class ClassDiagramGeneratorTest {
                 .addUnit("Descendiente_de_X")
                 .addBase("X");
 
-        classDiagram.addUnits(domain.getAfferent("X"));
-        System.out.println(classDiagram.print());
+        classDiagramGenerator.addUnits(domain.getAfferent("X"));
+        System.out.println(classDiagramGenerator.print());
         String resultPrint = "class Todo_de_X\n" +
                 "class Usa_X\n" +
                 "class Asociado_a_X\n" +
@@ -230,12 +231,11 @@ class ClassDiagramGeneratorTest {
                 "Usa_X ..> X\n" +
                 "Asociado_a_X --> X\n" +
                 "X <|-- Descendiente_de_X\n";
-        assertThat(classDiagram.print(), is(resultPrint));
+        assertThat(classDiagramGenerator.print(), is(resultPrint));
     }
 
     @Test
     void shouldBeReturnAllAfferent() {
-        ClassDiagramGenerator classDiagram = new ClassDiagramGenerator();
         Domain domain = new Domain("mastermind");
         domain.addUnit("X")
                 .addBase("Base_de_X")
@@ -251,7 +251,7 @@ class ClassDiagramGeneratorTest {
                 .addUnit("Descendiente_de_X")
                 .addBase("X");
 
-        classDiagram.addUnits(domain.getAllAfferent());
+        classDiagramGenerator.addUnits(domain.getAllAfferent());
 
         String resultPrint = "class \"afferent X.Todo_de_X\"\n" +
                 "class \"afferent X.Usa_X\"\n" +
@@ -269,12 +269,11 @@ class ClassDiagramGeneratorTest {
                 "\"afferent Parte_de_X.X\" *--> \"afferent Parte_de_X.Parte_de_X\"\n" +
                 "\"afferent Asociada_de_X.X\" --> \"afferent Asociada_de_X.Asociada_de_X\"\n" +
                 "\"afferent Usada_por_X.X\" ..> \"afferent Usada_por_X.Usada_por_X\"\n";
-        assertThat(classDiagram.print(), is(resultPrint));
+        assertThat(classDiagramGenerator.print(), is(resultPrint));
     }
 
     @Test
     void shouldBeReturnAfferentUnitForBase_de_X() {
-        ClassDiagramGenerator classDiagram = new ClassDiagramGenerator();
         Domain domain = new Domain("mastermind");
         domain.addUnit("X")
                 .addBase("Base_de_X")
@@ -290,17 +289,16 @@ class ClassDiagramGeneratorTest {
                 .addUnit("Descendiente_de_X")
                 .addBase("X");
 
-        classDiagram.addUnits(domain.getAfferent("Base_de_X"));
+        classDiagramGenerator.addUnits(domain.getAfferent("Base_de_X"));
 
         String resultPrint = "class X\n" +
                 "Base_de_X <|-- X\n";
-        assertThat(classDiagram.print(), is(resultPrint));
+        assertThat(classDiagramGenerator.print(), is(resultPrint));
 
     }
 
     @Test
     void shouldBeReturnEfferentUnit() {
-        ClassDiagramGenerator classDiagram = new ClassDiagramGenerator();
         Domain domain = new Domain("mastermind");
         domain.addUnit("X")
                 .addBase("Base_de_X")
@@ -317,20 +315,19 @@ class ClassDiagramGeneratorTest {
                 .addUnit("Descendiente_de_X")
                 .addBase("X");
 
-        classDiagram.addUnits(domain.getEfferent("X"));
-        System.out.println(classDiagram.print());
+        classDiagramGenerator.addUnits(domain.getEfferent("X"));
+        System.out.println(classDiagramGenerator.print());
         String resultPrint = "class X\n" +
                 "Base_de_X <|-- X\n" +
                 "X *--> Parte_de_X\n" +
                 "X --> Asociada_de_X\n" +
                 "X ..> Usada_por_X\n";
-        assertThat(classDiagram.print(), is(resultPrint));
+        assertThat(classDiagramGenerator.print(), is(resultPrint));
 
     }
 
     @Test
     void shouldBeReturnDiagramClassPractice1DesignWithTwoModels() {
-        ClassDiagramGenerator classDiagram = new ClassDiagramGenerator();
         Domain domain = new Domain("mastermind");
         Domain domainUtils = new Domain("mastermind.utils");
         domainUtils.addUnit("WithConsoleModel");
@@ -358,7 +355,7 @@ class ClassDiagramGeneratorTest {
                         .addUsed("Error")
                         .addUsed("Message");
 
-        classDiagram.addUnits(domain.getUnitList()).print();
+        classDiagramGenerator.addUnits(domain.getUnitList()).print();
 
         String resultPrint = "class mastermind.utils.WithConsoleModel\n" +
                 "class mastermind.Mastermind\n" +
@@ -384,12 +381,11 @@ class ClassDiagramGeneratorTest {
                 "mastermind.utils.WithConsoleModel <|-- mastermind.Combination\n" +
                 "mastermind.Combination *--> mastermind.Color\n" +
                 "mastermind.Combination *--> mastermind.SecretCombination\n";
-        assertThat(classDiagram.print(), is(resultPrint));
+        assertThat(classDiagramGenerator.print(), is(resultPrint));
     }
 
     @Test
     void shouldBeReturnDiagramClassPractice1DesignWithTwoModelsWhenAddDomain() {
-        ClassDiagramGenerator classDiagram = new ClassDiagramGenerator();
         Domain domain = new Domain("mastermind");
         domain.addPackage("mastermind")
                 .addUnit("Mastermind")
@@ -429,196 +425,183 @@ class ClassDiagramGeneratorTest {
                 "mastermind.Combination *--> mastermind.Color\n" +
                 "mastermind.Combination *--> mastermind.SecretCombination\n";
 
-        classDiagram.addDomain(domain).print();
+        classDiagramGenerator.addDomain(domain).print();
 
-        assertThat(classDiagram.print(), is(resultPrint));
+        assertThat(classDiagramGenerator.print(), is(resultPrint));
     }
 
     @Test
     void shouldBeReturnAttributeWithPublicVisibility() {
-        ClassDiagramGenerator classDiagram = new ClassDiagramGenerator();
         Domain domain = new Domain("domain");
         domain.addUnit("unit").addAttribute("attribute").addVisibility(Visibility.PUBLIC);
 
-        classDiagram.addDomain(domain);
+        classDiagramGenerator.addDomain(domain);
 
         String resultPrint = "class unit{\n" +
                 "+ attribute\n" +
                 "}\n";
-        assertThat(classDiagram.print(), is(resultPrint));
+        assertThat(classDiagramGenerator.print(), is(resultPrint));
 
     }
 
     @Test
     void shouldBeReturnAttributeWithPrivateVisibility() {
-        ClassDiagramGenerator classDiagram = new ClassDiagramGenerator();
         Domain domain = new Domain("domain");
         domain.addUnit("unit").addAttribute("attribute").addVisibility(Visibility.PRIVATE);
 
-        classDiagram.addDomain(domain);
+        classDiagramGenerator.addDomain(domain);
 
         String resultPrint = "class unit{\n" +
                 "- attribute\n" +
                 "}\n";
-        assertThat(classDiagram.print(), is(resultPrint));
+        assertThat(classDiagramGenerator.print(), is(resultPrint));
 
     }
 
     @Test
     void shouldBeReturnAttributeWithProtectedVisibility() {
-        ClassDiagramGenerator classDiagram = new ClassDiagramGenerator();
         Domain domain = new Domain("domain");
         domain.addUnit("unit").addAttribute("attribute").addVisibility(Visibility.PROTECTED);
 
-        classDiagram.addDomain(domain);
+        classDiagramGenerator.addDomain(domain);
 
         String resultPrint = "class unit{\n" +
                 "# attribute\n" +
                 "}\n";
-        assertThat(classDiagram.print(), is(resultPrint));
+        assertThat(classDiagramGenerator.print(), is(resultPrint));
 
     }
 
     @Test
     void shouldBeReturnAttributeWithPackageVisibility() {
-        ClassDiagramGenerator classDiagram = new ClassDiagramGenerator();
         Domain domain = new Domain("domain");
         domain.addUnit("unit").addAttribute("attribute").addVisibility(Visibility.PACKAGE);
 
-        classDiagram.addDomain(domain);
+        classDiagramGenerator.addDomain(domain);
 
         String resultPrint = "class unit{\n" +
                 "~ attribute\n" +
                 "}\n";
-        assertThat(classDiagram.print(), is(resultPrint));
+        assertThat(classDiagramGenerator.print(), is(resultPrint));
 
     }
 
     @Test
     void shouldBeReturnAttributeWithoutVisibility() {
-        ClassDiagramGenerator classDiagram = new ClassDiagramGenerator();
         Domain domain = new Domain("domain");
         domain.addUnit("unit").addAttribute("attribute").addVisibility(Visibility.EMPTY_VISIBILITY);
 
-        classDiagram.addDomain(domain);
+        classDiagramGenerator.addDomain(domain);
 
         String resultPrint = "class unit{\n" +
                 "attribute\n" +
                 "}\n";
-        assertThat(classDiagram.print(), is(resultPrint));
+        assertThat(classDiagramGenerator.print(), is(resultPrint));
 
     }
 
     @Test
     void shouldBeReturnNameWithSpaces() {
-        ClassDiagramGenerator classDiagram = new ClassDiagramGenerator();
         Domain domain = new Domain("domain");
         domain.addUnit("my unit");
 
-        classDiagram.addDomain(domain);
+        classDiagramGenerator.addDomain(domain);
 
         String resultPrint = "class \"my unit\"\n";
-        assertThat(classDiagram.print(), is(resultPrint));
+        assertThat(classDiagramGenerator.print(), is(resultPrint));
     }
 
     @Test
     void shouldBeReturnAttributeWithProtectedVisibilityAndSpacesInName() {
-        ClassDiagramGenerator classDiagram = new ClassDiagramGenerator();
         Domain domain = new Domain("domain");
         domain.addUnit("my unit").addAttribute("my attribute").addVisibility(Visibility.PROTECTED);
 
-        classDiagram.addDomain(domain);
+        classDiagramGenerator.addDomain(domain);
 
         String resultPrint = "class \"my unit\"{\n" +
                 "# my attribute\n" +
                 "}\n";
-        assertThat(classDiagram.print(), is(resultPrint));
+        assertThat(classDiagramGenerator.print(), is(resultPrint));
 
     }
 
     @Test
     void shouldBeReturnUnitWithFunction() {
-        ClassDiagramGenerator classDiagram = new ClassDiagramGenerator();
         Domain domain = new Domain("domain");
         domain.addUnit("unit").addFunction("function");
 
-        classDiagram.addDomain(domain);
+        classDiagramGenerator.addDomain(domain);
 
         String resultPrint = "class unit{\n" +
                 "function\n" +
                 "}\n";
 
-        assertThat(classDiagram.print(), is(resultPrint));
+        assertThat(classDiagramGenerator.print(), is(resultPrint));
     }
 
     @Test
     void shouldBeReturnUnitWithFunctionAndVisibility() {
-        ClassDiagramGenerator classDiagram = new ClassDiagramGenerator();
         Domain domain = new Domain("domain");
         domain.addUnit("unit").addFunction("function").addVisibility(Visibility.PUBLIC);
 
-        classDiagram.addDomain(domain);
+        classDiagramGenerator.addDomain(domain);
 
         String resultPrint = "class unit{\n" +
                 "+ function\n" +
                 "}\n";
 
-        assertThat(classDiagram.print(), is(resultPrint));
+        assertThat(classDiagramGenerator.print(), is(resultPrint));
     }
 
     @Test
     void shouldBeReturnUnitWithFunctionAndVisibilityAndReturnType() {
-        ClassDiagramGenerator classDiagram = new ClassDiagramGenerator();
         Domain domain = new Domain("domain");
         domain.addUnit("unit").addFunction("function").addVisibility(Visibility.PUBLIC).addReturnType("String");
 
-        classDiagram.addDomain(domain);
+        classDiagramGenerator.addDomain(domain);
 
         String resultPrint = "class unit{\n" +
                 "+ function: String\n" +
                 "}\n";
 
-        assertThat(classDiagram.print(), is(resultPrint));
+        assertThat(classDiagramGenerator.print(), is(resultPrint));
     }
 
     @Test
     void shouldBeReturnUnitWithFunctionAndVisibilityAndReturnTypeAndParameters() {
-        ClassDiagramGenerator classDiagram = new ClassDiagramGenerator();
         Domain domain = new Domain("domain");
         String[] parameters = {"String", "int"};
         domain.addUnit("unit").addFunction("function").addVisibility(Visibility.PUBLIC).addReturnType("String")
                 .addParameters(parameters);
 
-        classDiagram.addDomain(domain);
+        classDiagramGenerator.addDomain(domain);
 
         String resultPrint = "class unit{\n" +
                 "+ function(String, int): String\n" +
                 "}\n";
 
-        assertThat(classDiagram.print(), is(resultPrint));
+        assertThat(classDiagramGenerator.print(), is(resultPrint));
     }
 
     @Test
     void shouldBeReturnUnitStaticWithFunctionAndVisibilityAndReturnTypeAndParameters() {
-        ClassDiagramGenerator classDiagram = new ClassDiagramGenerator();
         Domain domain = new Domain("domain");
         String[] parameters = {"String", "int"};
         domain.addUnit("unit").addFunction("function").addVisibility(Visibility.PUBLIC).addReturnType("String")
                 .addParameters(parameters).setStatic(true);
 
-        classDiagram.addDomain(domain);
+        classDiagramGenerator.addDomain(domain);
 
         String resultPrint = "class unit{\n" +
                 "+ {static} function(String, int): String\n" +
                 "}\n";
 
-        assertThat(classDiagram.print(), is(resultPrint));
+        assertThat(classDiagramGenerator.print(), is(resultPrint));
     }
 
 
     @Test
     void shouldBeReturnAllEfferentUnits() {
-        ClassDiagramGenerator classDiagram = new ClassDiagramGenerator();
         Domain domain = new Domain("mastermind");
         domain.addUnit("X")
                 .addBase("Base_de_X")
@@ -634,8 +617,8 @@ class ClassDiagramGeneratorTest {
                 .addUnit("Descendiente_de_X")
                 .addBase("X");
 
-        classDiagram.addUnits(domain.getAllEfferents());
-        System.out.println(classDiagram.print());
+        classDiagramGenerator.addUnits(domain.getAllEfferents());
+        System.out.println(classDiagramGenerator.print());
 
         String resultPrint = "class \"efferent X.X\"\n" +
                 "class \"efferent Base_de_X.Base_de_X\"\n" +
@@ -655,30 +638,28 @@ class ClassDiagramGeneratorTest {
                 "\"efferent Asociado_a_X.Asociado_a_X\" --> \"efferent Asociado_a_X.X\"\n" +
                 "\"efferent Descendiente_de_X.X\" <|-- \"efferent Descendiente_de_X.Descendiente_de_X\"\n";
 
-        assertThat(classDiagram.print(), is(resultPrint));
+        assertThat(classDiagramGenerator.print(), is(resultPrint));
     }
 
     @Test
     @DisplayName("should be return only packages")
     void shouldBeReturnOnlyPackages() {
-        ClassDiagramGenerator classDiagram = new ClassDiagramGenerator();
         Domain domain = new Domain("mastermind");
         domain.addPackage("package1").addUnit("unit1").addUnit("unit2").addUsed("used").addPackage("package2").addUnit("unit3")
                 .addPackage("package3").addUnit("unit4").addUsed("unit1");
 
-        classDiagram.addDomain(domain);
-        System.out.println(classDiagram.printPackage());
+        classDiagramGenerator.addDomain(domain);
+        System.out.println(classDiagramGenerator.printPackage());
         String resultPrint = "package package1 {} \n" +
                 "package package2 {} \n" +
                 "package package3 {} \n" +
                 "package3 ..> package1\n";
-        assertThat(classDiagram.printPackage(), is(resultPrint));
+        assertThat(classDiagramGenerator.printPackage(), is(resultPrint));
     }
 
     @Test
     @DisplayName("should be return concrete package and one level relation to other packages")
     void shouldBeReturnConcretePackageAndOneLevelRelationToOtherPackages() {
-        ClassDiagramGenerator classDiagram = new ClassDiagramGenerator();
         Domain domain = new Domain("mastermain solution v15.6");
         domain.addPackage("mastermind")
                 .addUnit("MastermindStandalone")
@@ -700,86 +681,154 @@ class ClassDiagramGeneratorTest {
                 "mastermind.Mastermind *--> mastermind.controllers.Logic\n" +
                 "mastermind.Mastermind ..> mastermind.controllers.AcceptorController\n";
 
-        System.out.println(classDiagram.addDomain(domain).print("mastermind"));
+        System.out.println(classDiagramGenerator.addDomain(domain).print("mastermind"));
 
-        assertThat(classDiagram.print("mastermind"), is(result));
+        assertThat(classDiagramGenerator.print("mastermind"), is(result));
     }
     
     @Test
     @DisplayName("should be return one unit and base with the same name and different package")
     void shouldBeReturnOneUnitAndBaseWithTheSameNameAndDifferentPackage() {
-        ClassDiagramGenerator classDiagram = new ClassDiagramGenerator();
         Domain domain = new Domain("domain");
         domain.addUnit("unit", "mypackage").addBase("unit", "secondpackage");
-        classDiagram.addDomain(domain);
+        classDiagramGenerator.addDomain(domain);
 
         String result = "class mypackage.unit\n" +
                 "class secondpackage.unit\n" +
                 "secondpackage.unit <|-- mypackage.unit\n";
 
-        assertThat(classDiagram.print(), is(result));
+        assertThat(classDiagramGenerator.print(), is(result));
     }
 
     @Test
     @DisplayName("should be return one unit and part with the same name and different package")
     void shouldBeReturnOneUnitAndPartWithTheSameNameAndDifferentPackage() {
-        ClassDiagramGenerator classDiagram = new ClassDiagramGenerator();
         Domain domain = new Domain("domain");
         domain.addUnit("unit", "mypackage").addPart("unit", "secondpackage");
 
-        classDiagram.addDomain(domain);
+        classDiagramGenerator.addDomain(domain);
 
         String result = "class mypackage.unit\n" +
                 "class secondpackage.unit\n" +
                 "mypackage.unit *--> secondpackage.unit\n";
 
-        assertThat(classDiagram.print(), is(result));
+        assertThat(classDiagramGenerator.print(), is(result));
     }
     @Test
     @DisplayName("should be return one unit and element with the same name and different package")
     void shouldBeReturnOneUnitAndElementWithTheSameNameAndDifferentPackage() {
-        ClassDiagramGenerator classDiagram = new ClassDiagramGenerator();
         Domain domain = new Domain("domain");
         domain.addUnit("unit", "mypackage").addElement("unit", "secondpackage");
 
-        classDiagram.addDomain(domain);
+        classDiagramGenerator.addDomain(domain);
 
         String result = "class mypackage.unit\n" +
                 "class secondpackage.unit\n" +
                 "mypackage.unit o--> secondpackage.unit\n";
 
-        assertThat(classDiagram.print(), is(result));
+        assertThat(classDiagramGenerator.print(), is(result));
     }
 
     @Test
     @DisplayName("should be return one unit and associate with the same name and different package")
     void shouldBeReturnOneUnitAndAssociateWithTheSameNameAndDifferentPackage() {
-        ClassDiagramGenerator classDiagram = new ClassDiagramGenerator();
         Domain domain = new Domain("domain");
         domain.addUnit("unit", "mypackage").addAssociate("unit", "secondpackage");
 
-        classDiagram.addDomain(domain);
+        classDiagramGenerator.addDomain(domain);
 
         String result = "class mypackage.unit\n" +
                 "class secondpackage.unit\n" +
                 "mypackage.unit --> secondpackage.unit\n";
 
-        assertThat(classDiagram.print(), is(result));
+        assertThat(classDiagramGenerator.print(), is(result));
     }
 
     @Test
     @DisplayName("should be return one unit and used with the same name and different package")
     void shouldBeReturnOneUnitAndUsedWithTheSameNameAndDifferentPackage() {
-        ClassDiagramGenerator classDiagram = new ClassDiagramGenerator();
         Domain domain = new Domain("domain");
         domain.addUnit("unit", "mypackage").addUsed("unit", "secondpackage");
 
-        classDiagram.addDomain(domain);
+        classDiagramGenerator.addDomain(domain);
 
         String result = "class mypackage.unit\n" +
                 "class secondpackage.unit\n" +
                 "mypackage.unit ..> secondpackage.unit\n";
 
-        assertThat(classDiagram.print(), is(result));
+        assertThat(classDiagramGenerator.print(), is(result));
     }
+
+    @Test
+    @DisplayName("should be return Entity annotation color")
+    void shouldBeReturnEntityAnnotationColor() {
+        Domain domain = new Domain("domain");
+        domain.addUnit("Entity", "mypackage").addAnnotation("Entity");
+        classDiagramGenerator.addDomain(domain);
+
+        String result="class mypackage.Entity #FFFF00\n";
+
+        assertThat(classDiagramGenerator.print(), is(result));
+    }
+
+    @Test
+    @DisplayName("should be return Component annotation color")
+    void shouldBeReturnComponentAnnotationColor() {
+        Domain domain = new Domain("domain");
+        domain.addUnit("Component", "mypackage").addAnnotation("Component");
+        classDiagramGenerator.addDomain(domain);
+
+        String result="class mypackage.Component #FF9900\n";
+
+        assertThat(classDiagramGenerator.print(), is(result));
+    }
+
+    @Test
+    @DisplayName("should be return Controller annotation color")
+    void shouldBeReturnControllerAnnotationColor() {
+        Domain domain = new Domain("domain");
+        domain.addUnit("Controller", "mypackage").addAnnotation("Controller");
+        classDiagramGenerator.addDomain(domain);
+
+        String result="class mypackage.Controller #33CC00\n";
+
+        assertThat(classDiagramGenerator.print(), is(result));
+    }
+
+    @Test
+    @DisplayName("should be return RestController annotation color")
+    void shouldBeReturnRestControllerAnnotationColor() {
+        Domain domain = new Domain("domain");
+        domain.addUnit("RestController", "mypackage").addAnnotation("RestController");
+        classDiagramGenerator.addDomain(domain);
+
+        String result="class mypackage.RestController #66FF33\n";
+
+        assertThat(classDiagramGenerator.print(), is(result));
+    }
+
+    @Test
+    @DisplayName("should be return Service annotation color")
+    void shouldBeReturnServiceAnnotationColor() {
+        Domain domain = new Domain("domain");
+        domain.addUnit("Service", "mypackage").addAnnotation("Service");
+        classDiagramGenerator.addDomain(domain);
+
+        String result="class mypackage.Service #FF3300\n";
+
+        assertThat(classDiagramGenerator.print(), is(result));
+    }
+
+    @Test
+    @DisplayName("should be return Repository annotation color")
+    void shouldBeReturnRepositoryAnnotationColor() {
+        Domain domain = new Domain("domain");
+        domain.addUnit("Repository", "mypackage").addAnnotation("Repository");
+        classDiagramGenerator.addDomain(domain);
+
+        String result="class mypackage.Repository #3399FF\n";
+
+        assertThat(classDiagramGenerator.print(), is(result));
+    }
+
 }

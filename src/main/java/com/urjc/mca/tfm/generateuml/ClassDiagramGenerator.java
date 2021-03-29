@@ -3,14 +3,14 @@ package com.urjc.mca.tfm.generateuml;
 import com.urjc.mca.tfm.generateuml.model.Domain;
 import com.urjc.mca.tfm.generateuml.model.Unit;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
+@Component
 public class ClassDiagramGenerator {
 
     private static final String LINE_BREAK = "\n";
@@ -20,8 +20,14 @@ public class ClassDiagramGenerator {
     private static final String ASSOCIATION_RELATIONSHIP = " --> ";
     private static final String USE_RELATIONSHIP = " ..> ";
 
+    @Value("#{${annotation.spring.background.color}}")
+    private Map<String, String> annotationSpringBackgroundColor;
+
     List<Unit> units = new ArrayList<>();
 
+    public void clearUnits(){
+        units.clear();
+    }
     public ClassDiagramGenerator addUnit(Unit unit) {
         units.add(unit);
         return this;
@@ -104,7 +110,7 @@ public class ClassDiagramGenerator {
     }
 
     private String printClass(Unit unit) {
-        return unit.toStringClassFormat();
+        return unit.toStringClassFormat(annotationSpringBackgroundColor.get(unit.getAnnotation()));
     }
 
     public String printPart(Unit unit) {
