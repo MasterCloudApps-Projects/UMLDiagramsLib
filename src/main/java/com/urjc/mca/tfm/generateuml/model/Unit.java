@@ -15,10 +15,14 @@ public class Unit implements Serializable {
     private static final String ABSTRACT_AND_SPACE = "abstract ";
 
     public final String name;
+    //Element composition
     private Set<Unit> partList = new HashSet<>();
     private Set<Unit> base = new HashSet<>();
+    //Element aggregate into unit
     private Set<Unit> elements = new HashSet<>();
+    //Posee un elemento y se le pasa en el constructor
     private Set<Unit> associates = new HashSet<>();
+    //dependecy/use
     private Set<Unit> used = new HashSet<>();
     private String myPackage;
     private Set<Attribute> attributes = new HashSet<>();
@@ -127,9 +131,12 @@ public class Unit implements Serializable {
         if(containsAttributeOrFunction()){
             stringBuilder.append("{" + LINE_BREAK);
             this.attributes.forEach(attribute -> stringBuilder.append(attribute.toString()));
-            stringBuilder.append(LINE_BREAK);
+            if(attributes.size()>0)
+                stringBuilder.append(LINE_BREAK);
             this.functions.forEach(function -> stringBuilder.append(function.toString()));
-            stringBuilder.append(LINE_BREAK + "}");
+            if(functions.size()>0)
+                stringBuilder.append(LINE_BREAK);
+            stringBuilder.append("}");
         }
         stringBuilder.append(LINE_BREAK);
         return stringBuilder.toString();
