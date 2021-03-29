@@ -189,6 +189,8 @@ public class JavaAnalyzerEclipseAST {
                     }
                 } else {
                     if (notExitsInObjectBlackList(aux)) {
+                        if(!node.getType().isSimpleType())
+                            aux = obtainClassFromList(aux);
                         addUsed(aux);
                     }
                 }
