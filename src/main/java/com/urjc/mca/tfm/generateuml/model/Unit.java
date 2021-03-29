@@ -4,6 +4,7 @@ import org.springframework.util.StringUtils;
 
 import java.io.*;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
@@ -130,14 +131,14 @@ public class Unit implements Serializable {
         return this.functions;
     }
 
-    public String toStringClassFormat(String annotationColor){
+    public String toStringClassFormat(Map<String, String> annotationColor){
         StringBuilder stringBuilder = new StringBuilder();
         if(abstractUnit)
             stringBuilder.append(ABSTRACT_AND_SPACE);
         stringBuilder.append(CLASS_AND_SPACE);
         stringBuilder.append(printName());
         if(!StringUtils.isEmpty(annotation)){
-            stringBuilder.append(" ").append(annotationColor);
+            stringBuilder.append(" ").append(annotationColor.get(annotation));
         }
         if(containsAttributeOrFunction()){
             stringBuilder.append("{" + LINE_BREAK);
