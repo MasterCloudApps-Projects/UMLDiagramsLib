@@ -50,13 +50,14 @@ class JavaAnalyzerEclipseASTTest {
         printDomain(domain);
 
         assertTrue(domain.getUnit("A").getElements().contains(domain.getUnit("B")));
-        assertEquals(1, domain.getUnit("A").getElements().size());
+        assertTrue(domain.getUnit("A").getElements().contains(domain.getUnit("C")));
+        assertEquals(2, domain.getUnit("A").getElements().size());
         assertEquals(0, domain.getUnit("A").getPartList().size());
         //aqui es 0 xq List lo tenemos capado
         assertEquals(0, domain.getUnit("A").getAssociates().size());
         assertEquals(0, domain.getUnit("A").getBase().size());
         assertEquals(0, domain.getUnit("A").getUsed().size());
-        assertEquals(2, domain.getUnitList().size());
+        assertEquals(3, domain.getUnitList().size());
     }
 
     @Test
