@@ -59,12 +59,12 @@ public class GenerateImage {
 
     private void downloadFilesToEncode() throws IOException {
 
-        donwloadFile(rawdeflate);
+        downloadFile(rawdeflate);
 
-        donwloadFile(plantumlJs);
+        downloadFile(plantumlJs);
     }
 
-    private void donwloadFile(String plantumlJs) throws IOException {
+    private void downloadFile(String plantumlJs) throws IOException {
         try (InputStream in = new URL(createPath(url, urlJs, plantumlJs)).openStream()) {
             Files.deleteIfExists(Path.of(createPath(jsPath, plantumlJs)).toAbsolutePath());
             Files.copy(in, Paths.get(createPath(jsPath, plantumlJs)).toAbsolutePath());
@@ -104,6 +104,7 @@ public class GenerateImage {
         checkName(nameUser);
         String encodingClassDiagram = encode64(deflate(classDiagramEncode));
         try (InputStream in = new URL(createPath(url,urlApi,format,"/") + encodingClassDiagram).openStream()) {
+            Files.deleteIfExists(Paths.get(path + name));
             Files.copy(in, Paths.get(path + name));
         } catch (IOException e) {
             logger.debug(CONTEXT,e);
