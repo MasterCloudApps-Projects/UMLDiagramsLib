@@ -105,6 +105,48 @@ class JavaAnalyzerEclipseASTTest {
         assertEquals(4, domain.getUnit("A").getUsed().size());
     }
 
+    @Test
+    @DisplayName("should be return entity annotation in unit")
+    void shouldBeReturnEntityAnnotationInUnit() {
+        Domain domain =  javaAnalyzerEclipseAST.run("src/test/java/com/urjc/mca/tfm/generateuml/arqUnit/annotation/spring/EntityClass.java");
+        assertEquals("Entity", domain.getUnit("EntityClass").getAnnotation());
+    }
+
+    @Test
+    @DisplayName("should be return component annotation in unit")
+    void shouldBeReturnComponentAnnotationInUnit() {
+        Domain domain =  javaAnalyzerEclipseAST.run("src/test/java/com/urjc/mca/tfm/generateuml/arqUnit/annotation/spring/ComponentClass.java");
+        assertEquals("Component", domain.getUnit("ComponentClass").getAnnotation());
+    }
+
+    @Test
+    @DisplayName("should be return controller annotation in unit")
+    void shouldBeReturnControllerAnnotationInUnit() {
+        Domain domain =  javaAnalyzerEclipseAST.run("src/test/java/com/urjc/mca/tfm/generateuml/arqUnit/annotation/spring/ControllerClass.java");
+        assertEquals("Controller", domain.getUnit("ControllerClass").getAnnotation());
+    }
+
+    @Test
+    @DisplayName("should be return repository annotation in unit")
+    void shouldBeReturnRepositoryAnnotationInUnit() {
+        Domain domain =  javaAnalyzerEclipseAST.run("src/test/java/com/urjc/mca/tfm/generateuml/arqUnit/annotation/spring/RepositoryClass.java");
+        assertEquals("Repository", domain.getUnit("RepositoryClass").getAnnotation());
+    }
+
+    @Test
+    @DisplayName("should be return repository annotation in unit")
+    void shouldBeReturnRestControllerAnnotationInUnit() {
+        Domain domain =  javaAnalyzerEclipseAST.run("src/test/java/com/urjc/mca/tfm/generateuml/arqUnit/annotation/spring/RestControllerClass.java");
+        assertEquals("RestController", domain.getUnit("RestControllerClass").getAnnotation());
+    }
+
+    @Test
+    @DisplayName("should be return service annotation in unit")
+    void shouldBeReturnServiceAnnotationInUnit() {
+        Domain domain =  javaAnalyzerEclipseAST.run("src/test/java/com/urjc/mca/tfm/generateuml/arqUnit/annotation/spring/ServiceClass.java");
+        assertEquals("Service", domain.getUnit("ServiceClass").getAnnotation());
+    }
+
     @Disabled
     @Test
     @DisplayName("Should be return all relations")
