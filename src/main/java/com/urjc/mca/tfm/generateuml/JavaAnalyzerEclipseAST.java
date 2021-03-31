@@ -37,6 +37,9 @@ public class JavaAnalyzerEclipseAST {
     @Value("${objectWhiteList}")
     public Set<String> objectWhiteList;
 
+    @Value("#{${annotation.spring.background.color}}")
+    Map<String, String> annotationSpringBackgroundColor;
+
     public Domain run(String path) {
         Domain domain = new Domain("domain");
         Optional<Path> hit;
@@ -239,12 +242,16 @@ public class JavaAnalyzerEclipseAST {
                 //Aqui podría ver si tiene anotaciones la clase para ver si es component, repository, etc
                 Unit unit = domain.getUnit(node.getName().toString());
                 if (unit != null) {
-//                    unit.setMyPackage(mypackage);
-                    addUnit(unit.name, mypackage);
+                    unit.setMyPackage(mypackage);
+                    addUnit(unit.name, null);
                 } else {
                     addUnit(node.getName().toString(), mypackage);
                 }
-                //for base
+
+                node.modifiers().stream()
+                        .filter(m -> annotationSpringBackgroundColor.containsKey(m.toString().substring(1)))
+                        .forEach( m -> domain.getUnit(node.getName().toString()).addAnnotation(m.toString().substring(1)));
+            //for base
                 if (node.getSuperclassType() != null) {
                     addBase(node.getSuperclassType().toString());
                 }
@@ -282,7 +289,6 @@ public class JavaAnalyzerEclipseAST {
                 String aux = node.getType().toString();
                 if (notExitsInPrimitiveList(aux) && !node.getType().isSimpleType()) {
                     aux = obtainClassFromList(aux);
-
                 }
                 //for dependency
                 if (notExitsInPrimitiveList(aux) && notExitsInObjectBlackList(aux) && notExitInAggregationList(aux)) {
