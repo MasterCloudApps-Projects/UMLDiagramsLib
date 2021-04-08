@@ -46,7 +46,7 @@ public class JavaAnalyzerEclipseAST {
 
         hit = Optional.ofNullable(Path.of(path));
         try (Stream<Path> entries
-                     = Files.walk(Paths.get(hit.stream().findFirst().orElse(null).toString()).toAbsolutePath())) {
+                     = Files.walk(Paths.get(hit.stream().findFirst().toString()).toAbsolutePath())) {
             entries.forEach(ruta -> {
                 if (Files.isRegularFile(ruta)) {
                     try {
