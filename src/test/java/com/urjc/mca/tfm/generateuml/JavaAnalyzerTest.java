@@ -93,12 +93,12 @@ class JavaAnalyzerTest {
         printDomain(domain);
 
         assertTrue(domain.getUnit(myPackage + ".A").getPartList().contains(domain.getUnit(myPackage + ".B")));
-        assertEquals(2, domain.getUnitList().size());
+        assertEquals(3, domain.getUnitList().size());
         assertEquals(1, domain.getUnit(myPackage + ".A").getPartList().size());
-        assertEquals(0, domain.getUnit(myPackage + ".A").getAssociates().size());
+        assertEquals(1, domain.getUnit(myPackage + ".A").getAssociates().size());
         assertEquals(0, domain.getUnit(myPackage + ".A").getElements().size());
         assertEquals(0, domain.getUnit(myPackage + ".A").getBase().size());
-        assertEquals(0, domain.getUnit(myPackage + ".A").getUsed().size());
+        assertEquals(1, domain.getUnit(myPackage + ".A").getUsed().size());
     }
 
 
@@ -110,12 +110,12 @@ class JavaAnalyzerTest {
 
         Domain domain = processPackage.run();
         assertTrue(domain.getUnit(myPackage + ".A").getUsed().contains(domain.getUnit(myPackage + ".B")));
-        assertEquals(2, domain.getUnitList().size());
+        assertEquals(4, domain.getUnitList().size());
         assertEquals(0, domain.getUnit(myPackage + ".A").getPartList().size());
         assertEquals(0, domain.getUnit(myPackage + ".A").getAssociates().size());
         assertEquals(0, domain.getUnit(myPackage + ".A").getElements().size());
         assertEquals(0, domain.getUnit(myPackage + ".A").getBase().size());
-        assertEquals(1, domain.getUnit(myPackage + ".A").getUsed().size());
+        assertEquals(2, domain.getUnit(myPackage + ".A").getUsed().size());
     }
 
 }
