@@ -12,6 +12,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Comparator;
 import java.util.Objects;
+import java.util.stream.Stream;
 
 @Component
 public class CloneRepository {
@@ -39,10 +40,11 @@ public class CloneRepository {
     }
 
     private void deleteFolder(Path path) throws IOException {
-        Files.walk(path)
-                .sorted(Comparator.reverseOrder())
+        try (Stream<Path> input = Files.walk(path)){
+            input.sorted(Comparator.reverseOrder())
                 .map(Path::toFile)
                 .forEach(File::delete);
+    }
     }
     private String obtainNewPath(String url) {
         return (repositoryFolder + obtainNameNewProject(url) +"/src/main/java");
