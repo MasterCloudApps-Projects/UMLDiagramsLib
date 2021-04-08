@@ -50,7 +50,10 @@ public class CloneRepository {
 
     private String obtainNameNewProject(String url) {
         String[] aux = url.split("/");
-        return aux[aux.length - 1].substring(0, aux[aux.length - 1].length() - 4);
+        if(aux[aux.length - 1].substring(aux[aux.length - 1].length()-4).equals(".git"))
+            return aux[aux.length - 1].substring(0, aux[aux.length - 1].length() - 4);
+        else
+            return aux[aux.length - 1];
     }
 
     private void runCommand(Path directory, String... command) throws IOException, InterruptedException {
