@@ -46,13 +46,13 @@ public class JavaAnalyzerEclipseAST {
 
         hit = Optional.ofNullable(Path.of(path));
         try (Stream<Path> entries
-                     = Files.walk(Paths.get(hit.stream().findFirst().toString()).toAbsolutePath())) {
+                     = Files.walk(Paths.get(hit.stream().findFirst().get().toString()).toAbsolutePath())) {
             entries.forEach(ruta -> {
                 if (Files.isRegularFile(ruta)) {
                     try {
                         analyzed(domain, ruta.toString());
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        LOG.debug("context", e);
                     }
                 }
             });
