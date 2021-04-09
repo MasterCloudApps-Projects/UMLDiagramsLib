@@ -3,7 +3,6 @@ package com.urjc.mca.tfm.generateuml;
 import com.urjc.mca.tfm.generateuml.model.Domain;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,13 +37,11 @@ class GenerateImageTest {
     @AfterAll
     static void deleteFiles(){
         nameList.forEach(n -> {
-            if(Files.exists(Path.of(SRC_MAIN_RESOURCES_IMAGES +n).toAbsolutePath())) {
                 try {
-                    Files.delete(Path.of(SRC_MAIN_RESOURCES_IMAGES +n).toAbsolutePath());
+                    Files.deleteIfExists(Path.of(SRC_MAIN_RESOURCES_IMAGES +n).toAbsolutePath());
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-            }
         });
         pathList.forEach(p ->{
             try {
@@ -57,7 +54,6 @@ class GenerateImageTest {
 
     @Test
     @DisplayName("Should be create a image with class diagram")
-    @Disabled
     void shouldBeCreateAImageWithClassDiagram() throws NoSuchMethodException, ScriptException, IOException {
         Domain domain = new Domain(DOMAIN);
         ClassDiagramGenerator classDiagram = new ClassDiagramGenerator();
@@ -70,7 +66,6 @@ class GenerateImageTest {
         assertTrue(Files.exists(Path.of(SRC_MAIN_RESOURCES_IMAGES +imageName).toAbsolutePath()));
     }
 
-    @Disabled
     @Test
     @DisplayName("Should be create a image with class diagram with name param")
     void shouldBeCreateAImageWithClassDiagramWithNameParam() throws NoSuchMethodException, ScriptException, IOException {
@@ -85,7 +80,6 @@ class GenerateImageTest {
         assertTrue(Files.exists(Path.of(SRC_MAIN_RESOURCES_IMAGES +imageName).toAbsolutePath()));
     }
 
-    @Disabled
     @Test
     @DisplayName("Should be create a image with class diagram with name param and folder")
     void shouldBeCreateAImageWithClassDiagramWithNameParamAndFolder() throws NoSuchMethodException, ScriptException, IOException {
