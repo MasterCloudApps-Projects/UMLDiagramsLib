@@ -14,6 +14,7 @@ public class Unit implements Serializable {
     private static final String DOT = ".";
     private static final String CLASS_AND_SPACE = "class ";
     private static final String ABSTRACT_AND_SPACE = "abstract ";
+    private static final String WHITE_SPACE_IN_NAME_MATCHER = ".*\\s.*";
 
     public final String name;
     //Element composition
@@ -171,8 +172,12 @@ public class Unit implements Serializable {
     }
 
     public boolean containsWhiteSpacesInName(){
-        return (!StringUtils.isEmpty(myPackage) && myPackage.matches(".*\\s.*"))
-                || name.matches(".*\\s.*");
+        return (!StringUtils.isEmpty(myPackage) && regexMatcher(myPackage)
+                || regexMatcher(name));
+    }
+
+    private boolean regexMatcher(final String matcher){
+        return java.util.regex.Pattern.compile(WHITE_SPACE_IN_NAME_MATCHER).matcher(matcher).matches();
     }
 
    public Unit makeClone() throws IOException, ClassNotFoundException {
